@@ -1,13 +1,11 @@
 # 2. Analiza zahtjeva
 
-**Cilj:** Iz odobrenog opsega projekta izvesti prepoznatljive, prioritetizirane i provjerljive zahtjeve. Zahtjevi se mogu mijenjati; pri završnoj predaji moraju odražavati dogovorenu aplikaciju. Izvori, odluke i poveznice u primjerima kolegija nastavni su scenariji, a ne projektni zapisi.
+Zahtjevi u ovom poglavlju izvedeni su iz opsega projekta i projektnog zadatka. Svaki zahtjev ima identifikator, prioritet, izvor i način provjere. Zahtjevi se tijekom razvoja mogu mijenjati, a značajne promjene bilježe se u odjeljku 2.5.
 
-<details>
-<summary><strong>Održavanje zahtjeva ažurnima</strong></summary>
-
-Primjeri koriste temu projekta CrisisMap. Neki namjerno sadrže korisne nedostatke za raspravu. Izvori, odluke i poveznice na provjere u tim primjerima **nastavni su scenariji**, a ne zapisi rada stvarnog studentskog tima. Zamijenite ih zahtjevima i dokazima svojeg odobrenog projekta. Značajne promjene zabilježite u odjeljku 2.5.
-
-</details>
+**Ljestvica prioriteta:** 
+- *Visok* – bez toga aplikacija ne ostvaruje glavni cilj 
+- *Srednji* – važno za potpunu uporabu, ali glavni dio aplikacije radi bez njih
+- *Nizak* – korisno proširenje koje se prvo izostavlja ako ponestane vremena
 
 ## 2.1 Funkcijski zahtjevi
 
@@ -15,8 +13,47 @@ Primjeri koriste temu projekta CrisisMap. Neki namjerno sadrže korisne nedostat
 
 | ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
 | --- | --- | --- | --- | --- |
-| F-001 | [Funkcijski zahtjev/ponašanje sustava] | [Visok/Srednji/Nizak] | [Odobreni zadatak / zahtjev dionika / povratna informacija] | [Opažljivi rezultat] |
-|  |  |  |  |  |
+| F-001 | Sustav neregistriranim korisnicima omogućuje pregled karte transfuzijskih centara i najavljenih akcija te javni prikaz stanja zaliha po krvnim grupama (kritično, nisko, dovoljno). | Visok | Odobreni zadatak | Posjetitelj bez prijave vidi centre, akcije na karti i razinu zalihe za svaku krvnu grupu. Ostale funkcije traže prijavu. |
+| F-002 | Sustav omogućuje registraciju i prijavu putem OAuth 2.0 protokola uz valjanu adresu e-pošte, sve funkcije osim F-001 dostupne su samo prijavljenim korisnicima. | Visok | Odobreni zadatak | Uspješna prijava otvara funkcije prema ulozi korisnika, a pokušaj pristupa zaštićenoj funkciji bez prijave preusmjerava na prijavu. Odustajanje od prijave ostavlja zaštićene radnje nedostupnima. |
+| F-003 | Darivatelj u profilu unosi ime i prezime, datum rođenja, spol, mjesto stanovanja, broj mobilnog telefona i, ako mu je poznata, krvnu grupu. | Visok | Odobreni zadatak | Darivatelj može spremiti i izmijeniti navedene podatke, krvna grupa može ostati prazna. |
+| F-004 | Krvna grupa koju unese darivatelj označena je kao neprovjerena dok je ne potvrdi djelatnik centra. | Srednji | Odobreni zadatak | U profilu je uz unesenu krvnu grupu vidljiva oznaka „neprovjerena”. Nakon potvrde djelatnika oznaka nestaje. |
+| F-005 | Darivatelj odabire način primanja obavijesti (SMS, e-pošta) i najveću udaljenost od svoje lokacije za koju želi primati obavijesti o akcijama. | Srednji | Odobreni zadatak | Odabrane postavke se spremaju i primjenjuju pri slanju sljedećih obavijesti. |
+| F-006 | Sustav za svakog darivatelja izračunava datum od kojeg ponovno smije darivati, uzimajući u obzir najmanji razmak između darivanja, najveći dopušteni broj darivanja u godini i privremenu odgodu koju unosi djelatnik. | Visok | Odobreni zadatak | Za darivatelja s poznatom poviješću sustav prikazuje točan datum podobnosti u skladu s postavljenim pravilima. Privremena odgoda pomiče datum, a trajna nepodobnost ga uklanja. |
+| F-007 | Administrator podešava parametre pravila podobnosti. | Srednji | Odobreni zadatak | Nakon izmjene parametra izračun podobnosti (F-006) koristi nove vrijednosti. |
+| F-008 | Kada darivatelj ponovno postane podoban, sustav mu šalje obavijest s popisom slobodnih termina i akcija u njegovoj blizini. | Srednji | Odobreni zadatak | Na dan podobnosti darivatelj prima obavijest odabranim kanalom (F-005) s popisom termina i akcija unutar odabrane udaljenosti. |
+| F-009 | Darivatelj za kojeg je djelatnik unio trajnu nepodobnost više ne može rezervirati termine. | Visok | Odobreni zadatak | Pokušaj rezervacije takvog darivatelja je odbijen uz objašnjenje. |
+| F-010 | Djelatnik centra definira radno vrijeme centra i kapacitet pojedinih termina. | Visok | Odobreni zadatak | Darivatelji vide samo slobodne termine unutar radnog vremena. |
+| F-011 | Darivatelj rezervira termin u centru. Rezervacija je dopuštena samo ako je darivatelj na taj datum podoban. | Visok | Odobreni zadatak | Podobni darivatelj dobiva potvrđenu rezervaciju, a za datum na kojem nije podoban rezervacija je odbijena uz objašnjenje. Popunjen termin se ne može rezervirati. |
+| F-012 | Prije potvrde rezervacije darivatelj ispunjava kratki upitnik za samoprocjenu. Sustav upozorava darivatelja ako prema odgovorima vjerojatno neće moći darivati. | Srednji | Odobreni zadatak | Odgovori se spremaju uz rezervaciju. Kod odgovora koji upućuju na nemogućnost darivanja prikazuje se upozorenje. |
+| F-013 | Rezervirani termin dodaje se u Google Calendar darivatelja. | Srednji | Odobreni zadatak | Nakon rezervacije darivatelj jednim odabirom dodaje događaj s datumom, vremenom i lokacijom u svoj Google Calendar. |
+| F-014 | Dan prije termina darivatelj dobiva podsjetnik s uputama za pripremu. | Srednji | Odobreni zadatak | Za rezervaciju koja nije otkazana podsjetnik se šalje dan prije termina odabranim kanalom (F-005). |
+| F-015 | Darivatelj može otkazati termin najkasnije dva sata prije početka. | Visok | Odobreni zadatak | Otkazivanje do dva sata prije početka oslobađa mjesto i postavlja stanje „otkazan”, a kasnija otkazivanja su odbijena uz objašnjenje. |
+| F-016 | Uz svaku rezervaciju sustav generira QR kod koji djelatnik skenira pri dolasku darivatelja. | Visok | Odobreni zadatak | Darivatelj vidi QR kod uz rezervaciju, a skeniranjem otvara pripadajuću rezervaciju i postavlja stanje „pristupio”. |
+| F-017 | Termin darivanja prolazi stanja: rezerviran, pristupio, na pregledu, darivanje u tijeku, uspješno darovano ili odbijen na pregledu. Rezerviran termin može prijeći u otkazan ili nije pristupio. | Visok | Odobreni zadatak | Sustav dopušta samo propisane prijelaze među stanjima. Nedopušten prijelaz je odbijen. |
+| F-018 | Pri odbijanju na pregledu djelatnik navodi razlog i određuje je li riječ o privremenoj odgodi (uz datum do kojeg vrijedi) ili o trajnoj nepodobnosti. | Visok | Odobreni zadatak | Bez razloga odbijanje se ne može spremiti, privremena odgoda utječe na datum podobnosti (F-006), trajna nepodobnost onemogućuje rezervacije (F-009). |
+| F-019 | Darivatelju koji tri puta ne pristupi rezerviranom terminu sustav na mjesec dana onemogućuje nove rezervacije. | Srednji | Odobreni zadatak | Nakon trećeg stanja „nije pristupio” nove rezervacije su odbijene mjesec dana uz objašnjenje. |
+| F-020 | Nakon uspješnog darivanja djelatnik evidentira dozu krvi unosom oznake (skeniranjem barkoda), krvne grupe, količine i roka trajanja. | Visok | Odobreni zadatak | Doza se sprema s navedenim podacima i povezana je s darivanjem. Oznaka doze je jedinstvena. |
+| F-021 | Doza prolazi stanja: prikupljena, u testiranju, na zalihi te izdana bolnici ili odbačena. Doza se odbacuje ako laboratorijsko testiranje nije zadovoljavajuće. | Visok | Odobreni zadatak | Sustav dopušta samo propisane prijelaze, odbačene doze ne ulazu u zalihu. |
+| F-022 | Doze kojima je istekao rok trajanja sustav automatski prebacuje u stanje „odbačena”. | Visok | Odobreni zadatak | Nakon isteka roka doza je u stanju „odbačena” bez ručne radnje i ne računa se u zalihu. |
+| F-023 | Stanje zaliha po krvnim grupama izračunava se iz doza koje su na zalihi. Razine (kritično, nisko, dovoljno) određuju pragovi koje podešava administrator. | Visok | Odobreni zadatak | Promjena stanja doze mijenja zalihu i razinu odgovarajuće krvne grupe. Nakon promjene praga razina se ponovno računa. |
+| F-024 | Darivatelj na pregledu „Moja darivanja” vidi povijest svojih darivanja i obavijest kada je njegova doza izdana bolnici, bez podataka o primatelju. Ako testiranje doze nije zadovoljavajuće, vidi samo poruku da se javi transfuzijskom centru. | Srednji | Odobreni zadatak | Povijest sadrži darivanja darivatelja, pregled ne sadrži podatke o primatelju ni rezultat testiranja već samo propisanu poruku. |
+| F-025 | Kada zaliha neke krvne grupe padne ispod kritične razine, sustav djelatniku centra predlaže slanje hitnog poziva. | Visok | Odobreni zadatak | Pad zalihe ispod kritičnog praga stvara prijedlog hitnog poziva vidljiv djelatniku. |
+| F-026 | Djelatnik odobrava hitni poziv i određuje područje. Sustav putem vanjskog servisa šalje SMS podobnim darivateljima te krvne grupe na tom području, uz poveznicu na slobodne termine. | Visok | Odobreni zadatak | Poruku primaju samo podobni darivatelji tražene krvne grupe s odabranog područja. Poruka sadrži poveznicu na slobodne termine. |
+| F-027 | Isti darivatelj može primiti najviše jedan hitni poziv tjedno. | Srednji | Odobreni zadatak | Darivatelj koji je u tekućem tjednu već primio hitni poziv ne prima novi. |
+| F-028 | Za svaki hitni poziv sustav prati odaziv: broj darivatelja koji su nakon poziva rezervirali termin i broj onih koji su uspješno darivali. | Srednji | Odobreni zadatak | Uz poziv su prikazani broj rezervacija i broj uspješnih darivanja nastalih nakon poziva. |
+| F-029 | Organizator predlaže terensku akciju navodeći lokaciju, datum, vrijeme i očekivani broj darivatelja. | Visok | Odobreni zadatak | Prijedlog s obaveznim podacima sprema se u stanju „predložena” i vidljiv je centru. |
+| F-030 | Transfuzijski centar prihvaća akciju i dodjeljuje joj mobilni tim djelatnika ili je odbija uz obrazloženje. | Visok | Odobreni zadatak | Prihvaćena akcija postaje „potvrđena” s dodijeljenim timom, odbijanje traži obrazloženje koje vidi organizator. |
+| F-031 | Akcija prolazi stanja: predložena, potvrđena, otvorene prijave te održana ili otkazana. | Srednji | Odobreni zadatak | Sustav dopušta samo propisane prijelaze. Prijave darivatelja moguće su samo u stanju „otvorene prijave”. |
+| F-032 | Darivatelj se prijavljuje na terensku akciju, prijava je dopuštena samo ako je darivatelj na dan akcije podoban. | Visok | Odobreni zadatak | Podobni darivatelj uspješno se prijavljuje, nepodobni je odbijen uz objašnjenje. |
+| F-033 | Darivatelj prima obavijest o akcijama unutar najveće udaljenosti koju je odabrao. | Srednji | Odobreni zadatak | Otvaranje prijava za akciju unutar odabrane udaljenosti šalje obavijest, akcija izvan udaljenosti ne šalje obavijest. |
+| F-034 | Organizator vidi broj prijavljenih darivatelja, može im slati obavijesti, a nakon održane akcije vidi statistiku (pristupili, uspješno darivali, odbijeni). | Srednji | Odobreni zadatak | Prikazani brojevi odgovaraju evidentiranim prijavama i ishodima darivanja, obavijest primaju samo prijavljeni darivatelji te akcije. |
+| F-035 | Pri jubilarnom darivanju (10., 25., 50. ili 100.) darivatelj dobiva digitalnu značku u profilu, a organizator obavijest kako bi mogao pripremiti dodjelu priznanja. | Nizak | Odobreni zadatak | Nakon uspješnog jubilarnog darivanja značka je vidljiva u profilu, a organizator je obaviješten. |
+| F-036 | Nakon svakog uspješnog darivanja darivatelj može preuzeti potvrdu o darivanju u PDF formatu. | Nizak | Odobreni zadatak | Za uspješno darivanje dostupna je PDF potvrda s podacima darivatelja i darivanja, a za neuspjelo darivanje nije. |
+| F-037 | Djelatnik centra na pregledu „Statistika” vidi kretanje zaliha po krvnim grupama kroz vrijeme, prosječnu dnevnu potrošnju, procjenu broja dana do nestašice po krvnoj grupi te odaziv na hitne pozive i akcije, uz izvoz u CSV. Administrator pregledava statistiku korištenja sustava. | Srednji | Odobreni zadatak | Prikazani podaci odgovaraju evidentiranim dozama, pozivima i akcijama. Izvoz daje CSV datoteku s prikazanim podacima. |
+| F-038 | Administrator upravlja korisnicima i transfuzijskim centrima, nakon provjere dodjeljuje uloge djelatnika centra i organizatora akcija te postavlja pragove zaliha. | Visok | Odobreni zadatak | Korisnik dobiva ulogu tek nakon radnje administratora, korisnik bez uloge administratora ne može izvesti te radnje. |
+| F-039 | U slučaju zlouporabe administrator može deaktivirati korisnički račun. | Srednji | Odobreni zadatak | Deaktivirani korisnik ne može se prijaviti niti koristiti zaštićene funkcije. |
+| F-040 | Darivatelj može preuzeti sve svoje podatke. | Srednji | Odobreni zadatak | Darivatelj dobiva datoteku sa svojim podacima u profilu, rezervacijama i povijesti darivanja. |
+| F-041 | Darivatelj može zatražiti brisanje korisničkog računa. Evidencija njegovih darivanja se anonimizira, ali ne briše. | Srednji | Odobreni zadatak | Nakon brisanja račun ne postoji, osobni podaci nisu povezani s evidencijom darivanja, a doze i darivanja ostaju u sustavu radi sljedivosti. |
 
 <details>
 <summary><strong>Izvori zahtjeva i kriteriji prihvaćanja</strong></summary>
@@ -53,8 +90,14 @@ Za složenu interakciju kratak scenarij *Given / When / Then* može pojasniti kr
 
 | ID | Opis | Prioritet | Izvor | Način provjere |
 | --- | --- | --- | --- | --- |
-| NF-01 | [Konkretan zahtjev (npr. odziv, sigurnost, pristupačnost)] | Visok / Srednji / Nizak | [Sigurnost / Uputa / SLA] | [Mjerenje / Testni scenarij / Pregled] |
-|  |  |  |  |  |
+| NF-01 | Aplikacija je web-aplikacija prilagođena (responzivna) mobilnom uređaju: ključni tijekovi darivatelja (pregled karte, rezervacija, otkazivanje, prikaz QR koda) mogu se izvesti na uskom zaslonu. | Visok | Uputa | Proći ključne tijekove na zaslonu širine mobitela i na računalu. Svi koraci moraju biti izvedivi bez vodoravnog pomicanja stranice. |
+| NF-02 | Podaci o zdravstvenom stanju darivatelja (odgovori iz upitnika, razlozi odbijanja i odgode) dostupni su samo djelatnicima transfuzijskog centra. | Visok | Sigurnost | Testni scenarij: korisnici u ulogama darivatelja, organizatora i administratora pokušavaju dohvatiti te podatke i moraju biti odbijeni. |
+| NF-03 | Svaki pristup zdravstvenim podacima iz NF-02 bilježi se u zapisnik (tko, kada, čiji podaci). | Visok | Sigurnost | Nakon pristupa u zapisniku postoji odgovarajući zapis i nije ga moguće izmijeniti kroz aplikaciju. |
+| NF-04 | Autorizacija unutar aplikacije provodi se OAuth 2.0 protokolom uz tokene. | Visok | Sigurnost | Zahtjevi zaštićenom resursu bez valjanog tokena i zahtjevi s valjanim tokenom uloge koja nema ovlast su odbijeni. |
+| NF-05 | Evidencija darivanja i doza čuva se i nakon brisanja korisničkog računa, ali bez mogućnosti povezivanja s osobom. | Visok | Sigurnost | Nakon brisanja računa u bazi ne postoji osobni podatak povezan s darivanjima ali doze ostaju sljedive do darivanja. |
+| NF-06 | Sustav ne pohranjuje i ne prikazuje podatke o primatelju krvi. | Visok | Sigurnost | Pregled modela podataka i ekrana „Moja darivanja”: ne postoji polje ni prikaz s podacima o primatelju. |
+| NF-07 | Istodobne rezervacije ne smiju prekoračiti kapacitet termina. | Visok | Upute | Automatizirani test: više istodobnih zahtjeva za zadnje slobodno mjesto: točno jedan uspijeva. |
+| NF-08 | Komunikacija klijenta i poslužitelja odvija se šifriranom vezom (HTTPS). | Srednji | Sigurnost | Pregled konfiguracije posluženog okruženja. Pristup nešifriranom adresom je odbijen. |
 
 <details>
 <summary><strong>Nefunkcijski zahtjevi za analizu</strong></summary>
@@ -85,9 +128,22 @@ Relevantna svojstva mogu se odnositi na uporabljivost, pristupačnost, sigurnost
 
 **Cilj:** Utvrditi uloge koje utječu na zahtjeve i razlikovati dionike od aktera koji komuniciraju s aplikacijom.
 
+Tablica razlikuje korisničke uloge (A), vanjske sustave koji sudjeluju u obrascima uporabe (S) i dionike koji aplikaciju ne koriste, ali određuju njezina ograničenja (D).
+
 | ID uloge ili aktera | Odnos prema sustavu | Relevantni zahtjevi |
 | --- | --- | --- |
-|  |  |  |
+| A-01 Posjetitelj | Akter. Neregistrirani korisnik, ostali akteri naslijeđuju njegove mogućnosti. | F-001, F-002 |
+| A-02 Darivatelj | Akter. Upravlja profilom, rezervira i otkazuje termine, prijavljuje se na akcije, pregledava povijest. | F-002 – F-006, F-008, F-011 – F-016, F-024, F-032, F-033, F-035, F-036, F-040, F-041 |
+| A-03 Djelatnik transfuzijskog centra | Akter. Upravlja terminima, zaprima darivatelje, evidentira doze, šalje hitne pozive, odlučuje o akcijama, pregledava statistiku. | F-004, F-009, F-010, F-016 – F-023, F-025 – F-028, F-030, F-031, F-037 |
+| A-04 Organizator terenskih akcija | Akter. Predlaže akcije i prati prijave i statistiku akcija. | F-029, F-031, F-034, F-035 |
+| A-05 Administrator | Akter. Upravlja korisnicima, ulogama, pravilima podobnosti i pragovima zaliha. | F-007, F-023, F-037, F-038, F-039 |
+| S-01 Pružatelj identiteta (OAuth 2.0) | Sekundarni akter (vanjski sustav) u prijavi. | F-002, NF-04 |
+| S-02 Servis za SMS poruke | Sekundarni akter (vanjski sustav) pri slanju hitnih poziva. | F-026 |
+| D-01 Bolnica | Dionik koji ne koristi aplikaciju, prima doze krvi. | F-021, F-024 |
+| D-02 Primatelj krvi | Dionik koji ne komunicira s aplikacijom, njegovi podaci se ne pohranjuju. | NF-06 |
+| D-03 Nadzorno tijelo za zaštitu osobnih podataka | Dionik koji ne koristi aplikaciju, određuje zahtjeve zaštite podataka. | NF-02, NF-03, NF-05, F-040, F-041 |
+
+Zahtjevi koje izvodi sustav bez ljudskog aktera (F-008, F-014, F-022, F-033) nemaju zaseban akter u dijagramu obrazaca uporabe.
 
 <details>
 <summary><strong>Akteri i povezani zahtjevi</strong></summary>
@@ -114,9 +170,15 @@ Relevantna svojstva mogu se odnositi na uporabljivost, pristupačnost, sigurnost
 
 | ID | Tip | Opis ograničenja ili pretpostavke | Izvor | Inženjerska posljedica / Provjera |
 | --- | --- | --- | --- | --- |
-| C-01 | Ograničenje | [Fiksni tehnički ili procesni uvjet] | [Zadatak / Pravila] | [Utjecaj na arhitekturu i oblikovanje] |
-| AS-01 | Pretpostavka | [Očekivani uvjet, npr. o podacima ili okolini] | [Procjena tima] | [Kako i kada će se provjeriti valjanost] |
-|  |  |  |  |  |
+| C-01 | Ograničenje | Aplikacija je web-aplikacija prilagođena mobilnom uređaju. | Odobreni zadatak | Jedna web-aplikacija s responzivnim sučeljem, ne izrađuju se izvorne mobilne aplikacije (NF-01). |
+| C-02 | Ograničenje | Prijava i autorizacija provode se OAuth 2.0 protokolom uz tokene i valjanu adresu e-pošte. | Odobreni zadatak | Aplikacija se oslanja na vanjskog pružatelja identiteta. Zaštićene krajnje točke projektirati oko tokena. Provjeriti autorizirane i neautorizirane zahtjeve (NF-04). |
+| C-03 | Ograničenje | Karta se prikazuje korištenjem vanjske usluge. | Odobreni zadatak | Podaci o centrima i akcijama pohranjuju se u aplikaciji, vanjska usluga samo prikazuje kartu. |
+| C-04 | Ograničenje | Hitni pozivi šalju se SMS porukama putem vanjskog servisa (npr. Infobip). | Odobreni zadatak | Slanje poruka izdvojiti iza sučelja za obavijesti kako bi se pružatelj mogao zamijeniti. |
+| C-05 | Ograničenje | Pri brisanju računa evidencija darivanja se anonimizira, a ne briše, zbog sljedivosti doza. | Odobreni zadatak | Model podataka mora razdvojiti osobne podatke od evidencije darivanja i doza (NF-06). |
+| AS-01 | Pretpostavka | Sustav podržava više transfuzijskih centara (zadatak govori o centrima u množini). Svaki ima svoje radno vrijeme, termine i djelatnike. | Procjena tima | Provjeriti s asistentom do prve kontrolne točke. Ako je dovoljan jedan centar, ostaje mogućnost proširenja. |
+| AS-02 | Pretpostavka | Upitnik za samoprocjenu samo upozorava i ne sprječava potvrdu rezervacije. | Odobreni zadatak (tumačenje tima) | Provjeriti s asistentom i ako treba blokirati, mijenja se F-012. |
+| AS-03 | Pretpostavka | Zalihe i pragovi su sustavski (zbroj doza na zalihi u svim centrima), a hitni poziv bilježi centar koji ga je odobrio. | Procjena tima | Provjeriti s asistentom i ako treba zaliha po centru, pragovi i prijedlozi hitnih poziva postaju vezani uz centar (F-023, F-025). |
+
 <details>
 <summary><strong>Ograničenja nasuprot pretpostavkama</strong></summary>
 
