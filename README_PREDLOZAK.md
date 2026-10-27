@@ -6,16 +6,9 @@ komentare s uputama i ogledne <details> blokove te prije predaje izbrišite ovu
 napomenu. Nemojte kopirati nastavni primjer kao rezultat svojeg projekta.
 -->
 
-# [Naziv aplikacije]
+# KrvnaVeza
 
-<details>
-<summary>Zašto je ovaj odjeljak važan</summary>
-
-Započnite README nazivom svojeg projekta i sažetim opisom njegove svrhe. Naziv projekta ne mora sam po sebi objašnjavati čemu projekt služi, ali opis uz naziv treba novom čitatelju omogućiti da brzo razumije što aplikacija radi.
-
-</details>
-
-[U jednoj rečenici navedite što aplikacija omogućuje svojim korisnicima.]
+Web platforma koja umrežava i povezuje darivatelje krvi s transfuzijskim centrima i organizatorima akcija darivanja krvi.
 
 **Projekt na kolegiju:** Ovu je aplikaciju razvio studentski tim u sklopu kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu (FER).
 
@@ -25,8 +18,8 @@ Započnite README nazivom svojeg projekta i sažetim opisom njegove svrhe. Naziv
 
 **Ključne funkcionalnosti**
 
-- [Reprezentativna funkcionalnost koju korisnici mogu isprobati]
-- [Druga reprezentativna funkcionalnost]
+- Pregled karte transfuzijskih centara na odabranom području i stanja zaliha krvi u njima po krvnim grupama
+- Sustav za prijavljivanje darivatelja krvi, zakazivanje i upravljanje terminima darivanja
 - [Po želji dodatna funkcionalnost; nemojte kopirati cijeli popis zahtjeva]
 
 Za potpuni opseg, zahtjeve, oblikovanje i dokaze ispitivanja pogledajte [docs](docs/Home.md).
@@ -55,7 +48,7 @@ Za Iteraciju 1 i Završni pregled navedite konkretne podatke. Provjerite vodi li
 **Preduvjeti:** [Navedite potrebno izvršno okruženje (engl. runtime) i verzija, upravitelj paketa (engl. package manager), baza podataka ili vanjska usluga ako je nužna.]
 
 ```bash
-git clone [repository URL]
+git clone https://github.com/TvrdanTravarFER/Pasuljci
 cd [repository directory]
 [install dependencies]
 [run the application]
@@ -73,7 +66,8 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 
 | Tehnologija ili alat | Uloga u ovom projektu | Razlog uporabe ili važno ograničenje |
 | --- | --- | --- |
-| [Naziv] | [Što radi u ovoj aplikaciji] | [Razlog ili ograničenje specifično za projekt] |
+| Figma | [Što radi u ovoj aplikaciji] | [Razlog ili ograničenje specifično za projekt] |
+| PostgreSQL | [Što radi u ovoj aplikaciji] | [Razlog ili ograničenje specifično za projekt] |
 
 <details>
 <summary><strong>Primjer: objašnjenje ključnih tehnoloških odluka</strong></summary>
@@ -95,8 +89,13 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 
 | Član | Glavna uloga ili doprinos |
 | --- | --- |
-| [Ime] | [Uloga ili doprinos] |
-| [Ime] | [Uloga ili doprinos] |
+| Kristijan Kralj | Voditelj tima |
+| Lucija | [Uloga ili doprinos] |
+| Karlo Mijić | [Uloga ili doprinos] |
+| Marko Mišković | [Uloga ili doprinos] |
+| Sven Rešetar | [Uloga ili doprinos] |
+| Noah Sitar | [Uloga ili doprinos] |
+| Marko Vrančić | [Uloga ili doprinos] |
 
 Uloge se tijekom projekta mogu mijenjati. Repozitorij i dogovoreni alat za praćenje zadataka (engl. task tracker) služe kao dodatni dokazi timskog rada.
 
