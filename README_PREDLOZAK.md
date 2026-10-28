@@ -90,7 +90,7 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 | Član | Glavna uloga ili doprinos |
 | --- | --- |
 | Kristijan Kralj | Voditelj tima |
-| Lucija | [Uloga ili doprinos] |
+| Lucija Cvetković | [Uloga ili doprinos] |
 | Karlo Mijić | [Uloga ili doprinos] |
 | Marko Mišković | [Uloga ili doprinos] |
 | Sven Rešetar | [Uloga ili doprinos] |
@@ -123,7 +123,9 @@ Ovaj projekt slijedi FER-ova [pravila o primjerenoj uporabi umjetne inteligencij
 <a id="code-of-conduct-and-support"></a>
 ## Kodeks ponašanja i podrška [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
-Od članova tima očekuje se pridržavanje **Kodeksa ponašanja studenata** Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu, pravila timskog rada na kolegiju i [Etičkog kodeksa IEEE-a](https://www.ieee.org/about/corporate/governance/p7-8.html). [Postavite poveznicu na `CODE_OF_CONDUCT.md` ako se ta datoteka koristi u vašem repozitoriju.]
+Od članova tima očekuje se pridržavanje **Kodeksa ponašanja studenata** Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu, pravila timskog rada na kolegiju i [Etičkog kodeksa IEEE-a](https://www.ieee.org/about/corporate/governance/p7-8.html).
+
+`CODE_OF_CONDUCT.md` projekta se može pronaći [ovdje](https://github.com/TvrdanTravarFER/Pasuljci/blob/main/CODE_OF_CONDUCT.md).
 
 ---
 
