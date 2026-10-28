@@ -4,13 +4,11 @@
 
 ## 3.1 Dijagram obrazaca uporabe
 
-**Cilj:** Prikazati granicu sustava, relevantne aktere i njihove glavne ciljeve u **preglednom UML dijagramu obrazaca uporabe**. Ako je za razumijevanje pojedinog dijela sustava potrebno prikazati više detalja, taj dio izdvojite u dodatni usmjereni dijagram. Dodatni dijagrami trebaju produbiti dio preglednog modela, a ne stvarati nepovezane ili duplicirane prikaze istog sustava.
+![Dijagram obrazaca](./assets/diagrams/3-1-KrvnaVeza-system-UC.svg)
 
-![Dijagram obrazaca uporabe sustava CrisisMap](./assets/diagrams/3-1-crisismap-system-UC.svg)
+**Slika 3.1. Dijagram obrazaca sustava KrvnaVeza**
 
-**Slika 3.1. Dijagram obrazaca uporabe sustava CrisisMap**
-
-**PlantUML izvor:** [izvor](./puml/3-1-crisismap-system-UC.puml)
+**PlantUML izvor:** [izvor](./puml/3-1-KrvnaVeza-system-UC.puml)
 
 **Provjera dijagrama:** Prikažite prepoznate uloge koje **komuniciraju s aplikacijom**, a ne dionike koji s njom nemaju interakciju. Svaki glavni korisnički cilj mora imati pridruženog aktera; uključeni obrazac uporabe može se dosegnuti preko drugog obrasca uporabe bez vlastite izravne veze s akterom. `<<include>>` i `<<extend>>` koristite samo kada odnos odgovara stvarnom ponašanju.
 
