@@ -98,6 +98,8 @@ Za složenu interakciju kratak scenarij *Given / When / Then* može pojasniti kr
 | NF-06 | Sustav ne pohranjuje i ne prikazuje podatke o primatelju krvi. | Visok | Sigurnost | Pregled modela podataka i ekrana „Moja darivanja”: ne postoji polje ni prikaz s podacima o primatelju. |
 | NF-07 | Istodobne rezervacije ne smiju prekoračiti kapacitet termina. | Visok | Upute | Automatizirani test: više istodobnih zahtjeva za zadnje slobodno mjesto: točno jedan uspijeva. |
 | NF-08 | Komunikacija klijenta i poslužitelja odvija se šifriranom vezom (HTTPS). | Srednji | Sigurnost | Pregled konfiguracije posluženog okruženja. Pristup nešifriranom adresom je odbijen. |
+| NF-09 | Sustav mora nakon brisanja računa čuvati evidenciju darivanja i doza u anonimiziranom obliku. | Visok | Zahtjev dionika | Pregled: nakon brisanja testnog računa provjeriti da nijedan osobni podatak nije povezan s darivanjima i da su doze sljedive do darivanja. |
+| NF-10 | Sustav mora uz svaku odbijenu radnju korisniku prikazati razumljiv razlog. | Srednji | Procjena tima | Testni scenarij: izazvati odbijanje (nepodoban datum, popunjen termin, prekasno otkazivanje) i provjeriti da se prikazuje razlog. |
 
 <details>
 <summary><strong>Nefunkcijski zahtjevi za analizu</strong></summary>
