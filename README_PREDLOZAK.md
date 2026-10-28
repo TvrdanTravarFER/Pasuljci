@@ -14,13 +14,13 @@ Web platforma koja umrežava i povezuje darivatelje krvi s transfuzijskim centri
 
 ## Opis aplikacije
 
-[U dvije ili tri rečenice objasnite problem, ciljane korisnike i glavnu korist svoje aplikacije. Trenutačne funkcionalnosti navedite odvojeno od planiranih; opišite stvarni opseg umjesto obećanih mogućnosti.]
+Bolnicama je krv svakodnevno potrebna za različite operacije i liječenja pacijenata. Transfuzijski centri, kao i organizatori akcija darivanja krvi, svaki na svoje načine obavještavaju darivatelje, dok darivatelji često samostalno moraju pratiti gdje i kada se akcije darivanja održavaju. Aplikacija KrvnaVeza namjerava povezati sve ove sudionike i omogućiti im neometanu suradnju preko jedinstvene platforme.
 
 **Ključne funkcionalnosti**
 
-- Pregled karte transfuzijskih centara na odabranom području i stanja zaliha krvi u njima po krvnim grupama
-- Sustav za prijavljivanje darivatelja krvi, zakazivanje i upravljanje terminima darivanja
-- [Po želji dodatna funkcionalnost; nemojte kopirati cijeli popis zahtjeva]
+- Pregled karte transfuzijskih centara na odabranom području i stanja zaliha krvi u njima po krvnim grupama.
+- Registriranim darivateljima je dostupan prikaz dostupnih mjesta i termina, rezerviranje termina te praćenje povijesti darivanja.
+- Transfuzijskim centrima je omogućeno praćenje zaliha krvi i slanje poziva konkretnim darivateljima u slučaju nedostatka određene krvne grupe.
 
 Za potpuni opseg, zahtjeve, oblikovanje i dokaze ispitivanja pogledajte [docs](docs/Home.md).
 
@@ -66,8 +66,8 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 
 | Tehnologija ili alat | Uloga u ovom projektu | Razlog uporabe ili važno ograničenje |
 | --- | --- | --- |
-| Figma | [Što radi u ovoj aplikaciji] | [Razlog ili ograničenje specifično za projekt] |
-| PostgreSQL | [Što radi u ovoj aplikaciji] | [Razlog ili ograničenje specifično za projekt] |
+| Figma | Brzo prototipiranje korisničkog sučelja i korisničkog iskustva | [Razlog ili ograničenje specifično za projekt] |
+| PostgreSQL | Implementacija modela (baze) podataka | [Razlog ili ograničenje specifično za projekt] |
 
 <details>
 <summary><strong>Primjer: objašnjenje ključnih tehnoloških odluka</strong></summary>
