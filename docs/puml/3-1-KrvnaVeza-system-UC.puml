@@ -1,0 +1,80 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+skinparam usecase {
+    BackgroundColor #fff5f5
+    BorderColor #c92222
+}
+skinparam actor {
+    BackgroundColor #F8F9FA
+    BorderColor #3b3b3b
+}
+skinparam nodesep 25
+skinparam ranksep 60
+
+actor "Posjetitelj" as POS
+actor "Darivatelj" as DAR
+actor "Djelatnik\ntransfuzijskog centra" as DJE
+actor "Organizator\nakcija" as ORG
+actor "Administrator" as ADM
+actor "Pružatelj identiteta\n(OAuth 2.0)" as IDP <<vanjski sustav>>
+actor "Servis za SMS" as SMS <<vanjski sustav>>
+
+POS <|-- DAR
+POS <|-- DJE
+POS <|-- ORG
+POS <|-- ADM
+
+rectangle "KrvnaVeza" {
+    usecase "UC-01\nPregled karte i\nstanja zaliha" as UC01
+    usecase "UC-02\nPrijava u sustav" as UC02
+    usecase "UC-03\nProfil i postavke\nobavijesti" as UC03
+    usecase "UC-04\nProvjera podobnosti\ni samoprocjena" as UC04
+    usecase "UC-05\nRezervacija termina\nu centru" as UC05
+    usecase "UC-06\nOtkazivanje termina" as UC06
+    usecase "UC-07\nPrijava na terensku\nakciju" as UC07
+    usecase "UC-08\nPovijest darivanja\ni potvrda" as UC08
+    usecase "UC-09\nIzvoz podataka i\nbrisanje računa" as UC09
+    usecase "UC-10\nRadno vrijeme i\nkapacitet termina" as UC10
+    usecase "UC-11\nObrada dolaska\ndarivatelja" as UC11
+    usecase "UC-12\nEvidencija doze\ni zalihe" as UC12
+    usecase "UC-13\nSlanje hitnog poziva" as UC13
+    usecase "UC-14\nStatistika i\nizvoz CSV" as UC14
+    usecase "UC-15\nPredlaganje\nterenske akcije" as UC15
+    usecase "UC-16\nOdluka o prijedlogu\nakcije" as UC16
+    usecase "UC-17\nPraćenje terenske\nakcije" as UC17
+    usecase "UC-18\nUpravljanje korisnicima\ni ulogama" as UC18
+    usecase "UC-19\nPravila podobnosti\ni pragovi zaliha" as UC19
+}
+
+POS --> UC01
+POS --> UC02
+IDP --> UC02
+
+DAR --> UC03
+DAR --> UC05
+DAR --> UC06
+DAR --> UC07
+DAR --> UC08
+DAR --> UC09
+
+UC05 ..> UC04 : <<include>>
+UC07 ..> UC04 : <<include>>
+
+DJE --> UC10
+DJE --> UC11
+DJE --> UC12
+DJE --> UC13
+DJE --> UC14
+DJE --> UC16
+UC13 --> SMS
+
+ORG --> UC15
+ORG --> UC17
+
+ADM --> UC18
+ADM --> UC19
+ADM --> UC14
+@enduml
