@@ -6,28 +6,21 @@ komentare s uputama i ogledne <details> blokove te prije predaje izbrišite ovu
 napomenu. Nemojte kopirati nastavni primjer kao rezultat svojeg projekta.
 -->
 
-# [Naziv aplikacije]
+# KrvnaVeza
 
-<details>
-<summary>Zašto je ovaj odjeljak važan</summary>
-
-Započnite README nazivom svojeg projekta i sažetim opisom njegove svrhe. Naziv projekta ne mora sam po sebi objašnjavati čemu projekt služi, ali opis uz naziv treba novom čitatelju omogućiti da brzo razumije što aplikacija radi.
-
-</details>
-
-[U jednoj rečenici navedite što aplikacija omogućuje svojim korisnicima.]
+Web platforma koja umrežava i povezuje darivatelje krvi s transfuzijskim centrima i organizatorima akcija darivanja krvi.
 
 **Projekt na kolegiju:** Ovu je aplikaciju razvio studentski tim u sklopu kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu (FER).
 
 ## Opis aplikacije
 
-[U dvije ili tri rečenice objasnite problem, ciljane korisnike i glavnu korist svoje aplikacije. Trenutačne funkcionalnosti navedite odvojeno od planiranih; opišite stvarni opseg umjesto obećanih mogućnosti.]
+Bolnicama je krv svakodnevno potrebna za različite operacije i liječenja pacijenata. Transfuzijski centri, kao i organizatori akcija darivanja krvi, svaki na svoje načine obavještavaju darivatelje, dok darivatelji često samostalno moraju pratiti gdje i kada se akcije darivanja održavaju. Aplikacija KrvnaVeza namjerava povezati sve ove sudionike i omogućiti im neometanu suradnju preko jedinstvene platforme.
 
 **Ključne funkcionalnosti**
 
-- [Reprezentativna funkcionalnost koju korisnici mogu isprobati]
-- [Druga reprezentativna funkcionalnost]
-- [Po želji dodatna funkcionalnost; nemojte kopirati cijeli popis zahtjeva]
+- Pregled karte transfuzijskih centara na odabranom području i stanja zaliha krvi u njima po krvnim grupama.
+- Registriranim darivateljima je dostupan prikaz dostupnih mjesta i termina, rezerviranje termina te praćenje povijesti darivanja.
+- Transfuzijskim centrima je omogućeno praćenje zaliha krvi i slanje poziva konkretnim darivateljima u slučaju nedostatka određene krvne grupe.
 
 Za potpuni opseg, zahtjeve, oblikovanje i dokaze ispitivanja pogledajte [docs](docs/Home.md).
 
@@ -55,7 +48,7 @@ Za Iteraciju 1 i Završni pregled navedite konkretne podatke. Provjerite vodi li
 **Preduvjeti:** [Navedite potrebno izvršno okruženje (engl. runtime) i verzija, upravitelj paketa (engl. package manager), baza podataka ili vanjska usluga ako je nužna.]
 
 ```bash
-git clone [repository URL]
+git clone https://github.com/TvrdanTravarFER/Pasuljci
 cd [repository directory]
 [install dependencies]
 [run the application]
@@ -73,7 +66,8 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 
 | Tehnologija ili alat | Uloga u ovom projektu | Razlog uporabe ili važno ograničenje |
 | --- | --- | --- |
-| [Naziv] | [Što radi u ovoj aplikaciji] | [Razlog ili ograničenje specifično za projekt] |
+| Figma | Brzo prototipiranje korisničkog sučelja i korisničkog iskustva | [Razlog ili ograničenje specifično za projekt] |
+| PostgreSQL | Implementacija modela (baze) podataka | [Razlog ili ograničenje specifično za projekt] |
 
 <details>
 <summary><strong>Primjer: objašnjenje ključnih tehnoloških odluka</strong></summary>
@@ -95,8 +89,13 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 
 | Član | Glavna uloga ili doprinos |
 | --- | --- |
-| [Ime] | [Uloga ili doprinos] |
-| [Ime] | [Uloga ili doprinos] |
+| Kristijan Kralj | Voditelj tima |
+| Lucija Cvetković | [Uloga ili doprinos] |
+| Karlo Mijić | [Uloga ili doprinos] |
+| Marko Mišković | [Uloga ili doprinos] |
+| Sven Rešetar | [Uloga ili doprinos] |
+| Noah Sitar | [Uloga ili doprinos] |
+| Marko Vrančić | [Uloga ili doprinos] |
 
 Uloge se tijekom projekta mogu mijenjati. Repozitorij i dogovoreni alat za praćenje zadataka (engl. task tracker) služe kao dodatni dokazi timskog rada.
 
@@ -124,7 +123,9 @@ Ovaj projekt slijedi FER-ova [pravila o primjerenoj uporabi umjetne inteligencij
 <a id="code-of-conduct-and-support"></a>
 ## Kodeks ponašanja i podrška [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
-Od članova tima očekuje se pridržavanje **Kodeksa ponašanja studenata** Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu, pravila timskog rada na kolegiju i [Etičkog kodeksa IEEE-a](https://www.ieee.org/about/corporate/governance/p7-8.html). [Postavite poveznicu na `CODE_OF_CONDUCT.md` ako se ta datoteka koristi u vašem repozitoriju.]
+Od članova tima očekuje se pridržavanje **Kodeksa ponašanja studenata** Fakulteta elektrotehnike i računarstva Sveučilišta u Zagrebu, pravila timskog rada na kolegiju i [Etičkog kodeksa IEEE-a](https://www.ieee.org/about/corporate/governance/p7-8.html).
+
+`CODE_OF_CONDUCT.md` projekta se može pronaći [ovdje](https://github.com/TvrdanTravarFER/Pasuljci/blob/main/CODE_OF_CONDUCT.md).
 
 ---
 
