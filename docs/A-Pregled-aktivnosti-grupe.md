@@ -6,12 +6,18 @@
 
 **Cilj:** Voditi kratak zapis projektnih sastanaka i tjedne koordinacije: tko je sudjelovao, što je odlučeno i koja je radnja uslijedila. Raspravu koja nije dovela do odluke zabilježite samo ako je važno pitanje ostalo otvoreno.
 
->Definirati prije prve uporabe:
-`[Inicijali/Kratica] = [Ime i prezime]` (npr. *AK = Ana Kovač; LM = Luka Marić; EP = Ema Petrović; NK = Nika Kralj*).																														
+**Kratice članova tima:** 		
+- LC=Lucija Cvetković
+- NS=Noah Sitar
+- MM=Marko Mišković
+- KK=Kristijan Kralj
+- SR=Sven Rešetar
+- KM=Karlo Mijić
+- MV=Marko Vrančić
 
 | Datum i sudionici | Glavna tema | Donesena odluka ili zadatak  | Poveznica na zadatak ili  rezultat, ako postoji |
 | --- | --- | --- | --- |
-|  |  |  |  |
+| 29.10.2026.;  LC NS MM SR KM MV KK | Raspodjela rada i plan napretka projekta | Početi rad na "4-Arhitektura-i-oblikovanje.md" i na frontend-u | - |
 
 Za svaki relevantan sastanak ili zapis tjedne koordinacije upišite jedan sažet redak. Dodijeljeni zadatak treba imati odgovornu osobu; za neriješeno pitanje treba navesti tko će ga dalje obraditi. Sam naslov sastanka ne pokazuje što se promijenilo. U ovu evidenciju nemojte kopirati cijeli popis issuea ni prijepis razgovora.
 
