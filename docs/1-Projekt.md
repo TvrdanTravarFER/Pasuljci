@@ -1,6 +1,6 @@
 # 1. Opseg projekta
 
-KrvnaVeza je web-aplikacija koja povezuje darivatelje krvi, transfuzijske centre i organizatore terenskih akcija darivanja. Darivatelji u njoj vide kada i gdje mogu darivati krv i rezervirati termin, centri prate zalihe po krvnim grupama i u slučaju potrebe ciljano obavještavaju odgovarajuće darivatelje, a organizatori akcija planiraju terenske akcije i prate odaziv. Aplikacija ne zamjenjuje liječnički pregled ni odluku djelatnika centra: ona organizira termine, evidenciju i obavijesti oko darivanja, dok medicinsku odluku i labaratorijsko testiranje i dalje provode zdravstveni djelatnici.
+_KrvnaVeza_ je web-aplikacija koja povezuje darivatelje krvi, transfuzijske centre i organizatore terenskih akcija darivanja. Darivatelji u njoj vide kada i gdje mogu darivati krv i rezervirati termin, centri prate zalihe po krvnim grupama i u slučaju potrebe ciljano obavještavaju odgovarajuće darivatelje, a organizatori akcija planiraju terenske akcije i prate odaziv. Aplikacija ne zamjenjuje liječnički pregled ni odluku djelatnika centra: ona organizira termine, evidenciju i obavijesti oko darivanja, dok medicinsku odluku i laboratorijsko testiranje i dalje provode zdravstveni djelatnici.
 
 ## 1.1 Problem i cilj projekta
 
@@ -12,7 +12,7 @@ Cilj projekta je izraditi funkcionalnu web-platformu koja na jednom mjestu povez
 
 - *Darivatelj* može vidjeti centre i akcije na karti, saznati datum od kojeg ponovno smije darivati, rezervirati termin i pregledati povijest svojih darivanja.
 - *Djelatnik* centra vodi termine, evidentira darivanja i doze krvi, prati zalihe po krvnim grupama i šalje hitne pozive samo podobnim darivateljima tražene krvne grupe.
-- *Organizator* akcija predlaže terensku akciju, prati prijave i nakon akcije vidi statistiku.
+- *Organizator akcija* predlaže terensku akciju, prati prijave i nakon akcije vidi statistiku.
 - *Administrator* upravlja korisnicima, ulogama, pravilima podobnosti i pragovima zaliha.
 
 Očekivana korist projekta:
@@ -41,7 +41,7 @@ Aplikacija ima pet korisničkih uloga, a dio dionika s aplikacijom nema izravan 
 **Uključeno:**
 
 - Javni pregled karte centara i akcija te razina zaliha po krvnim grupama.
-- Prijava putem OAuth 2.0 i profil darivatelja (uključujući postavke obavijesti).
+- Prijava putem _OAuth 2.0_ i profil darivatelja (uključujući postavke obavijesti).
 - Izračun podobnosti darivatelja prema povijesti darivanja i pravilima koja podešava administrator.
 - Definiranje termina u centru, rezervacija s upitnikom za samoprocjenu, otkazivanje, QR kod i podsjetnici.
 - Tijek darivanja: zaprimanje, pregled, darivanje, odbijanje (privremeno ili trajno), evidencija doze i njezinih stanja te izračun zaliha iz doza na zalihi.
@@ -62,8 +62,8 @@ Aplikacija ima pet korisničkih uloga, a dio dionika s aplikacijom nema izravan 
 **Vanjske ovisnosti:**
 
 - *Pružatelj identiteta (OAuth 2.0)*, npr. Google – prijava i potvrda valjane adrese e-pošte. Bez njega nema pristupa funkcijama za prijavljene korisnike.
-- *Usluga prikaza karte* (Google Maps ili OpenStreetMap) – prikaz centara i akcija. Podatke o centrima i akcijama aplikacija čuva sama.
-- *Servis za slanje SMS poruka* (npr. Infobip) – hitni pozivi i obavijesti darivateljima koji su odabrali SMS.
+- *Usluga prikaza karte* (_Google Maps_ ili _OpenStreetMap_) – prikaz centara i akcija. Podatke o centrima i akcijama aplikacija čuva sama.
+- *Servis za slanje SMS poruka* (npr. _Infobip_) – hitni pozivi i obavijesti darivateljima koji su odabrali SMS.
 - *Usluga slanja e-pošte* – obavijesti darivateljima koji su odabrali e-poštu.
 - *Google Calendar* – dodavanje rezerviranog termina u kalendar darivatelja.
 - *Poslužiteljska okolina i baza podataka* za rad aplikacije.
