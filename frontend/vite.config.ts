@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { searchForWorkspaceRoot } from 'vite';
 
 export default defineConfig({
 	plugins: [
@@ -18,6 +19,20 @@ export default defineConfig({
 			adapter: adapter()
 		})
 	],
+	server: {
+		fs: {
+			allow: [
+				searchForWorkspaceRoot(process.cwd()),
+				"/home/lyria/Documents/Uni/god3/zima/progi/Pasuljci/node_modules/maplibre-gl/dist/"
+			]
+		}
+	},
+	ssr: {
+		noExternal: ["@lucide/svelte"]
+	},
+	optimizeDeps: {
+		exclude: ['maplibre-gl', 'svelte-maplibre-gl']
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [

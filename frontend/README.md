@@ -62,7 +62,6 @@ Ova web-aplikacija koristi sljedeće tehnologije, pakete i komponente:
 - **Svelte:** glavno okruženje za izgradnju korisničkog sučelja, zasnovano na komponentama
 - **SvelteKit:** temelj koji pruža usmjeravanje (_routing_), iscrtavanje (_rendering_). Zajedno s _Node.js_ adapterom, omogućava postavljanje na Render.
 - **bits.ui:** okvir za komponente korisničkog sučelja
-- **Lucide:** paket ikona
 
 Produkcijski alati koji se koriste pri programiranju:
 
