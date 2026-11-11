@@ -1,5 +1,5 @@
 :root {
-    --color-foreground: #0d0f0f;
+    --color-foreground: #1e2121;
     --color-background: #f8eef0;
     --color-accent: #e72744;
 }
@@ -61,12 +61,21 @@ button {
     z-index: 50;
     transform: translate(-50%, -50%);
     width: 500px;
-    height: 50%;
-    padding: 2rem 3rem;
+    /* height: 50%; */
+    padding: 1.5rem 3rem 2.5rem;
 
     background-color: var(--color-background);
     border: 2px solid var(--color-accent);
     border-radius: 24px;
+
+    h2.dialog-title {
+        margin-block-start: 0.65rem;
+    }
+}
+
+.dialog-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
 }
 
 .dialog-close {
@@ -82,7 +91,6 @@ button {
     .dialog-trigger {
         display: flex;
         align-self: center;
-        border: none;
         background-color: var(--color-accent);
         color: var(--color-background);
         padding: 0.6rem 1.5rem;

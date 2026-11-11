@@ -33,7 +33,7 @@
             <Dialog.Title>
                 {@render title()}
             </Dialog.Title>
-            <Dialog.Description>
+            <Dialog.Description class="dialog-description">
                 {@render description()}
             </Dialog.Description>
                 {@render children?.()}
