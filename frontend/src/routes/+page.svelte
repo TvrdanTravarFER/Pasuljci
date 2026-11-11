@@ -1,6 +1,8 @@
 <script lang="ts">
-	import Navbar from "#lib/components/Navbar.svelte"
     import { MapLibre, Marker } from "svelte-maplibre-gl"
+	import Navbar from "#lib/components/Navbar.svelte"
+    import TwoColumnView from "#lib/components/TwoColumnView.svelte"
+    import BloodTypeAmounts from "#lib/components/BloodTypeAmounts.svelte";
 
     const hasMap: boolean = true
 </script>
@@ -17,13 +19,18 @@
     </section>
     <section id="map">
         <h2>Ostanite u toku.</h2>
-        <p>U tren oka provjerite stanje krvnih zaliha kao i nadolazeće akcije darivanja krvi diljem Hrvatske, na karti dolje. Registracija nije nužna.</p>
+        <p>U tren oka provjerite stanje krvnih zaliha, kao i nadolazeće akcije darivanja krvi diljem Hrvatske, na karti dolje. Registracija nije nužna.</p>
+
+        <!-- todo: ovo dvoje u kartice? ili neki drugaciji view da nije samo jedno ispod drugog -->
+        <!-- mozda fiksni scroll view, kasnije -->
+        <BloodTypeAmounts levels={[1, 2, 3, 4, 1, 2, 2, 1]} />
     
-        <!-- ovdje ide karta. dat req prema apiju za kartu i preko nekog bool (tj uvjeta) provjerit, i na osnovu toga renderat ili kartu ili staticnu listu -->
-    
+        <!-- todo: ovdje ide karta. dat req prema apiju za kartu i preko nekog bool (tj uvjeta) provjerit, i na osnovu toga renderat ili kartu ili staticnu listu -->
+
+        <!-- todo: UC-01 4a nema najavljenih akcija -->
         {#if hasMap}
-            <div class="map-view">
-                <div class="map-column">
+            <TwoColumnView>
+                {#snippet leftColumn()}
                     <MapLibre
                         class="map-view"
                         style="https://tiles.openfreemap.org/styles/liberty"
@@ -32,16 +39,17 @@
     
                         <Marker lnglat={[-43.20556, -22.91111,]}/>
                     </MapLibre>
-                </div>
-                <div class="map-data-column">
-                    
-                </div>
-            </div>
+                {/snippet}
+
+                {#snippet rightColumn()}
+                    <p>data blablabla</p>
+                {/snippet}
+            </TwoColumnView>
         {:else}
             <div class="map-data-list-view">ovo je kad nema mapeeeeeeee</div>
         {/if}
     
-        <!-- ne znam konkretno kako radi mapa. ali recimo kad se odabere mjesto, moze se renderat dole zaliha krvi za svaku grupu. mozda 2 column layout gdje je lijevo mapa a desno detalji? na mobitelu se moze dat neki popup ili tooltip na neki nacin, to ce se vidjet. -->
+        <!-- todo: ne znam konkretno kako radi mapa. ali recimo kad se odabere mjesto, moze se renderat dole zaliha krvi za svaku grupu. mozda 2 column layout gdje je lijevo mapa a desno detalji? na mobitelu se moze dat neki popup ili tooltip na neki nacin, to ce se vidjet. -->
     </section>
 </main>
 

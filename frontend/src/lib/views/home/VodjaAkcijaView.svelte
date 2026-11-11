@@ -1,0 +1,1 @@
+<p>Prijavljeni korisnik je vodja terenskih akcija</p>

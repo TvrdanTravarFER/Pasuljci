@@ -5,6 +5,7 @@
 	import Dialog from "#lib/components/Dialog.svelte"
 </script>
 
+<!-- todo: kad je korisnik prijavljen tad prikazat njegovo ime i gumb prema dashboard. inace samo prijava -->
 <header>
 	<nav class="main-navigation">
 		<Collapsible.Root>
@@ -17,7 +18,7 @@
 					</Collapsible.Trigger>
 					<h1>KrvnaVeza</h1>
 				</div>
-				<!-- TODO ovo bi trebalo otvorit modal view koji daje opciju za OAuth2 login. -->
+				<!-- todo: ovo bi trebalo imat opciju za OAuth2 login kako treba. -->
 				<Dialog buttonText="Prijava">
 					{#snippet title()}
 						<h2 class="dialog-title">Prijavite se</h2>
@@ -28,22 +29,15 @@
 					{/snippet}
 
 					<form action="" class="platform-login-form" >
-						<input type="email" placeholder="Adresa e-pošte">
-						<br>
-						<input type="password" placeholder="Lozinka">
-						<br>
-						<button type="submit">Prijava</button>
+						<button>Prijava uz Google</button>
 					</form>
-
-					<p class="signup-hint">Nemate račun? Prijavite se odmah</p>
-
 					{#snippet close()}
 						<X size={24} />
 					{/snippet}
 				</Dialog>
 			</div>
 			<Collapsible.Content>
-			<!-- neka na mobitelu bude hamburger menu koji otvara opcije, ako ih bude trebalo. na pc je standardni navbar -->
+			<!-- todo: neka na mobitelu bude hamburger menu koji otvara opcije, ako ih bude trebalo. na pc je standardni navbar -->
 				<ul class="navigation-links">
 					<li>item1</li>
 					<li>item2</li>
@@ -60,6 +54,7 @@
 		top: 0;
 		background-color: #ffffff00;
 		backdrop-filter: blur(18px);
+		z-index: 1000;
 	}
 	.main-navigation {
 		margin-inline: 4dvw;
@@ -92,13 +87,13 @@
     }
 
 	.platform-login-form {
-		margin-block-start: 2rem;
+		margin-block-start: 1.5rem;
 		text-align: center;
 
-		input {
+		/* input {
 			border: 2px solid color-mix(in srgb, var(--color-background) 90%, #000 10%);
 			border-radius: 4px;
-			padding: 0.25rem 0.5rem;
+			padding: 0.5rem 1rem;
 			outline-color: var(--color-accent);
 			-webkit-outline-color: var(--color-accent);
 		}
@@ -109,7 +104,7 @@
 
 		input[type="password"] {
 			margin-block-end: 1rem;
-		}
+		} */
 
 		button {
 			background-color: var(--color-accent);
@@ -127,10 +122,5 @@
 			background-color: var(--color-background);
 		}
 
-	}
-	.signup-hint {
-		text-align: center;
-		font-size: 14px;
-		margin-block-start: 1.5rem;
 	}
 </style>

@@ -60,9 +60,8 @@ button {
     left: 50%;
     z-index: 50;
     transform: translate(-50%, -50%);
-    width: 500px;
-    /* height: 50%; */
-    padding: 1.5rem 3rem 2.5rem;
+    width: 80%;
+    padding: 1.5rem 3rem;
 
     background-color: var(--color-background);
     border: 2px solid var(--color-accent);
@@ -70,6 +69,12 @@ button {
 
     h2.dialog-title {
         margin-block-start: 0.65rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .dialog-content {
+        width: 500px;
     }
 }
 
@@ -109,5 +114,11 @@ button {
 
 /* Map */
 .map-view {
-    height: 500px;
+    height: 300px;
+}
+
+@media (min-width: 768px) {
+    .map-view {
+        height: 500px;
+    }
 }
