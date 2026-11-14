@@ -19,7 +19,11 @@
 					<h1>KrvnaVeza</h1>
 				</div>
 				<!-- todo: ovo bi trebalo imat opciju za OAuth2 login kako treba. -->
-				<Dialog buttonText="Prijava">
+				<Dialog>
+					{#snippet trigger()}
+						Prijava
+					{/snippet}
+
 					{#snippet title()}
 						<h2 class="dialog-title">Prijavite se</h2>
 					{/snippet}

@@ -5,6 +5,7 @@
     import BloodTypeAmounts from "#lib/components/BloodTypeAmounts.svelte";
 
     const hasMap: boolean = true
+    const hasActions: boolean = true
 </script>
 
 <Navbar />
@@ -42,14 +43,16 @@
                 {/snippet}
 
                 {#snippet rightColumn()}
-                    <p>data blablabla</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ullam? Neque suscipit voluptatum nemo debitis aspernatur aperiam dolorem pariatur, adipisci repellat labore. Quidem ea assumenda molestias, incidunt excepturi odio nesciunt adipisci impedit sed non natus soluta aliquid officiis veritatis nisi perspiciatis. Adipisci aliquam fugit impedit alias, quos eligendi doloremque provident unde sunt deleniti tempora optio eum repellendus esse natus iste, officia, ipsam maxime. Omnis labore velit aut rerum maxime amet tempore dolorem dicta accusamus! Aspernatur optio placeat tempore, tempora voluptate, corporis laboriosam expedita in, totam consequuntur aut eius. Omnis similique numquam, debitis laboriosam iusto inventore. Dignissimos voluptate a aliquid inventore.</p>
                 {/snippet}
             </TwoColumnView>
         {:else}
             <div class="map-data-list-view">ovo je kad nema mapeeeeeeee</div>
         {/if}
     
-        <!-- todo: ne znam konkretno kako radi mapa. ali recimo kad se odabere mjesto, moze se renderat dole zaliha krvi za svaku grupu. mozda 2 column layout gdje je lijevo mapa a desno detalji? na mobitelu se moze dat neki popup ili tooltip na neki nacin, to ce se vidjet. -->
+        {#if !hasActions}
+            <p>Nema akcija za darivanje trenutno</p>
+        {/if}
     </section>
 </main>
 

@@ -4,7 +4,7 @@
     import AdministratorView from "#lib/views/home/AdministratorView.svelte";
     import VodjaAkcijaView from "#lib/views/home/VodjaAkcijaView.svelte";
 
-    let userRole = ""
+    let userRole = "djelatnik"
 </script>
 
 {#if userRole == "darivatelj"}

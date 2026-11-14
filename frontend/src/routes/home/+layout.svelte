@@ -4,4 +4,13 @@
 	let { children }: LayoutProps = $props();
 </script>
 
-{@render children()}
+<main>
+    {@render children()}
+</main>
+
+<style>
+    main {
+        max-width: 65%;
+        margin: 0 auto;
+    }
+</style>

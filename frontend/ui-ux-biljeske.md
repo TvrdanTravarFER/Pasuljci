@@ -77,37 +77,87 @@ flowchart TB
 ```mermaid
 ---
 title: Prijava u sustav
+config:
+  flowchart:
+    curve: stepAfter
 ---
 flowchart TB
     root["/"]
-    gumb_prijava(["`Gumb _Prijava_`"])
     dialog{{Dialog za prijavu}}
-    gumb_pruzatelj([Gumb za vanjskog pruzatelja])
     pruzatelj{{VANJSKI PRUZATELJ PRIJAVE}}
     home["/home"]
     dar_home["/home (DarivateljView)"]
     djel_home["/home (DjelatnikView)"]
+    org_home["/home (VodjaAkcijaView)"]
+    admin_home["/home (AdministratorView)"]
 
-    root --> gumb_prijava
-    gumb_prijava --> dialog
-    dialog --> gumb_pruzatelj --> pruzatelj
+    root --> |Gumb 'prijava'| dialog --> |Gumb za vanjskog pruzatelja| pruzatelj
     pruzatelj --> |Uspjesna prijava, prva. Korisnik je po defaultu darivatelj| dar_home
     pruzatelj --> |Uspjesna prijava, nije prva| home
     pruzatelj --> |Odustano ili odbijena prijava| root
     home --> |Korisnik je darivatelj| dar_home
     home --> |Korisnik je djelatnik| djel_home
+    home --> |Korisnik je vodja akcije| org_home
+    home --> |Korisnik je administrator| admin_home
 ```
 
 ```mermaid
 ---
 title: Rezervacija termina
+config:
+  flowchart:
+    curve: stepAfter
 ---
 
 flowchart TB
     home["/home"]
-    kartica_darivanja([Kartica darivanja])
-    darivanja["/home/darivanja"]
-    rezerviraj{{Dialog rezerviraj u /home/darivanja prikazuje slobodne termine}}
+    darivanja["/home/appoint"]
+    pogled_rezervacije{{Pogled rezervacija}}
+    widget_centar_datum([Korisnik upisuje u polja centar i datum])
+    slobodni_termini{{Prikazuju se slobodni termini ispod}}
+    nema_slobodnih_termina{{Obavijest da nema slobodnih mjesta i prijedlog za druge}}
+    gumb_rezerviraj([Gumb 'Rezerviraj' na terminu])
+    provjera[Dialog forma za provjeru podobnosti]
+    potvrda_rezervacije([Gumb potvrdi rezervaciju])
+    zapis_rezervacije{{Sustav sprema rezervaciju, rezultate provjere, smanjuje broj slobodnih mjesta}}
+    qr_prikaz{{Prikaz QR koda darivatelju}}
+    spremi_google_calendar([Gumbi za spremanje ili odbijanje spremanja rezervacije u kalendar])
+    obavijest_kalendar_nije_uspio{{"Stranica javlja da sustav nije uspio (toast ili nesto)"}}
 
-    home --> kartica_darivanja --> darivanja --> rezerviraj
+    home --> |Gumb 'darivanja'| darivanja --> pogled_rezervacije --> widget_centar_datum
+    widget_centar_datum --> |Ima slobodnih mjesta za te parametre| slobodni_termini
+    widget_centar_datum --> |Nema slobodnih mjesta za te parametre| nema_slobodnih_termina
+    slobodni_termini --> gumb_rezerviraj
+    nema_slobodnih_termina --> gumb_rezerviraj
+    gumb_rezerviraj --> provjera
+    provjera --> |Provjera je odbijena| home
+    provjera --> |Provjera je prihvacena| potvrda_rezervacije
+    potvrda_rezervacije --> zapis_rezervacije --> qr_prikaz --> |U redu| spremi_google_calendar
+    potvrda_rezervacije --> |U medjuvremenu se popunilo| darivanja
+    spremi_google_calendar --> |Uspjelo| home
+    spremi_google_calendar --> |Neuspjelo| obavijest_kalendar_nije_uspio --> home
+```
+
+```mermaid
+---
+title: Otkazivanje rezerviranog termina
+config:
+  flowchart:
+    curve: stepAfter
+---
+
+flowchart TB
+    home["/home"]
+    rezervacija{{Dialog 'rezervacija'}}
+    otkazivanje_potvrdi{{Novi dialog kojim se potvrdjuje ili odbija rezervacija}}
+    ima_2_sata((Je li ima 2 sata?))
+    otkaz{{Sustav brise rezervaciju i stavlja status 'otkazano'}}
+    ne_otkaz{{Sustav ne brise rezervaciju i daje popup da se to ne smije}}
+
+    home --> rezervacija --> |Gumb 'otkazi'| otkazivanje_potvrdi
+    otkazivanje_potvrdi --> |Da| ima_2_sata --> |Ima| otkaz
+    ima_2_sata --> |Nema| ne_otkaz
+    otkaz --> home
+    ne_otkaz --> home
+    otkazivanje_potvrdi --> |Ne| home
 ```

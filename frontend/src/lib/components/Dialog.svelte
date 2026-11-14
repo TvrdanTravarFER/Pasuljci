@@ -3,7 +3,7 @@
     import { Dialog, type WithoutChild } from "bits-ui";
 
     type Props = Dialog.RootProps & {
-        buttonText: string;
+        trigger: Snippet;
         title: Snippet;
         description: Snippet;
         close: Snippet;
@@ -13,7 +13,7 @@
     let {
         open = $bindable(false),
         children,
-        buttonText,
+        trigger,
         contentProps,
         title,
         description,
@@ -24,7 +24,7 @@
 
 <Dialog.Root bind:open {...restProps}>
     <Dialog.Trigger class="dialog-trigger">
-        {buttonText}
+        {@render trigger()}
     </Dialog.Trigger>
     <Dialog.Portal>
         <Dialog.Overlay class="dialog-overlay" />
