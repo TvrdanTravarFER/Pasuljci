@@ -1,8 +1,30 @@
 <script lang="ts">
-    import { MapLibre, Marker } from "svelte-maplibre-gl"
+    import { MapLibre, Marker, Popup } from "svelte-maplibre-gl"
 	import Navbar from "#lib/components/Navbar.svelte"
     import TwoColumnView from "#lib/components/TwoColumnView.svelte"
-    import BloodTypeAmounts from "#lib/components/BloodTypeAmounts.svelte";
+    import BloodTypeAmounts from "#lib/components/BloodTypeAmounts.svelte"
+
+    import type { PageProps } from "./$types"
+
+    type CenterData = {
+        centerid: number
+        centername: string
+        address: string
+        lat: number
+        lng: number
+    }
+
+    type CenterThresholdData = {
+        centerid: number
+        bloodtype: string
+        lowthreshold: number
+        criticalthreshold: number
+    }
+
+    let { data }: PageProps = $props()
+
+    const centerData: CenterData[] = JSON.parse((() => data)().centers).rows
+    const thresholdData: CenterThresholdData[] = JSON.parse((() => data)().thresholds).rows
 
     const hasMap: boolean = true
     const hasActions: boolean = true
@@ -22,36 +44,43 @@
         <h2>Ostanite u toku.</h2>
         <p>U tren oka provjerite stanje krvnih zaliha, kao i nadolazeće akcije darivanja krvi diljem Hrvatske, na karti dolje. Registracija nije nužna.</p>
 
-        <!-- todo: ovo dvoje u kartice? ili neki drugaciji view da nije samo jedno ispod drugog -->
-        <!-- mozda fiksni scroll view, kasnije -->
         <BloodTypeAmounts levels={[1, 2, 3, 4, 1, 2, 2, 1]} />
-    
-        <!-- todo: ovdje ide karta. dat req prema apiju za kartu i preko nekog bool (tj uvjeta) provjerit, i na osnovu toga renderat ili kartu ili staticnu listu -->
 
         <!-- todo: UC-01 4a nema najavljenih akcija -->
         {#if hasMap}
-            <TwoColumnView>
-                {#snippet leftColumn()}
-                    <MapLibre
-                        class="map-view"
-                        style="https://tiles.openfreemap.org/styles/liberty"
-                        zoom={3}
-                        center={{ lng: -43, lat: -22 }}>
-    
-                        <Marker lnglat={[-43.20556, -22.91111,]}/>
-                    </MapLibre>
-                {/snippet}
+        <TwoColumnView>
+        {#snippet leftColumn()}
+            <MapLibre
+                class="map-view"
+                style="https://tiles.openfreemap.org/styles/liberty"
+                zoom={6}
+                center={{ lng: 16.5, lat: 44.5 }}>
 
-                {#snippet rightColumn()}
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ullam? Neque suscipit voluptatum nemo debitis aspernatur aperiam dolorem pariatur, adipisci repellat labore. Quidem ea assumenda molestias, incidunt excepturi odio nesciunt adipisci impedit sed non natus soluta aliquid officiis veritatis nisi perspiciatis. Adipisci aliquam fugit impedit alias, quos eligendi doloremque provident unde sunt deleniti tempora optio eum repellendus esse natus iste, officia, ipsam maxime. Omnis labore velit aut rerum maxime amet tempore dolorem dicta accusamus! Aspernatur optio placeat tempore, tempora voluptate, corporis laboriosam expedita in, totam consequuntur aut eius. Omnis similique numquam, debitis laboriosam iusto inventore. Dignissimos voluptate a aliquid inventore.</p>
-                {/snippet}
-            </TwoColumnView>
+                {#each centerData as cent (cent.centerid)}
+                <Marker lnglat={[cent.lng, cent.lat,]}>
+                    <Popup>
+                        <span class="center-name">{cent.centername}</span>
+                        <ul class="center-thresholds">
+                            {#each thresholdData.filter(thr => thr.centerid === cent.centerid) as threshold (threshold.bloodtype)}
+                                <li class="center-threshold">{`${threshold.bloodtype}: nisko ${threshold.lowthreshold}, kriticno ${threshold.criticalthreshold}`}</li>
+                            {/each}
+                        </ul>
+                    </Popup>
+                </Marker>
+                {/each}
+            </MapLibre>
+        {/snippet}
+
+        {#snippet rightColumn()}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ullam? Neque suscipit voluptatum nemo debitis aspernatur aperiam dolorem pariatur, adipisci repellat labore. Quidem ea assumenda molestias, incidunt excepturi odio nesciunt adipisci impedit sed non natus soluta aliquid officiis veritatis nisi perspiciatis. Adipisci aliquam fugit impedit alias, quos eligendi doloremque provident unde sunt deleniti tempora optio eum repellendus esse natus iste, officia, ipsam maxime. Omnis labore velit aut rerum maxime amet tempore dolorem dicta accusamus! Aspernatur optio placeat tempore, tempora voluptate, corporis laboriosam expedita in, totam consequuntur aut eius. Omnis similique numquam, debitis laboriosam iusto inventore. Dignissimos voluptate a aliquid inventore.</p>
+        {/snippet}
+        </TwoColumnView>
         {:else}
-            <div class="map-data-list-view">ovo je kad nema mapeeeeeeee</div>
+        <div class="map-data-list-view">ovo je kad nema mapeeeeeeee</div>
         {/if}
     
         {#if !hasActions}
-            <p>Nema akcija za darivanje trenutno</p>
+        <p>Nema akcija za darivanje trenutno</p>
         {/if}
     </section>
 </main>
@@ -89,4 +118,14 @@
             margin-block: 15vh 25vh;
         }
 	}
+
+    .center-name {
+        font-weight: 700;
+    }
+
+    .center-thresholds {
+        list-style-type: none;
+        padding-inline-start: 0;
+        margin-block-end: 0;
+    }
 </style>

@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@lucide/svelte": "^1.71.0",
-    "svelte-maplibre-gl": "^2.2.1"
-  }
-}

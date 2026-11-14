@@ -10,7 +10,7 @@
         nisko: 1
     }
 
-    const bloodStates = levels.map(level => {
+    const bloodStates = (() => levels)().map(level => {
         if (level <= thresholds.nisko) {
             return "nisko"
         }
@@ -40,10 +40,12 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
+        margin-block-end: 2rem;
     }
 
     div[class^="type"] {
         height: 100px;
+        border-radius: 12px;
         background-color: antiquewhite;
 
         &[data-blood-state="dovoljno"] {

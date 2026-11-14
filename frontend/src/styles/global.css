@@ -122,3 +122,7 @@ button {
         height: 500px;
     }
 }
+
+.maplibregl-popup-content {
+    font-family: "Figtree", system-ui, sans-serif;
+}
