@@ -3,9 +3,20 @@
 	import X from "@lucide/svelte/icons/x"
 	import { Collapsible } from 'bits-ui';
 	import Dialog from "#lib/components/Dialog.svelte"
+	import { authClient	} from "#lib/auth-client.ts"
+	import { resolve } from "$app/paths"
+
+	const session = authClient.useSession()
+
+	const googleSignIn = async () => {
+		await authClient.signIn.social({
+			provider: "google",
+			callbackURL: "/home",
+			errorCallbackURL: "/",
+		})
+	}
 </script>
 
-<!-- todo: kad je korisnik prijavljen tad prikazat njegovo ime i gumb prema dashboard. inace samo prijava -->
 <header>
 	<nav class="main-navigation">
 		<Collapsible.Root>
@@ -13,32 +24,39 @@
 				<div class="navigation-bar-left">
 					<Collapsible.Trigger>
 						<div class="navigation-bar-toggle">
-							<Menu size={24} />
+							<Menu size={24} style="color: var(--color-foreground);" />
 						</div>
 					</Collapsible.Trigger>
 					<h1>KrvnaVeza</h1>
 				</div>
-				<!-- todo: ovo bi trebalo imat opciju za OAuth2 login kako treba. -->
-				<Dialog>
-					{#snippet trigger()}
-						Prijava
-					{/snippet}
+				{#if $session.data}
+					<button class="user-logged-in">
+						<a href={resolve("/home")}>{$session.data.user.name}</a>
+						<span class="arrow-symbol">→</span>
+					</button>
+				{:else}
+					<Dialog>
+						{#snippet trigger()}
+							Prijava
+						{/snippet}
 
-					{#snippet title()}
-						<h2 class="dialog-title">Prijavite se</h2>
-					{/snippet}
+						{#snippet title()}
+							<h2 class="dialog-title">Prijavite se</h2>
+						{/snippet}
 
-					{#snippet description()}
-						Prijavom u našu platformu moći ćete detaljno pratiti povijest darivanja, prijavljivati se za nadolazeće akcije i još mnogo toga. Potpuno je besplatno.
-					{/snippet}
+						{#snippet description()}
+							Prijavom u našu platformu moći ćete detaljno pratiti povijest darivanja, prijavljivati se za nadolazeće akcije i još mnogo toga. Potpuno je besplatno.
+						{/snippet}
 
-					<form action="" class="platform-login-form" >
-						<button>Prijava uz Google</button>
-					</form>
-					{#snippet close()}
-						<X size={24} />
-					{/snippet}
-				</Dialog>
+						<form action="" class="platform-login-form" >
+							<button onclick={googleSignIn}>Prijava uz Google</button>
+						</form>
+
+						{#snippet close()}
+							<X size={24} />
+						{/snippet}
+					</Dialog>
+				{/if}
 			</div>
 			<Collapsible.Content>
 			<!-- todo: neka na mobitelu bude hamburger menu koji otvara opcije, ako ih bude trebalo. na pc je standardni navbar -->
@@ -70,10 +88,9 @@
 
 			.navigation-bar-left {
 				display: flex;
-				gap: 15%;
+				gap: 3vw;
 
 				h1 {
-					margin-inline-start: 1rem;
 					font-weight: 700;
 				}
 			}
@@ -94,22 +111,6 @@
 		margin-block-start: 1.5rem;
 		text-align: center;
 
-		/* input {
-			border: 2px solid color-mix(in srgb, var(--color-background) 90%, #000 10%);
-			border-radius: 4px;
-			padding: 0.5rem 1rem;
-			outline-color: var(--color-accent);
-			-webkit-outline-color: var(--color-accent);
-		}
-
-		input[type="email"] {
-			margin-block-end: 0.25rem;
-		}
-
-		input[type="password"] {
-			margin-block-end: 1rem;
-		} */
-
 		button {
 			background-color: var(--color-accent);
 			color: var(--color-background);
@@ -126,5 +127,9 @@
 			background-color: var(--color-background);
 		}
 
+	}
+
+	.arrow-symbol {
+		margin-inline-start: 1rem;
 	}
 </style>

@@ -48,3 +48,5 @@ GRANT SELECT ON
 Constants, BloodTypeRef, Center, CenterWorktime, CenterAppointmentSlot, CenterBloodThreshold,
 FieldAction, BloodStockLog, UrgentCallRecipientLog, BloodStockLog, BloodStockTotal, StockForecast, ActionStats
 TO krvnaveza_readonly;
+
+-- grant create on schema public to krvnaveza_app;

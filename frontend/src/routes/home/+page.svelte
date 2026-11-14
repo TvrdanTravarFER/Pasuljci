@@ -4,17 +4,18 @@
     import AdministratorView from "#lib/views/home/AdministratorView.svelte";
     import VodjaAkcijaView from "#lib/views/home/VodjaAkcijaView.svelte";
 
-    let userRole = "djelatnik"
+    let userRole = "darivatelj"
 </script>
 
 {#if userRole == "darivatelj"}
-<DarivateljView />
+    <DarivateljView />
 {:else if userRole == "djelatnik"}
-<DjelatnikView />
+    <DjelatnikView />
 {:else if userRole == "administrator"}
-<AdministratorView />
+    <AdministratorView />
 {:else if userRole == "vodjaAkcija"}
-<VodjaAkcijaView />
+    <VodjaAkcijaView />
 {:else}
-<div></div>
+    <!-- inace odbij zahtjev -->
+    <div></div>
 {/if}

@@ -2,6 +2,10 @@
     --color-foreground: #1e2121;
     --color-background: #f8eef0;
     --color-accent: #e72744;
+
+    --color-blood-sufficient: oklch(0.6265 0.2338 19.06);
+    --color-blood-low: oklch(0.7 0.1672 20.3);
+    --color-blood-critical: oklch(0.7706 0.1179 19.06);
 }
 
 * {
@@ -92,8 +96,13 @@ button {
     background-color: transparent;
 }
 
+.dialog-trigger {
+    border: none;
+    background-color: transparent;
+}
+
 .main-navigation {
-    .dialog-trigger {
+    button {
         display: flex;
         align-self: center;
         background-color: var(--color-accent);
@@ -104,6 +113,11 @@ button {
         border-radius: 36px;
         font-weight: 700;
         transition: all 150ms ease-in-out;
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+        }
     }
 
     .dialog-trigger:hover {
@@ -125,4 +139,15 @@ button {
 
 .maplibregl-popup-content {
     font-family: "Figtree", system-ui, sans-serif;
+}
+
+#map .right-column {
+    display: flex;
+    align-items: center;
+}
+
+/* donor view */
+.donor-reserved-subtitle button {
+    color: var(--color-accent);
+    font-style: italic;
 }

@@ -42,11 +42,15 @@
     </section>
     <section id="map">
         <h2>Ostanite u toku.</h2>
-        <p>U tren oka provjerite stanje krvnih zaliha, kao i nadolazeće akcije darivanja krvi diljem Hrvatske, na karti dolje. Registracija nije nužna.</p>
+        <p>U tren oka provjerite stanje krvnih zaliha diljem Hrvatske. Registracija nije nužna.</p>
 
         <BloodTypeAmounts levels={[1, 2, 3, 4, 1, 2, 2, 1]} />
 
         <!-- todo: UC-01 4a nema najavljenih akcija -->
+
+        <h2>Pronađite svoj termin</h2>
+        <p style="margin-block-end: 3rem;">Na karti dolje pregledajte transfuzijske centre u zemlji i otvorene termine za darivanje.</p>
+
         {#if hasMap}
         <TwoColumnView>
         {#snippet leftColumn()}

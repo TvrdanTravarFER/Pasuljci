@@ -1,49 +1,66 @@
-<script>
+<script lang="ts">
+    import { resolve } from "$app/paths"
+    import TwoColumnView from "#lib/components/TwoColumnView.svelte";
     import Dialog from "#lib/components/Dialog.svelte";
     import { Settings, X } from "@lucide/svelte";
-    import TwoColumnView from "#lib/components/TwoColumnView.svelte";
-    import { resolve } from "$app/paths"
+    import { authClient	} from "#lib/auth-client.ts"
+    // import { router } from "better-auth/api"
 
     // Dok se ne napravi baza podataka
-    const covjek = {
-        ime: "Ime",
-        prezime: "Prezime",
-        rezerviran: false
+    const session = authClient.useSession()
+    const rezerviran: boolean = true
+
+    const googleSignOut = async () => {
+        await authClient.signOut({
+            // fetchOptions: {
+            //     onSuccess: () => {
+            //         router.push("/")
+            //     }
+            // }
+        })
     }
 </script>
 
 <section id="upperhalf">
-    <h1>{`${covjek.ime} ${covjek.prezime}`}</h1>
+    <div class="donor-dashboard-greeting">
+        <h1 class="donor-name">{$session.data?.user.name}</h1>
 
-    {#if covjek.rezerviran}
-        <p>Rezervirani ste za termin (taj i taj).</p>
+        {#if rezerviran}
+            <div class="donor-reserved-subtitle">
+                <p class="donor-reserved-subtitle-info-message">Rezervirani ste za termin (taj i taj).</p>
                 <Dialog>
-            {#snippet trigger()}
-                <button>Provjerite detalje ovdje.</button>
-            {/snippet}
+                    {#snippet trigger()}
+                        Provjerite detalje ovdje.
+                    {/snippet}
 
-            {#snippet title()}
-                <h2 class="dialog-title">Vaša rezervacija</h2>
-            {/snippet}
+                    {#snippet title()}
+                        <h2 class="dialog-title">Vaša rezervacija</h2>
+                    {/snippet}
 
-            {#snippet description()}
-                <div></div>
-            {/snippet}
+                    {#snippet description()}
+                        <div></div>
+                    {/snippet}
 
-            <p>Gdje, kad</p>
-            <p>jos nesto mozda i dunno</p>
+                    <p>Gdje, kad</p>
+                    <p>jos nesto mozda i dunno</p>
 
-            <button>Želim otkazati rezervaciju</button>
+                    <button>Želim otkazati rezervaciju</button>
 
-            {#snippet close()}
-                <X size={24} />
-            {/snippet}
-        </Dialog>
-    {:else}
-        <p>Niste rezervirani za termin. <button><a href={resolve("/home/appoint")}>Rezervirajte termin ovdje</a></button></p>
-    {/if}
+                    {#snippet close()}
+                        <X size={24} />
+                    {/snippet}
+                </Dialog>
+            </div>
+        {:else}
+            <p class="donor-not-reserved-subtitle">Niste rezervirani za termin.
+                <button>
+                    <a href={resolve("/home/appoint")}>Rezervirajte termin ovdje</a>
+                </button>
+            </p>
+        {/if}
+    </div>
 
-    <button class="settings">
+    <div class="donor-dashboard-buttons">
         <Dialog>
             {#snippet trigger()}
                 <Settings size={24} />
@@ -59,8 +76,8 @@
 
             <h2>Osobni podaci</h2>
             <form action="" class="platform-login-form">
-                <input type="text" name="ime" id="ime" placeholder="Ime" value={covjek.ime} required>
-                <input type="text" name="prezime" id="prezime" placeholder="Prezime" value={covjek.prezime} required>
+                <input type="text" name="ime" id="ime" placeholder="Ime" required>
+                <input type="text" name="prezime" id="prezime" placeholder="Prezime" required>
                 
                 <br>
 
@@ -126,7 +143,8 @@
                 <X size={24} />
             {/snippet}
         </Dialog>
-    </button>
+        <button class="sign-out-button" onclick={googleSignOut}>Odjavi se</button>
+    </div>
 </section>
 <section id="lowerhalf">
     <TwoColumnView>
@@ -145,9 +163,44 @@
 <style>
     #upperhalf {
         height: 50vh;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        margin-block-end: 4rem;
+
+        .donor-name {
+            font-size: 3rem;
+            margin-block-end: 1rem;
+        }
+
+        .donor-reserved-subtitle {
+            display: flex;
+        }
+
+        .donor-reserved-subtitle-info-message {
+            margin-inline-end: 0.15rem;
+        }
+
+        .donor-dashboard-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            gap: 1.5rem;
+        }
     }
 
     #lowerhalf {
         height: 50vh;
+    }
+
+    button {
+        background-color: var(--color-accent);
+        color: var(--color-background);
+        padding: 0.6rem 1.5rem;
+        margin-block-start: 0.15rem;
+        border: 3px solid var(--color-accent);
+        border-radius: 36px;
+        font-weight: 700;
+        transition: all 150ms ease-in-out;
     }
 </style>
