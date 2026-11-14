@@ -89,13 +89,13 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 
 | Član | Glavna uloga ili doprinos |
 | --- | --- |
-| Kristijan Kralj | Voditelj tima |
-| Lucija Cvetković | [Uloga ili doprinos] |
-| Karlo Mijić | [Uloga ili doprinos] |
-| Marko Mišković | [Uloga ili doprinos] |
-| Sven Rešetar | [Uloga ili doprinos] |
-| Noah Sitar | [Uloga ili doprinos] |
-| Marko Vrančić | [Uloga ili doprinos] |
+| Kristijan Kralj | Voditelj tima, razvoj poslužiteljskog dijela (backend) |
+| Lucija Cvetković | Projektna dokumentacija, razvoj poslužiteljskog dijela (backend) |
+| Karlo Mijić | Razvoj poslužiteljskog dijela (backend) |
+| Marko Mišković | Razvoj korisničkog sučelja (frontend) |
+| Sven Rešetar | Razvoj poslužiteljskog dijela (backend) |
+| Noah Sitar | Razvoj poslužiteljskog dijela (backend) |
+| Marko Vrančić | Projektna dokumentacija, razvoj baze podataka |
 
 Uloge se tijekom projekta mogu mijenjati. Repozitorij i dogovoreni alat za praćenje zadataka (engl. task tracker) služe kao dodatni dokazi timskog rada.
 

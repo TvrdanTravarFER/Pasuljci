@@ -1,0 +1,42 @@
+
+// WARNING! NOT UP TO DATE
+
+User: [UserID], Name, LastName, DoB, Sex, Residence, UserRole
+-> Role == ADMIN, DONOR, STAFF, ORGANIZATOR
+
+Donor: [UserID], PhoneNumber, EmailAddress, BloodType, DonationsMade
+Staff: [UserID], CenterID
+
+Center: [CenterID], CenterName, Address, Lat, Lng
+CenterWorktime: [CenterID], WorkStart, WorkEnd, DayOfWeek
+-> workEnd > WorkStart
+
+CenterAppointment: [CenterID], DayOfWeek, AppointmentStart, AppointmentEnd, Capacity
+-> AppointmentEnd > AppointmentStart
+-> Capacity >= 0
+
+Action: [ActionID], ActionName, ActionDescription, ActionStart, ActionEnd, Address, Lat, Lng, Capacity, TraumaTeam
+-> ActionEnd > ActionStart
+-> Capacity >= 0
+
+Appointment: [AppointmentID], UserID, AppointmentStart, AppointmentEnd, AppointmentStatus
+-> AppointmentEnd > AppointmentStart
+
+SelfAssessment: [UserID], [AppointmentID] ...responses
+DonorDeferral: [UserID], Until, Reason, Infinite
+-> Role == DONOR
+
+BloodDose: [UserID], [AppointmentID], DateOfCollection, BloodType, Amount, ExpirationDate, DoseStatus, TestResult, IssuedTo, Barcode
+
+CenterBloodThreshold: [CenterID], [BloodType], LowThreshold, CriticalThreshold
+-> CriticalThreshold < LowThreshold
+-> LowThreshold, CriticalThreshold > 0
+
+CenterBloodStock: [CenterID], [BloodType], Amount
+
+Sex == M, F
+BloodType == AB+, AB-, A+ , A-, B+, B-, O+, O-
+UserRole == ADMIN, DONOR, STAFF, ORGANIZATOR
+AppointmentStatus == RESERVED, ARRIVED, NOTARRIVED, CANCELLED, SCREENING, DONATING, FINISHED, REJECTED
+DoseStatus == COLLECTED, TESTING, STOCK, ISSUED, DISCARDED
+Constants == Key, Value
