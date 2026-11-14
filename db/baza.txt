@@ -1,3 +1,6 @@
+
+// WARNING! NOT UP TO DATE
+
 User: [UserID], Name, LastName, DoB, Sex, Residence, UserRole
 -> Role == ADMIN, DONOR, STAFF, ORGANIZATOR
 
