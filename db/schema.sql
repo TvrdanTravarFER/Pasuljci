@@ -38,7 +38,7 @@ CREATE TABLE AppUser (
     PhoneNumber VARCHAR(16),
     Role VARCHAR(10) NOT NULL DEFAULT 'DONOR',
     IsActive BOOLEAN NOT NULL DEFAULT TRUE, -- ADMIN moze deaktivirat racun bez anonimizacije
-    IsAnonymized BOOLEAN NOT NULL DEFAULT FALSE,
+    IsAnonymized BOOLEAN NOT NULL DEFAULT FALSE, -- mozda nepotrebno (gledat ako ime == '******')?
 
     CONSTRAINT uq_oauth UNIQUE (OAuthProvider, OAuthSubject),
     CONSTRAINT sex_val CHECK (Sex IN ('M', 'F')),
@@ -108,14 +108,12 @@ CREATE TABLE CenterWorktime (
 
 CREATE TABLE CenterAppointmentSlot (
     CenterID INTEGER REFERENCES Center(CenterID) ON DELETE CASCADE,
-    DayOfWeek SMALLINT NOT NULL,
-    CenterAppointmentStart TIMETZ NOT NULL,
-    CenterAppointmentEnd TIMETZ NOT NULL,
+    CenterAppointmentStart TIMESTAMPTZ NOT NULL,
+    CenterAppointmentEnd TIMESTAMPTZ NOT NULL,
     Capacity SMALLINT NOT NULL,
 
-    PRIMARY KEY (CenterID, DayOfWeek, CenterAppointmentStart),
-    CONSTRAINT dow_val CHECK (DayOfWeek BETWEEN 1 AND 7),
-    CONSTRAINT app_time CHECK (CenterAppointmentEnd > CenterAppointmentStart),
+    PRIMARY KEY (CenterID, CenterAppointmentStart),
+    CONSTRAINT app_time CHECK (CenterAppointmentEnd > CenterAppointmentStart AND CenterAppointmentEnd::DATE = CenterAppointmentStart::DATE),
     CONSTRAINT appointment_capacity CHECK (capacity > 0)
 );
 
@@ -367,3 +365,69 @@ LEFT JOIN (SELECT CenterID, BloodType, COUNT(*) AS Issued
             FROM BloodDose WHERE DoseStatus = 'ISSUED' AND IssuedAt > now() - INTERVAL '30 days'
             GROUP BY CenterID, BloodType
 ) u ON u.CenterID = s.CenterID AND u.BloodType = s.BloodType;
+
+-- izbaci sve stare doze (SELECT DiscardExpiredDoses()), periodicno (svake minute)
+CREATE FUNCTION DiscardExpiredDoses() RETURNS INTEGER 
+LANGUAGE plpgsql AS $$
+DECLARE n INTEGER;
+BEGIN
+    UPDATE BloodDose SET Status = 'DISCARDED', DiscardReason = 'EXPIRED'
+    WHERE Status IN ('STOCK', 'COLLECTED', 'TESTING') AND ExpiresAt <= now();
+    GET DIAGNOSTICS n = ROW_COUNT;
+    RETURN n;
+END $$;
+
+CREATE FUNCTION TakeStockLog() RETURNS INTEGER
+LANGUAGE plpgsql AS $$
+DECLARE n INTEGER;
+BEGIN
+    INSERT INTO BloodStockLog (CenterID, BloodType, Quantity)
+    SELECT CenterID, BloodType, Quantity FROM CenterBloodStock;
+    GET DIAGNOSTICS n = ROW_COUNT;
+    RETURN n;
+END $$;
+
+CREATE FUNCTION AppointmentUpdate() RETURNS TRIGGER
+LANGUAGE plpgsql AS $$
+BEGIN
+    IF NEW.AppointmentStatus IS DISTINCT FROM OLD.AppointmentStatus THEN
+
+        NEW.StatusChangedAt := now();
+        IF NEW.AppointmentStatus = 'CANCELLED' THEN
+            -- setting za otkazivanje zbog specijalnih uvjeta (anonimizacija)
+            IF COALESCE(current_setting('krvnaveza.skip_rule',TRUE), '') <> 'on' THEN
+                IF OLD.AppointmentStatus <> 'RESERVED' THEN
+                    RAISE EXCEPTION 'Može se otkazati samo rezervirani termin' USING ERRCODE = 'KV001';
+                END IF;
+
+                IF now() > OLD.AppointmentStart - make_interval(hours => (SELECT ConstValue::INT FROM Constants WHERE ConstKey = 'CANCEL_MIN_HOURS')) THEN
+                    RAISE EXCEPTION 'Termin se može otkazati najkasnije % h prije početka',
+                    (SELECT ConstValue::INT FROM Constants WHERE ConstKey = 'CANCEL_MIN_HOURS') USING ERRCODE = 'KV002';
+                END IF;
+            END IF;
+            NEW.CancelledAt := now();
+        END IF;
+    END IF;
+    RETURN NEW;
+END $$;
+
+CREATE TRIGGER TriggerAppointmentUpdate BEFORE UPDATE OF AppointmentStatus ON Appointment
+    FOR EACH ROW EXECUTE FUNCTION AppointmentUpdate();
+
+CREATE FUNCTION AnonymizeUser(p_userID BIGINT) RETURNS VOID
+LANGUAGE plpgsql AS $$
+BEGIN
+    PERFORM set_config('krvnaveza.skip_rule', 'on', TRUE);
+    
+    UPDATE Appointment SET Status = 'CANCELLED' WHERE DonorID = p_userID AND Status = 'RESERVED';
+
+    UPDATE AppUser SET email = NULL,OAuthProvider = NULL, OAuthSubject = NULL,
+    FirstName = '******', LastName = '******', DateOfBirth = NULL, Sex = NULL,
+    Residence = NULL, PhoneNumber = NULL, IsActive = FALSE, IsAnonymized = TRUE
+    WHERE UserID = p_userID;
+    UPDATE Donor SET HomeLat = NULL, HomeLng = NULL WHERE UserID = p_userID;
+
+    DELETE FROM SelfAssessment WHERE AppointmentID IN (SELECT AppointmentID FROM Appointment WHERE DonorID = p_userID);
+    DELETE FROM Notification WHERE UserID = p_userID;
+    UPDATE DonorDeferral SET Reason = 'uklonjen' WHERE DonorID = p_userID;
+END $$
