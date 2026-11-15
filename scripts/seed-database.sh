@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # chmod +x seed-database.sh 
-# usage: ./scripts/seed-database.sh
+# usage: ./seed-database.sh
 
 echo "Seeding local database with test data..."
 
