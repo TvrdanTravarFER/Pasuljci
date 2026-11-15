@@ -110,9 +110,18 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 **Cilj:** Prije implementacije reprezentativnog dijela sustava modelirati i prikazati razrede ili sučelja potrebna za dodjelu odgovornosti, operacija i veza. Oblikovanje ažurirajte kada se te odluke promijene.
 
-**Dijagram razreda:** [Ugradite čitljiv UML dijagram razreda za reprezentativni dio oblikovanja.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]  
-**Referenca na kod pri završnom pregledu:** [Poveznica na odgovarajuću implementaciju.]
+
+**Dijagram razreda:**
+
+![UML dijagram razreda za UC-11 i UC-12](./assets/diagrams/4-3-KrvnaVeza-domain-CD.svg)
+
+**PlantUML izvor:** [4-3-KrvnaVeza-domain-CD.puml](./puml/4-3-KrvnaVeza-domain-CD.puml)
+
+**Referenca na kod pri završnom pregledu:** Poveznicu na implementaciju dodati nakon njezina dovršetka.
+
+
+**Analiza dijagrama:** `Rezervacija` sadrži podatke o terminu darivanja i njegovu statusu te definira operacije kojima se bilježi dolazak, nedolazak, odbijanje na pregledu i završetak darivanja. `ObradaDolaskaService` koordinira obradu dolaska darivatelja, dok `EvidencijaDozeService` koordinira evidentiranje prikupljene doze, bilježenje rezultata testiranja i izdavanje doza bolnicama. `DozaKrvi` sadrži podatke o prikupljenoj dozi i operacije za upravljanje njezinim statusom. Jedna rezervacija može rezultirati najviše jednom dozom krvi, a lokacija rezervacije može biti centar ili terenska akcija. `ZalihaCentra` prikazuje stanje zaliha izračunato na temelju evidentiranih doza, zbog čega nije potrebno zasebno unositi te podatke. Sučelja `RezervacijaRepository`, `DozaKrviRepository` i `ZalihaRepository` definiraju operacije potrebne za dohvaćanje i spremanje podataka. Dijagram prikazuje kako su odgovornosti raspoređene između aplikacijskog i domenskog sloja te kako su njihovi dijelovi međusobno povezani. Dijagram predstavlja odluku oblikovanja prije implementacije, a potrebno ga je naknadno uskladiti sa stvarnim kodom ako se tijekom razvoja promijene odgovornosti ili veze između razreda.
+
 
 <details>
 <summary><strong>Oblikovanje odgovornosti prijave i dopuštenih promjena</strong></summary>
