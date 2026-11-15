@@ -37,12 +37,12 @@ CREATE TABLE AppUser (
     Residence TEXT,
     PhoneNumber VARCHAR(16),
     Role VARCHAR(10) NOT NULL DEFAULT 'DONOR',
-    IsActive BOOLEAN NOT NULL DEFAULT TRUE,
+    IsActive BOOLEAN NOT NULL DEFAULT TRUE, -- ADMIN moze deaktivirat racun bez anonimizacije
     IsAnonymized BOOLEAN NOT NULL DEFAULT FALSE,
 
     CONSTRAINT uq_oauth UNIQUE (OAuthProvider, OAuthSubject),
     CONSTRAINT sex_val CHECK (Sex IN ('M', 'F')),
-    CONSTRAINT role_val CHECK (Role IN ('ADMIN', 'DONOR', 'ORGANIZATOR', 'STAFF')),
+    CONSTRAINT role_val CHECK (Role IN ('ADMIN', 'DONOR', 'ORGANIZER', 'STAFF')),
     CONSTRAINT email_format CHECK (Email IS NULL OR Email ~* '^[^@[:space:]]+@[^@[:space:]]+\.[^@[:space:]]+$'),
     CONSTRAINT email_required CHECK (IsAnonymized OR email IS NOT NULL),
     CONSTRAINT phone_format CHECK (PhoneNumber IS NULL OR PhoneNumber ~ '^\+[0-9]{8,15}$')

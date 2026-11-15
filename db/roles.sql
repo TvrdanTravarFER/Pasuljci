@@ -1,7 +1,12 @@
+-- krvnaveza_admin -> full access (stvaranje OAuth baze)
 -- krvnaveza_app -> backend: citanje/pisanje, nema brisanja povijest
 -- krvnaveza_readonly -> statistika, pogledi i nepovjerljive tablice
 
 DO $$ BEGIN
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'krvnaveza_admin') THEN
+        CREATE ROLE krvnaveza_admin LOGIN;
+    END IF;
+
     IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'krvnaveza_app') THEN
     CREATE ROLE krvnaveza_app LOGIN; 
     END IF;
@@ -12,14 +17,24 @@ DO $$ BEGIN
 END $$;
 
 -- privremena lozinka
+ALTER ROLE krvnaveza_admin
+    WITH LOGIN PASSWORD '4'
+    NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION;
 ALTER ROLE krvnaveza_app WITH LOGIN PASSWORD '4'
     NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION;
 ALTER ROLE krvnaveza_readonly WITH LOGIN PASSWORD '4'
     NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION;
 
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
-GRANT CONNECT ON DATABASE krvnaveza TO krvnaveza_app, krvnaveza_readonly;
+GRANT CONNECT ON DATABASE krvnaveza TO krvnaveza_admin,krvnaveza_app, krvnaveza_readonly;
 GRANT USAGE ON SCHEMA public TO krvnaveza_app, krvnaveza_readonly;
+GRANT USAGE, CREATE ON SCHEMA public TO krvnaveza_admin;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public
+TO krvnaveza_admin;
+
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public
+TO krvnaveza_admin;
 
 REVOKE ALL ON ALL TABLES IN SCHEMA public FROM krvnaveza_app, krvnaveza_readonly;
 REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM krvnaveza_app, krvnaveza_readonly;
