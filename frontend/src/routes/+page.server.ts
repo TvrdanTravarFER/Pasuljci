@@ -1,5 +1,6 @@
-import type { PageServerLoad } from "./$types"
 import { Client } from "pg"
+
+import type { PageServerLoad } from "./$types"
 
 export const load: PageServerLoad = async () => {
     const client = new Client({

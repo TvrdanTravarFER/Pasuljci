@@ -68,3 +68,7 @@ Produkcijski alati koji se koriste pri programiranju:
 - **Vitest:** jedinični testovi i testovi komponenata
 - **Prettier:** formatiranje koda
 - **ESLint:** statična analiza koda i linting
+
+```
+npx @better-auth/cli migrate
+```

@@ -6,7 +6,7 @@
     import { authClient, googleSignOut } from "#lib/auth-client.ts"
 
     const session = authClient.useSession()
-    const rezerviran: boolean = true
+    const rezerviran: boolean = false
 </script>
 
 <section id="upperhalf">

@@ -20,36 +20,22 @@ export const load: PageServerLoad = async ({ request }) => {
 
         await client.connect()
 
-        const isInAppUser_res = await client.query(`SELECT COUNT(*) FROM AppUser WHERE OAuthSubject = '${sessionUser.id}' AND OAuthProvider = 'google';`)
-        const isInAppUser = Number(isInAppUser_res.rows[0].count)
-
-        console.log(isInAppUser)
+        const isInAppUser = Number((await client.query(`SELECT COUNT(*) FROM AppUser WHERE OAuthSubject = '${sessionUser.id}' AND OAuthProvider = 'google';`)).rows[0].count)
 
         if (!isInAppUser) {
             const names = sessionUser.name.split(" ")
 
-            const insertAppUser = await client.query(`INSERT INTO AppUser (Email, OAuthProvider, OAuthSubject, FirstName, LastName, Role) VALUES ('${sessionUser.email}', 'google', '${sessionUser.id}', '${names[0]}', '${names[1]}', 'DONOR');`)
-            
-            // console.log("uso sam")
-            console.log(insertAppUser)
+            await client.query(`INSERT INTO AppUser (Email, OAuthProvider, OAuthSubject, FirstName, LastName, Role) VALUES ('${sessionUser.email}', 'google', '${sessionUser.id}', '${names[0]}', '${names[1]}', 'DONOR');`)
 
-            const userID_res = await client.query(`SELECT UserID FROM AppUser WHERE OAuthSubject = '${sessionUser.id}';`)
-            const ID = userID_res.rows[0].userid
+            const ID = (await client.query(`SELECT UserID FROM AppUser WHERE OAuthSubject = '${sessionUser.id}';`)).rows[0].userid
 
-            console.log(userID_res)
-            console.log(`ID: ${ID}`)
-
-            const insertDonors = await client.query(`INSERT INTO Donor (UserID) VALUES (${ID});`)
-
-            console.log(insertDonors)
+            await client.query(`INSERT INTO Donor (UserID) VALUES (${ID});`)
         }
 
         // more bit tehnicki vise providera al to nije implementirano
-        const db_res = await client.query(`SELECT Role FROM AppUser WHERE OAuthSubject = '${sessionUser.id}' AND OAuthProvider = 'google';`)
+        const loggedUserRole = (await client.query(`SELECT Role FROM AppUser WHERE OAuthSubject = '${sessionUser.id}' AND OAuthProvider = 'google';`)).rows[0].role
 
         await client.end()
-
-        const loggedUserRole = db_res.rows[0].role
         
         return {
             userRole: loggedUserRole

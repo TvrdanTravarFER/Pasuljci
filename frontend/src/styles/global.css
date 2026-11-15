@@ -97,8 +97,19 @@ button {
 }
 
 .dialog-trigger {
-    border: none;
-    background-color: transparent;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    padding: 0.6rem 1.5rem;
+    margin-block-start: 0.15rem;
+    border: 3px solid var(--color-accent);
+    border-radius: 36px;
+    font-weight: 700;
+    transition: all 150ms ease-in-out;
+}
+
+.dialog-trigger:hover {
+    color: var(--color-accent);
+    background-color: var(--color-background);
 }
 
 .main-navigation {
@@ -118,11 +129,6 @@ button {
             color: #ffffff;
             text-decoration: none;
         }
-    }
-
-    .dialog-trigger:hover {
-        color: var(--color-accent);
-        background-color: var(--color-background);
     }
 }
 

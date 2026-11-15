@@ -7,8 +7,9 @@
         {#snippet leftColumn()}
             <form action="">
                 <label for="centar">Centar</label>
-                <br>
-                <input type="text" name="centar" id="centar">
+                <select name="centername" id="centername">
+                    
+                </select>
 
                 <br>
 
