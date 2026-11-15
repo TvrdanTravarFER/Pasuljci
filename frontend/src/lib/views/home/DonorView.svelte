@@ -3,22 +3,10 @@
     import TwoColumnView from "#lib/components/TwoColumnView.svelte";
     import Dialog from "#lib/components/Dialog.svelte";
     import { Settings, X } from "@lucide/svelte";
-    import { authClient	} from "#lib/auth-client.ts"
-    // import { router } from "better-auth/api"
+    import { authClient, googleSignOut } from "#lib/auth-client.ts"
 
-    // Dok se ne napravi baza podataka
     const session = authClient.useSession()
     const rezerviran: boolean = true
-
-    const googleSignOut = async () => {
-        await authClient.signOut({
-            // fetchOptions: {
-            //     onSuccess: () => {
-            //         router.push("/")
-            //     }
-            // }
-        })
-    }
 </script>
 
 <section id="upperhalf">

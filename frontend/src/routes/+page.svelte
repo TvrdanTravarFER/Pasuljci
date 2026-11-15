@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { MapLibre, Marker, Popup } from "svelte-maplibre-gl"
 	import Navbar from "#lib/components/Navbar.svelte"
     import TwoColumnView from "#lib/components/TwoColumnView.svelte"
     import BloodTypeAmounts from "#lib/components/BloodTypeAmounts.svelte"
+    import { MapLibre, Marker, Popup } from "svelte-maplibre-gl"
+    import { googleSignOut } from "#lib/auth-client.ts"
 
     import type { PageProps } from "./$types"
 
@@ -87,6 +88,8 @@
         <p>Nema akcija za darivanje trenutno</p>
         {/if}
     </section>
+
+    <button onclick={googleSignOut}>Odjavi se</button>
 </main>
 
 <style>

@@ -8,7 +8,7 @@ dotenv.config()
 
 export const auth = betterAuth({
     database: new Pool({
-        connectionString: "postgres://krvnaveza_app:4@localhost:5432/krvnaveza",
+        connectionString: "postgres://krvnaveza_admin:4@localhost:5432/krvnaveza",
     }),
     socialProviders: {
         google: {
