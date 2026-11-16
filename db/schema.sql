@@ -210,7 +210,7 @@ CREATE TABLE SelfAssessment (
 
 CREATE TABLE SelfAssessmentAnswer (
     AppointmentID BIGINT  NOT NULL REFERENCES SelfAssessment(AppointmentID) ON DELETE CASCADE,
-    QuestionID INTEGER NOT NULL REFERENCES SelfAssesmentQuestion(QuestionID),
+    QuestionID INTEGER NOT NULL REFERENCES SelfAssessmentQuestion(QuestionID),
     Answer BOOLEAN NOT NULL,
     PRIMARY KEY (AppointmentID,QuestionID)
 );
