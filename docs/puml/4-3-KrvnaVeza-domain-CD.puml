@@ -1,0 +1,182 @@
+' Reprezentativni UML dijagram razreda za UC-11 i UC-12
+' Pojednostavljena verzija: prikazuje glavne razrede i njihove odgovornosti.
+' Aplikacijski servisi i repozitoriji predstavljaju prijedlog oblikovanja.
+
+@startuml
+title KrvnaVeza – dolazak darivatelja i evidencija doze
+
+top to bottom direction
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 35
+skinparam ranksep 40
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #495057
+skinparam class {
+    BackgroundColor #E7F1FF
+    BorderColor #0D6EFD
+}
+skinparam note {
+    BackgroundColor #F8F9FA
+    BorderColor #495057
+}
+hide empty members
+
+package "Aplikacijski sloj" {
+    class ObradaDolaskaService <<ApplicationService>> {
+        +obradiQR(token: UUID): Rezervacija
+        +evidentirajNedolazak(id: Long): void
+        +odbijNaPregledu(id: Long, razlog: String): void
+        +zavrsiDarivanje(id: Long): void
+    }
+
+    class EvidencijaDozeService <<ApplicationService>> {
+        +evidentirajDozu(idRezervacije: Long, barkod: String): DozaKrvi
+        +zabiljeziTestiranje(idDoze: Long, rezultat: Boolean): void
+        +izdajBolnici(idDoze: Long): void
+        +dohvatiZalihe(idCentra: Integer): List<ZalihaCentra>
+    }
+}
+
+package "Domenski sloj" {
+    class Darivatelj <<Entity>> {
+        -userId: Long
+        -krvnaGrupa: String
+        -brojNedolazaka: Integer
+        -blokiranDo: DateTime
+    }
+
+    class DjelatnikCentra <<Entity>> {
+        -userId: Long
+    }
+
+    class Centar <<Entity>> {
+        -centerId: Integer
+        -naziv: String
+        -adresa: String
+    }
+
+    class TerenskaAkcija <<Entity>> {
+        -actionId: Long
+        -naziv: String
+    }
+
+    class Rezervacija <<Entity>> {
+        -appointmentId: Long
+        -qrToken: UUID
+        -pocetak: DateTime
+        -kraj: DateTime
+        -status: StatusRezervacije
+        +oznaciDolazak(): void
+        +oznaciNedolazak(): void
+        +odbijNaPregledu(): void
+        +zavrsiDarivanje(): void
+    }
+
+    class Samoprocjena <<Entity>> {
+        -vrijemePredaje: DateTime
+        -vjerojatnoNepodoban: Boolean
+    }
+
+    class OdgodaDarivanja <<Entity>> {
+        -vrijediDo: DateTime
+        -razlog: String
+        -trajna: Boolean
+    }
+
+    class DozaKrvi <<Entity>> {
+        -doseId: Long
+        -barkod: String
+        -krvnaGrupa: String
+        -kolicinaMl: Integer
+        -vrijemePrikupljanja: DateTime
+        -rokTrajanja: DateTime
+        -status: StatusDoze
+        -rezultatTestiranja: Boolean
+        +posaljiNaTestiranje(): void
+        +staviNaZalihu(): void
+        +izdajBolnici(): void
+        +odbaci(razlog: String): void
+    }
+
+    class ZalihaCentra <<View>> {
+        -krvnaGrupa: String
+        -brojDoza: Integer
+        -ukupnoMl: Integer
+        -razina: String
+    }
+
+    enum StatusRezervacije {
+        RESERVED
+        ARRIVED
+        SCREENING
+        DONATING
+        FINISHED
+        NOTARRIVED
+        CANCELLED
+        REJECTED
+    }
+
+    enum StatusDoze {
+        COLLECTED
+        TESTING
+        STOCK
+        ISSUED
+        DISCARDED
+    }
+}
+
+package "Sučelja repozitorija" {
+    interface RezervacijaRepository <<Repository>> {
+        +pronadiPoQR(token: UUID): Rezervacija
+        +spremi(rezervacija: Rezervacija): void
+    }
+
+    interface DozaKrviRepository <<Repository>> {
+        +pronadiPoRezervaciji(id: Long): DozaKrvi
+        +spremi(doza: DozaKrvi): void
+    }
+
+    interface ZalihaRepository <<Repository>> {
+        +dohvatiPoCentru(idCentra: Integer): List<ZalihaCentra>
+    }
+}
+
+' Veze među glavnim domenskim razredima.
+Darivatelj "1" -- "0..*" Rezervacija : rezervira
+DjelatnikCentra "0..*" --> "1" Centar : radi u
+Rezervacija "0..*" --> "0..1" Centar : lokacija
+Rezervacija "0..*" --> "0..1" TerenskaAkcija : lokacija
+Rezervacija "1" *-- "0..1" Samoprocjena : sadrži
+Darivatelj "1" -- "0..*" OdgodaDarivanja : ima
+DjelatnikCentra "1" -- "0..*" OdgodaDarivanja : evidentira
+Rezervacija "1" -- "0..1" DozaKrvi : rezultira
+Darivatelj "1" -- "0..*" DozaKrvi : daruje
+Centar "1" -- "0..*" DozaKrvi : zaprima
+DjelatnikCentra "0..1" <-- "0..*" DozaKrvi : evidentira
+Centar "1" -- "0..*" ZalihaCentra : ima
+ZalihaCentra ..> DozaKrvi : izračunava se iz
+
+' Servisi ovise o repozitorijima; njihove operacije prikazuju koje domenske
+' objekte koriste. Repozitoriji prikazuju koje podatke spremaju ili dohvaćaju.
+ObradaDolaskaService ..> RezervacijaRepository
+EvidencijaDozeService ..> DozaKrviRepository
+EvidencijaDozeService ..> ZalihaRepository
+
+RezervacijaRepository ..> Rezervacija : sprema / dohvaća
+DozaKrviRepository ..> DozaKrvi : sprema / dohvaća
+ZalihaRepository ..> ZalihaCentra : dohvaća
+
+note right of Rezervacija
+  Rezervacija ima jednu lokaciju:
+  centar ili terensku akciju.
+end note
+
+note bottom of ZalihaCentra
+  Zaliha je prikaz izračunat iz
+  evidentiranih doza krvi.
+end note
+
+@enduml
