@@ -41,7 +41,7 @@ REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM krvnaveza_app, krvnaveza_reado
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON
     Center, CenterWorktime, CenterAppointmentSlot, CenterBloodThreshold, Staff, Organizer, RoleRequest, FieldAction, TraumaTeam,
-    SelfAssesmentQuestion, SelfAssessment, SelfAssessmentAnswer, Notification
+    SelfAssessmentQuestion, SelfAssessment, SelfAssessmentAnswer, Notification
 TO krvnaveza_app;
 
 GRANT SELECT, INSERT, UPDATE ON

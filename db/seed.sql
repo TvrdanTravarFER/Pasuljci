@@ -11,7 +11,7 @@ INSERT INTO Center (CenterName, Address, Lat,Lng) VALUES
 ('Transfuzijska medicina OB Zadar', 'Bože Peričića 5, Zadar', 44.1053, 15.2285),
 ('Transfuzijska medicina OB Dubrovnik', 'Roka Mišetića bb, Dubrovnik', 42.6507, 18.0912),
 ('Transfuzijska medicina OB Varaždin', 'Ivana Meštrovića bb, Varaždin', 46.3057, 16.3378),
-('Transfuzijska medicina OB Pula', 'Negrijeva 6, Pula', 44.8666, 13.8496),;
+('Transfuzijska medicina OB Pula', 'Negrijeva 6, Pula', 44.8666, 13.8496);
 
 INSERT INTO CenterWorktime (CenterID, DayOfWeek, WorkStart, WorkEnd)
 SELECT c.CenterID, day, TIMETZ '08:00:00+1', TIMETZ '13:00:00+1' FROM Center c CROSS JOIN generate_series(1,5) AS day;
@@ -22,7 +22,7 @@ SELECT c.CenterID, b.BloodType,
     (SELECT ConstValue::SMALLINT FROM Constants WHERE ConstKey = 'DEFAULT_CRITICAL_THRESHOLD')
 FROM Center c CROSS JOIN BloodTypeRef b;
 
-INSERT INTO SelfAssesmentQuestion (Question, DisqualifyingQuestion) VALUES
+INSERT INTO SelfAssessmentQuestion (Question, DisqualifyingQuestion) VALUES
 ('Jeste li u posljednjih 6 mjeseci napravili tetovažu ili piercing?', TRUE),
 ('Jeste li u posljednjih 6 mjeseci putovali u područje s povećanim rizikom od zaraznih bolesti?', TRUE),
 ('Jeste li u posljednja 4 tjedna primili cjepivo?', TRUE),
