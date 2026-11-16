@@ -71,6 +71,7 @@
 
                 <label for="spol">Spol</label>
                 <select name="spol" id="spol" required>
+                    <option selected disabled value>Odaberite...</option>
                     <option value="Muškarac">Muškarac</option>
                     <option value="Žena">Žena</option>
                 </select>
@@ -92,6 +93,7 @@
                 <label for="krvna_grupa">Krvna grupa</label>
                 <br>
                 <select name="krvna_grupa" id="krvna_grupa" required>
+                    <option disabled selected value>Odaberite...</option>
                     <option value="AB+">AB+</option>
                     <option value="AB-">AB-</option>
                     <option value="A+">A+</option>
@@ -112,8 +114,8 @@
                 <label for="nacin_primanja_obavijesti">Obavijesti me putem:</label>
                 <br>
                 <select name="nacin_primanja_obavijesti" id="nacin_primanja_obavijesti" required>
-                    <option value="email">E-poštom</option>
-                    <option value="mobitel">Porukom na mobitelu</option>
+                    <option value="email">E-pošte</option>
+                    <option value="mobitel">Poruke na mobitelu</option>
                 </select>
 
                 <br>

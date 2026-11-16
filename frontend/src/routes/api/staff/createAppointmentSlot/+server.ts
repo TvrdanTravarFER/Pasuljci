@@ -1,4 +1,4 @@
-import { error } from "@sveltejs/kit"
+import { error, redirect } from "@sveltejs/kit"
 import { auth } from "#lib/auth.ts"
 import { Client } from "pg"
 
@@ -37,10 +37,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
         client.end()
 
-        // treba covjeka ovdje poslat ponovo na /home/center al da se ponovo renderaju appointmenti
-        return new Response("OK", {
-            status: 200,
-        })
+        redirect(303, "/home/center")
     }
     else {
         error(403, "Neovlasten pristup")

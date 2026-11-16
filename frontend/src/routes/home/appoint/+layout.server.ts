@@ -1,0 +1,32 @@
+import { Client } from "pg"
+import { auth } from "#lib/auth.ts"
+import { error } from "@sveltejs/kit"
+
+import type { PageServerLoad } from "./$types"
+
+export const load: PageServerLoad = async ({ request }) => {
+    const client = new Client({
+        user: "krvnaveza_app",
+        password: "4",
+        host: "localhost",
+        port: 5432,
+        database: "krvnaveza",
+    })
+
+    const session_res = await auth.api.getSession({ headers: request.headers })
+
+    if (session_res) {
+        client.connect()
+
+        const centers: { centername: string }[] = (await client.query("SELECT centername FROM center;")).rows
+
+        client.end()
+
+        return {
+            centerNames: centers.map(center => center.centername),
+        }
+    }
+    else {
+        error(403, "Neovlasten pristup")
+    }
+}

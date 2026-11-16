@@ -4,8 +4,14 @@
     import { numberToDow } from "#lib/utilities/dayOfWeek.ts"
 
     import type { PageProps } from "./$types";
+    import { goto } from "$app/navigation"
+    import { resolve } from "$app/paths"
 
     let { data }: PageProps = $props()
+
+    const handleSubmit = () => {
+        goto(resolve("/home/center"))
+    }
 </script>
 
 <section class="center-overview">
@@ -59,7 +65,7 @@
 
             <br>
 
-            <button type="submit">Dodaj termin</button>
+            <button type="submit" onsubmit={handleSubmit}>Dodaj termin</button>
         </form>
 
         {#snippet close()}
