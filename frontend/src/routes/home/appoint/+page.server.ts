@@ -32,12 +32,27 @@ export const load: PageServerLoad = async ({ request, url }) => {
                 capacity: number
             }
 
+            type SelfAssessmentQuestion = {
+                questionid: number
+                question: string
+                disqualifyingquestion: boolean
+            }
+
             const slotsInCriteria: SlotsInCriteria[] = (await client.query(`SELECT CenterName, Address, CenterAppointmentStart, CenterAppointmentEnd, Capacity FROM CenterAppointmentSlot NATURAL JOIN Center WHERE CenterName = '${url.searchParams.get("centername")}' AND CenterAppointmentStart::DATE = '${url.searchParams.get("date")}';`)).rows
+
+            const selfAssessmentQuestions: (Omit<SelfAssessmentQuestion, "disqualifyingquestion"> & { disqualifyingquestion: string })[] = (await client.query("SELECT * FROM SelfAssessmentQuestion;")).rows
 
             client.end()
 
             return {
-                slots: slotsInCriteria
+                slots: slotsInCriteria,
+                selfAssessmentQuestions: selfAssessmentQuestions.map(q => {
+                    return {
+                        questionid: q.questionid,
+                        question: q.question,
+                        disqualifyingquestion: q.question === 't'
+                    }
+                })
             }
         }
     }

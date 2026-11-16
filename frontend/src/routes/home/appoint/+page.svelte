@@ -14,7 +14,7 @@
         {#snippet leftColumn()}
             <form class="search-slots-form" action="/home/appoint" method="GET">
                 <label for="centername">Centar</label>
-                <select name="centername" id="centername">
+                <select name="centername" id="centername" required>
                     <option selected disabled value>Odaberite centar</option>
                     {#each data.centerNames as centerName (centerName)}
                         <option value={centerName}>{centerName}</option>
@@ -24,7 +24,7 @@
                 <br>
 
                 <label for="date">Datum</label>
-                <input type="date" name="date" id="date">
+                <input type="date" name="date" id="date" required>
 
                 <br>
 
@@ -59,6 +59,21 @@
                             {#snippet description()}
                                 Kako bismo procijenili jeste li podobni za darivanje krvi, molimo Vas, ispunite kratki upitnik za procjenu.
                             {/snippet}
+
+                            <form action="/api/donor/makeAppointment" method="POST" class="self-assessment-form">
+                                <input type="hidden" name="h_centername" id="h_centername" value={slot.centername}>
+                                <input type="hidden" name="h_appstart" id="h_appstart" value={slot.centerappointmentstart}>
+                                <input type="hidden" name="h_append" id="h_append" value={slot.centerappointmentend}>
+                                {#each data.selfAssessmentQuestions as q (q.questionid)}
+                                    <div class="self-assessment-question">
+                                        <label for={`q${q.questionid}`}>{q.question}</label>
+                                        <input type="checkbox" name={`q${q.questionid}`} id={`q${q.questionid}`}>
+                                        <br>
+                                    </div>
+                                {/each}
+
+                                <button type="submit">Prijavi se</button>
+                            </form>
 
                             {#snippet close()}
                                 <X size={24}/>
@@ -96,5 +111,17 @@
         .appointment-slot-center {
             font-style: italic;
         }
+    }
+
+    .self-assessment-form {
+        margin-block: 2rem 1rem;
+
+        div:last-of-type {
+            margin-block-end: 1rem;
+        }
+    }
+
+    .self-assessment-question {
+        margin-block-end: 0.5rem;
     }
 </style>

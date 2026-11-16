@@ -27,9 +27,6 @@ export const POST: RequestHandler = async ({ request }) => {
         const appointmentEndString = `${appointmentEnd.toISOString()}`.replace("T", " ").replace("Z", "")
 
         const queryText = `INSERT INTO CenterAppointmentSlot VALUES (${data.get("centerid")}, TIMESTAMP '${appointmentStartString}', TIMESTAMP '${appointmentEndString}', ${data.get("capacity")});`
-
-        console.log(data)
-        console.log(appointmentStartString, appointmentEndString)
         
         client.connect()
 
