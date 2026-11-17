@@ -1,9 +1,6 @@
 package hr.krvnaveza.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="staff")
@@ -13,10 +10,15 @@ public class DjelatnikCentra {
     @Column(name = "userid")
     private Long userId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "centerid")
+    private Centar centar;
+
 
     protected DjelatnikCentra(){} // JPA required konstruktor
 
-    public DjelatnikCentra(long userId) {
+    public DjelatnikCentra(long userId, Centar centar) {
         this.userId = userId;
+        this.centar = centar;
     }
 }

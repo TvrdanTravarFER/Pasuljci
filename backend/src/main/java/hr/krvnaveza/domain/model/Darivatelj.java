@@ -26,6 +26,14 @@ public class Darivatelj {
 
     protected Darivatelj(){} // JPA required konstruktor
 
+    @PrePersist
+    @PreUpdate
+    private void provjeriConstraints(){
+        if (brojNedolazaka < 0){
+            throw new IllegalStateException("Darivatelj ne moze imati manje od 0 nedolazaka");
+        }
+    }
+
     public Darivatelj(Long userId, KrvnaGrupa krvnaGrupa, Integer brojNedolazaka, OffsetDateTime blokiranDo) {
         this.userId = userId;
         this.krvnaGrupa = krvnaGrupa;

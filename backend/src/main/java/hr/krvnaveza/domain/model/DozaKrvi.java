@@ -1,10 +1,8 @@
 package hr.krvnaveza.domain.model;
 
 import hr.krvnaveza.domain.enums.StatusDoze;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 
 import java.util.Date;
 
@@ -34,7 +32,18 @@ public class DozaKrvi {
     @Column (name = "TestResult")
     private boolean rezultatTestiranja;
 
-    protected DozaKrvi(){} //JLA stvar
+    protected DozaKrvi(){} //JPA stvar
+
+    @PrePersist
+    @PreUpdate
+    private void provjeriConstraints(){
+        if (kolicinaMl <= 0 ){
+            throw new IllegalStateException("Doza mora biti veca od 0");
+        }
+        if (rokTrajanja.before(vrijemePrikupljanja) ){
+            throw new IllegalStateException("Datum Isteka mora biti nakon dana prikupljanja");
+        }
+    }
 
     public DozaKrvi(long doseId, String barkod, int kolicinaMl, Date vrijemePrikupljanja, Date rokTrajanja, StatusDoze status, boolean rezultatTestiranja) {
         this.doseId = doseId;
