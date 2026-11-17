@@ -43,9 +43,10 @@ package "Aplikacijski sloj" {
 package "Domenski sloj" {
     class Darivatelj <<Entity>> {
         -userId: Long
-        -krvnaGrupa: KrvnaGrupa
+        -krvnaGrupa: KrvnaGrupa [0..1]
+        -krvnaGrupaPotvrdena: boolean
         -brojNedolazaka: Integer
-        -blokiranDo: OffsetDateTime
+        -blokiranDo: OffsetDateTime [0..1]
     }
 
     class DjelatnikCentra <<Entity>> {
@@ -69,6 +70,7 @@ package "Domenski sloj" {
         -pocetak: OffsetDateTime
         -kraj: OffsetDateTime
         -status: StatusRezervacije
+        -vrijemePromjeneStatusa: OffsetDateTime
         +oznaciDolazak(): void
         +oznaciNedolazak(): void
         +odbijNaPregledu(): void
@@ -76,15 +78,45 @@ package "Domenski sloj" {
     }
 
     class Samoprocjena <<Entity>> {
-        -vrijemePredaje: Date
+        -vrijemePredaje: OffsetDateTime
         -vjerojatnoNepodoban: boolean
+    }
+
+    class PitanjeSamoprocjene <<Entity>> {
+        -pitanjeId: Integer
+        -tekst: String
+        -diskvalificirajuce: boolean
+    }
+
+    class OdgovorSamoprocjene <<Entity>> {
+        -odgovor: boolean
     }
 
     class OdgodaDarivanja <<Entity>> {
         -odgodaId: Long
-        -vrijediDo: Date
+        -vrijediDo: OffsetDateTime [0..1]
         -razlog: String
         -trajna: boolean
+    }
+
+    class ZapisPristupa <<Entity>> {
+        -logId: Long
+        -resurs: VrstaResursa
+        -resursId: Long
+        -vrstaPristupa: VrstaPristupa
+        -vrijemePristupa: OffsetDateTime
+    }
+
+    class Obavijest <<Entity>> {
+        -notificationId: Long
+        -korisnikId: Long
+        -vrsta: VrstaObavijesti
+        -naslov: String
+        -tekst: String
+        -kanal: KanalObavijesti
+        -vrijemeKreiranja: OffsetDateTime
+        -vrijemeSlanja: OffsetDateTime [0..1]
+        -vrijemeCitanja: OffsetDateTime [0..1]
     }
 
     class DozaKrvi <<Entity>> {
@@ -92,10 +124,13 @@ package "Domenski sloj" {
         -barkod: String
         -krvnaGrupa: KrvnaGrupa
         -kolicinaMl: int
-        -vrijemePrikupljanja: Date
-        -rokTrajanja: Date
+        -vrijemePrikupljanja: OffsetDateTime
+        -rokTrajanja: OffsetDateTime
         -status: StatusDoze
-        -rezultatTestiranja: Boolean
+        -rezultatTestiranja: Boolean [0..1]
+        -razlogOdbacivanja: String [0..1]
+        -bolnicaPrimatelj: String [0..1]
+        -vrijemeIzdavanja: OffsetDateTime [0..1]
         +posaljiNaTestiranje(): void
         +staviNaZalihu(): void
         +izdajBolnici(): void
@@ -103,10 +138,16 @@ package "Domenski sloj" {
     }
 
     class ZalihaCentra <<View>> {
-        -kGrupa: KrvnaGrupa
+        -krvnaGrupa: KrvnaGrupa
         -brojDoza: int
         -ukupnoMl: int
         -razina: StatusZalihe
+    }
+
+    class PragZaliheCentra <<Entity>> {
+        -krvnaGrupa: KrvnaGrupa
+        -niskiPrag: int
+        -kriticniPrag: int
     }
 
     enum KrvnaGrupa {
@@ -144,6 +185,33 @@ package "Domenski sloj" {
         ISSUED
         DISCARDED
     }
+
+    enum VrstaResursa {
+        SELF_ASSESSMENT
+        DEFERRAL
+    }
+
+    enum VrstaPristupa {
+        READ
+        WRITE
+    }
+
+    enum VrstaObavijesti {
+        REMINDER
+        ELIGIBLE_AGAIN
+        ACTION_MESSAGE
+        DOSE_ISSUED
+        TEST_FAILED
+        BADGE
+        MILESTONE
+        URGENT_CALL
+    }
+
+    enum KanalObavijesti {
+        SMS
+        EMAIL
+        APP
+    }
 }
 
 package "Sučelja repozitorija" {
@@ -177,6 +245,12 @@ DjelatnikCentra "0..1" <-- "0..*" DozaKrvi : evidentira
 Centar "1" -- "0..*" ZalihaCentra : ima
 ZalihaCentra ..> DozaKrvi : izračunava se iz
 Rezervacija "0..1" -- "0..*" OdgodaDarivanja : odnosi se na
+Samoprocjena "1" *-- "0..*" OdgovorSamoprocjene : sadrži
+PitanjeSamoprocjene "1" -- "0..*" OdgovorSamoprocjene : odnosi se na
+DjelatnikCentra "1" -- "0..*" ZapisPristupa : bilježi
+Darivatelj "1" -- "0..*" ZapisPristupa : odnosi se na
+Centar "1" -- "0..*" PragZaliheCentra : definira pragove
+ZalihaCentra ..> PragZaliheCentra : koristi pragove
 
 ' Servisi ovise o repozitorijima; njihove operacije prikazuju koje domenske
 ' objekte koriste. Repozitoriji prikazuju koje podatke spremaju ili dohvaćaju.
@@ -198,6 +272,24 @@ note bottom of ZalihaCentra
   neisteklih doza u statusu STOCK.
   Razina se određuje prema pragovima
   za centar i krvnu grupu.
+end note
+
+note right of OdgodaDarivanja
+  Trajna odgoda nema datum završetka.
+  Privremena odgoda mora imati datum završetka.
+end note
+
+note bottom of DozaKrvi
+  Doza u statusu STOCK ili ISSUED mora imati
+  evidentiran rezultat testiranja.
+  Doza u statusu ISSUED mora imati bolnicu
+  i vrijeme izdavanja.
+  Doza u statusu DISCARDED mora imati razlog odbacivanja.
+end note
+
+note right of Darivatelj
+  Ako je krvna grupa potvrđena,
+  mora biti unesena.
 end note
 
 @enduml
