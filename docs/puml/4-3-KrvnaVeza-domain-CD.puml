@@ -43,17 +43,17 @@ package "Aplikacijski sloj" {
 package "Domenski sloj" {
     class Darivatelj <<Entity>> {
         -userId: Long
-        -krvnaGrupa: String
+        -krvnaGrupa: KrvnaGrupa
         -brojNedolazaka: Integer
-        -blokiranDo: DateTime
+        -blokiranDo: OffsetDateTime
     }
 
     class DjelatnikCentra <<Entity>> {
-        -userId: Long
+        -userId: long
     }
 
     class Centar <<Entity>> {
-        -centerId: Integer
+        -centerId: int
         -naziv: String
         -adresa: String
     }
@@ -66,8 +66,8 @@ package "Domenski sloj" {
     class Rezervacija <<Entity>> {
         -appointmentId: Long
         -qrToken: UUID
-        -pocetak: DateTime
-        -kraj: DateTime
+        -pocetak: OffsetDateTime
+        -kraj: OffsetDateTime
         -status: StatusRezervacije
         +oznaciDolazak(): void
         +oznaciNedolazak(): void
@@ -76,23 +76,24 @@ package "Domenski sloj" {
     }
 
     class Samoprocjena <<Entity>> {
-        -vrijemePredaje: DateTime
-        -vjerojatnoNepodoban: Boolean
+        -vrijemePredaje: Date
+        -vjerojatnoNepodoban: boolean
     }
 
     class OdgodaDarivanja <<Entity>> {
-        -vrijediDo: DateTime
+        -odgodaId: Long
+        -vrijediDo: Date
         -razlog: String
-        -trajna: Boolean
+        -trajna: boolean
     }
 
     class DozaKrvi <<Entity>> {
-        -doseId: Long
+        -doseId: long
         -barkod: String
-        -krvnaGrupa: String
-        -kolicinaMl: Integer
-        -vrijemePrikupljanja: DateTime
-        -rokTrajanja: DateTime
+        -krvnaGrupa: KrvnaGrupa
+        -kolicinaMl: int
+        -vrijemePrikupljanja: Date
+        -rokTrajanja: Date
         -status: StatusDoze
         -rezultatTestiranja: Boolean
         +posaljiNaTestiranje(): void
@@ -102,10 +103,27 @@ package "Domenski sloj" {
     }
 
     class ZalihaCentra <<View>> {
-        -krvnaGrupa: String
-        -brojDoza: Integer
-        -ukupnoMl: Integer
-        -razina: String
+        -kGrupa: KrvnaGrupa
+        -brojDoza: int
+        -ukupnoMl: int
+        -razina: StatusZalihe
+    }
+
+    enum KrvnaGrupa {
+        Ap
+        An
+        Bp
+        Bn
+        ABp
+        ABn
+        Op
+        On
+    }
+
+    enum StatusZalihe {
+        CRITICAL
+        LOW
+        OK
     }
 
     enum StatusRezervacije {
@@ -158,6 +176,7 @@ Centar "1" -- "0..*" DozaKrvi : zaprima
 DjelatnikCentra "0..1" <-- "0..*" DozaKrvi : evidentira
 Centar "1" -- "0..*" ZalihaCentra : ima
 ZalihaCentra ..> DozaKrvi : izračunava se iz
+Rezervacija "0..1" -- "0..*" OdgodaDarivanja : odnosi se na
 
 ' Servisi ovise o repozitorijima; njihove operacije prikazuju koje domenske
 ' objekte koriste. Repozitoriji prikazuju koje podatke spremaju ili dohvaćaju.
@@ -175,8 +194,10 @@ note right of Rezervacija
 end note
 
 note bottom of ZalihaCentra
-  Zaliha je prikaz izračunat iz
-  evidentiranih doza krvi.
+  Zaliha prikazuje broj i ukupni volumen
+  neisteklih doza u statusu STOCK.
+  Razina se određuje prema pragovima
+  za centar i krvnu grupu.
 end note
 
 @enduml
