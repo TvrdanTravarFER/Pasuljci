@@ -12,7 +12,7 @@
 <main>
     <TwoColumnView>
         {#snippet leftColumn()}
-            <form class="search-slots-form" action="/home/appoint" method="GET">
+            <form class="search-slots-form" action="/appoint" method="GET">
                 <label for="centername">Centar</label>
                 <select name="centername" id="centername" required>
                     <option selected disabled value>Odaberite centar</option>

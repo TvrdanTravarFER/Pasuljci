@@ -111,7 +111,7 @@ config:
 
 flowchart TB
     home["/home"]
-    darivanja["/home/appoint"]
+    darivanja["/appoint"]
     pogled_rezervacije{{Pogled rezervacija}}
     widget_centar_datum([Korisnik upisuje u polja centar i datum])
     slobodni_termini{{Prikazuju se slobodni termini ispod}}

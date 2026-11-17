@@ -4,18 +4,21 @@
     import Dialog from "#lib/components/Dialog.svelte";
     import { Settings, X } from "@lucide/svelte";
     import { authClient, googleSignOut } from "#lib/auth-client.ts"
+    import { numberToDow } from "#lib/utilities/dayOfWeek.ts"
+    import { tlAppointmentStatus } from "#lib/utilities/translateEnums.ts"
 
     const session = authClient.useSession()
-    const rezerviran: boolean = false
+    
+    const { activeAppointment } = $props()
 </script>
 
 <section id="upperhalf">
     <div class="donor-dashboard-greeting">
         <h1 class="donor-name">{$session.data?.user.name}</h1>
 
-        {#if rezerviran}
+        {#if activeAppointment}
             <div class="donor-reserved-subtitle">
-                <p class="donor-reserved-subtitle-info-message">Rezervirani ste za termin (taj i taj).</p>
+                <p class="donor-reserved-subtitle-info-message">Rezervirani ste za termin darivanja.</p>
                 <Dialog>
                     {#snippet trigger()}
                         Provjerite detalje ovdje.
@@ -29,9 +32,18 @@
                         <div></div>
                     {/snippet}
 
-                    <p>Gdje, kad</p>
-                    <p>jos nesto mozda i dunno</p>
+                    <p>{activeAppointment.centername}</p>
+                    <p>{activeAppointment.address}</p>
 
+                    <p>
+                        {numberToDow(activeAppointment.appointmentstart.getDay())},
+                        {activeAppointment.appointmentstart.toLocaleTimeString("hr-HR")} do
+                        {activeAppointment.appointmentend.toLocaleTimeString("hr-HR")}
+                        {activeAppointment.appointmentstart.toLocaleDateString("hr-HR")}, od
+                    </p>
+
+                    <p>Status: {tlAppointmentStatus(activeAppointment.appointmentstatus)}</p>
+                        
                     <button>Želim otkazati rezervaciju</button>
 
                     {#snippet close()}
@@ -42,7 +54,7 @@
         {:else}
             <p class="donor-not-reserved-subtitle">Niste rezervirani za termin.
                 <button>
-                    <a href={resolve("/home/appoint")}>Rezervirajte termin ovdje</a>
+                    <a href={resolve("/appoint")}>Rezervirajte termin ovdje</a>
                 </button>
             </p>
         {/if}

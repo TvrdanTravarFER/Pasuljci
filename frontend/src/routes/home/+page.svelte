@@ -14,12 +14,11 @@
 {#if userRole == "ADMIN"}
     <AdminView />
 {:else if userRole == "DONOR"}
-    <DonorView />
+    <DonorView activeAppointment={data.activeAppointment} />
 {:else if userRole == "ORGANIZER"}
     <OrganizerView />
 {:else if userRole == "STAFF"}
     <StaffView />
 {:else}
-    <!-- inace odbij zahtjev -->
     <div>404</div>
 {/if}

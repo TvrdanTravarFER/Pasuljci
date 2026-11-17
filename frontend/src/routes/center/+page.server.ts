@@ -33,12 +33,14 @@ export const load: PageServerLoad = async ({ request }) => {
         centerappointmentstart: Date
         centerappointmentend: Date
         capacity: number
+        // filledspots: number
     }
 
     type AppointmentString = Omit<Appointment, "centerappointmentstart" | "centerappointmentend"> & { centerappointmentstart: string, centerappointmentend: string }
 
     const session_res = await auth.api.getSession({ headers: request.headers })
 
+    // treba ovdje provjerit dal je uopce korisnik djelatnik.
     if (session_res) {
         client.connect()
     
@@ -47,6 +49,13 @@ export const load: PageServerLoad = async ({ request }) => {
         const centerWorktimes: CenterWorktime[] = (await client.query(`SELECT * FROM CenterWorktime WHERE CenterID = ${staffData.centerid};`)).rows
 
         const stringAppointments: AppointmentString[] = (await client.query(`SELECT * FROM CenterAppointmentSlot WHERE CenterID = ${centerWorktimes[0].centerid} ORDER BY CenterAppointmentStart ASC;`)).rows
+
+        // popunjena mjesta
+
+        const centerID = (await client.query(`SELECT CenterID FROM AppUser NATURAL JOIN Staff WHERE OAuthSubject = '${session_res.user.id}'`)).rows[0].centerid
+        const appointmentReservations = (await client.query(`SELECT FirstName, LastName, AppointmentStart, AppointmentEnd, AppointmentStatus FROM Appointment JOIN AppUser ON CenterID = '${centerID}' AND DonorID = UserID;`)).rows
+
+        console.log(appointmentReservations)
     
         client.end()
 
@@ -55,14 +64,16 @@ export const load: PageServerLoad = async ({ request }) => {
                 centerid: app.centerid,
                 centerappointmentstart: new Date(app.centerappointmentstart),
                 centerappointmentend: new Date(app.centerappointmentend),
-                capacity: app.capacity
+                capacity: app.capacity,
+                // filledspots: app.filledspots
             }
         })
 
         return {
             staffData: staffData,
             centerWorktimes: centerWorktimes,
-            appointments: appointments
+            appointments: appointments,
+            appointmentReservations: appointmentReservations
         }
     }
     else {

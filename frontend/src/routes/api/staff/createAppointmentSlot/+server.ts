@@ -34,7 +34,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
         client.end()
 
-        redirect(303, "/home/center")
+        redirect(303, "/center")
     }
     else {
         error(403, "Neovlasten pristup")

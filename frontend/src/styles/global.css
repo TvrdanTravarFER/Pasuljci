@@ -65,7 +65,7 @@ button {
     z-index: 50;
     transform: translate(-50%, -50%);
     width: 80%;
-    padding: 1.5rem 3rem;
+    padding: 0.5rem 3rem 1rem;
 
     background-color: var(--color-background);
     border: 2px solid var(--color-accent);
@@ -153,7 +153,15 @@ button {
 }
 
 /* donor view */
-.donor-reserved-subtitle button {
-    color: var(--color-accent);
+.donor-reserved-subtitle {
     font-style: italic;
+
+    button {
+        font-style: normal;
+        background-color: transparent;
+        padding: 0 0 0 0.25rem;
+        color: var(--color-foreground);
+        border: none;
+        text-decoration: underline 1px; 
+    }
 }

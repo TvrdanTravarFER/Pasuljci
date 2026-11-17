@@ -2,15 +2,16 @@
     import Dialog from "#lib/components/Dialog.svelte"
     import { X } from "@lucide/svelte"
     import { numberToDow } from "#lib/utilities/dayOfWeek.ts"
-
-    import type { PageProps } from "./$types";
     import { goto } from "$app/navigation"
     import { resolve } from "$app/paths"
+    import { tlAppointmentStatus } from "#lib/utilities/translateEnums.ts"
+
+    import type { PageProps } from "./$types";
 
     let { data }: PageProps = $props()
 
     const handleSubmit = () => {
-        goto(resolve("/home/center"))
+        goto(resolve("/center"))
     }
 </script>
 
@@ -84,6 +85,39 @@
                     {appointment.centerappointmentend.toLocaleTimeString("hr-HR")}
                 </p>
                 <p class="appointment-capacity">{appointment.capacity} mjesta</p>
+
+                    <Dialog>
+                        {#snippet trigger()}
+                            Detalji
+                        {/snippet}
+
+                        {#snippet title()}
+                            <h2>Detalji o terminu</h2>
+                        {/snippet}
+
+                        {#snippet description()}
+                            <div></div>
+                        {/snippet}
+
+                        {#each data.appointmentReservations as appRes (appRes)}
+                            {#if String(appointment.centerappointmentstart) === String(appRes.appointmentstart)}
+                                <div class="appointment-reservation">
+                                    <p>{appRes.firstname} {appRes.lastname}</p>
+                                    <p>status: {tlAppointmentStatus(appRes.appointmentstatus)}</p>
+                                    <div class="button-row">
+                                        <button>Pristupio</button>
+                                        <button>Pregled započeo</button>
+                                        <button>Darivanje započelo</button>
+                                        <button>Darivanje završeno</button>
+                                    </div>
+                                </div>
+                            {/if}
+                        {/each}
+
+                        {#snippet close()}
+                            <X size={24} />
+                        {/snippet}
+                    </Dialog>
             </li>
         {/each}
     </ul>
@@ -141,5 +175,9 @@
         .appointment-center-name {
             font-weight: 700;
         }
+    }
+
+    .appointment-reservation {
+        border-top: 1px solid #424242;
     }
 </style>
