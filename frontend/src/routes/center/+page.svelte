@@ -1,10 +1,13 @@
+
 <script lang="ts">
     import Dialog from "#lib/components/Dialog.svelte"
+    import { Collapsible } from "bits-ui"
     import { X } from "@lucide/svelte"
     import { numberToDow } from "#lib/utilities/dayOfWeek.ts"
     import { goto } from "$app/navigation"
     import { resolve } from "$app/paths"
     import { tlAppointmentStatus } from "#lib/utilities/translateEnums.ts"
+    import "../../styles/center.css"
 
     import type { PageProps } from "./$types";
 
@@ -16,111 +19,125 @@
 </script>
 
 <section class="center-overview">
+
     <h1 class="center-name">{data.staffData.centername}</h1>
+    
+    <Collapsible.Root open>
+        <Collapsible.Trigger>
+            <h2>Radna vremena</h2>
+        </Collapsible.Trigger>
+        <Collapsible.Content>
+            <ul class="center-worktimes">
+                {#each data.centerWorktimes as worktime (worktime.dayofweek)}
+                    <li class="center-worktime-card">
+                        <p class="weekday">{numberToDow(worktime.dayofweek)}</p>
+                        <p class="worktime-interval">Od {worktime.workstart} do {worktime.workend}</p>
+                    </li>
+                {/each}
+            </ul>
+        </Collapsible.Content>
+    </Collapsible.Root>
 
-    <h2>Radna vremena</h2>
-    <ul class="center-worktimes">
-        {#each data.centerWorktimes as worktime (worktime.dayofweek)}
-            <li class="center-worktime-card">
-                <p class="weekday">{numberToDow(worktime.dayofweek)}</p>
-                <p class="worktime-interval">Od {worktime.workstart} do {worktime.workend}</p>
-            </li>
-        {/each}
-    </ul>
+    <Collapsible.Root open>
+        <Collapsible.Trigger>
+            <h2>Otvoreni termini za darivanje</h2>
+        </Collapsible.Trigger>
+    
+        <Collapsible.Content>
+            <Dialog>
+                {#snippet trigger()}
+                    Dodajte novi termin
+                {/snippet}
 
-    <h2>Otvoreni termini za darivanje</h2>
-    <Dialog>
-        {#snippet trigger()}
-            Dodajte novi termin
-        {/snippet}
+                {#snippet title()}
+                    <h2>Novi termin darivanja</h2>
+                {/snippet}
 
-        {#snippet title()}
-            <h2>Novi termin darivanja</h2>
-        {/snippet}
+                {#snippet description()}
+                    <div></div>
+                {/snippet}
 
-        {#snippet description()}
-            <div></div>
-        {/snippet}
+                <form action="/api/staff/createAppointmentSlot" method="POST">
+                    <input type="hidden" name="centerid" id="centerid" value={data.staffData.centerid}>
+                    
+                    <label for="date">Datum</label>
+                    <input type="date" name="date" id="date">
 
-        <form action="/api/staff/createAppointmentSlot" method="POST">
-            <input type="hidden" name="centerid" id="centerid" value={data.staffData.centerid}>
-            
-            <label for="date">Datum</label>
-            <input type="date" name="date" id="date">
+                    <br>
 
-            <br>
+                    <!-- Ova vremena moraju imat constraint na to da se samo moze napravit termin ako je unutar radnog vremena taj dan. -->
+                    <label for="centerappointmentstart">Početak</label>
+                    <input type="time" name="starttime" id="starttime" required>
 
-            <!-- Ova vremena moraju imat constraint na to da se samo moze napravit termin ako je unutar radnog vremena taj dan. -->
-            <label for="centerappointmentstart">Početak</label>
-            <input type="time" name="starttime" id="starttime" required>
+                    <br>
 
-            <br>
+                    <label for="centerappointmentend">Kraj</label>
+                    <input type="time" name="endtime" id="endtime" required>
 
-            <label for="centerappointmentend">Kraj</label>
-            <input type="time" name="endtime" id="endtime" required>
+                    <br>
 
-            <br>
+                    <label for="capacity">Kapacitet</label>
+                    <input type="number" name="capacity" id="capacity" min="1" required>
 
-            <label for="capacity">Kapacitet</label>
-            <input type="number" name="capacity" id="capacity" required>
+                    <br>
 
-            <br>
+                    <button type="submit" class="button-primary" onsubmit={handleSubmit}>Dodaj termin</button>
+                </form>
 
-            <button type="submit" onsubmit={handleSubmit}>Dodaj termin</button>
-        </form>
+                {#snippet close()}
+                    <X size={24} />
+                {/snippet}
+            </Dialog>
 
-        {#snippet close()}
-            <X size={24} />
-        {/snippet}
-    </Dialog>
+            <ul class="available-appointments">
+                {#each data.appointments as appointment (appointment)}
+                    <li class="appointment-slot">
+                        <p class="appointment-center-name">{data.staffData.centername}</p>
+                        <p class="appointment-interval">
+                            {numberToDow(appointment.centerappointmentstart.getDay())},
+                            {appointment.centerappointmentstart.toLocaleDateString("hr-HR")}, od
+                            {appointment.centerappointmentstart.toLocaleTimeString("hr-HR")} do
+                            {appointment.centerappointmentend.toLocaleTimeString("hr-HR")}
+                        </p>
+                        <p class="appointment-capacity">{appointment.capacity} mjesta</p>
 
-    <ul class="available-appointments">
-        {#each data.appointments as appointment (appointment)}
-            <li class="appointment-slot">
-                <p class="appointment-center-name">{data.staffData.centername}</p>
-                <p class="appointment-interval">
-                    {numberToDow(appointment.centerappointmentstart.getDay())},
-                    {appointment.centerappointmentstart.toLocaleDateString("hr-HR")}, od
-                    {appointment.centerappointmentstart.toLocaleTimeString("hr-HR")} do
-                    {appointment.centerappointmentend.toLocaleTimeString("hr-HR")}
-                </p>
-                <p class="appointment-capacity">{appointment.capacity} mjesta</p>
+                            <Dialog>
+                                {#snippet trigger()}
+                                    Detalji
+                                {/snippet}
 
-                    <Dialog>
-                        {#snippet trigger()}
-                            Detalji
-                        {/snippet}
+                                {#snippet title()}
+                                    <h2>Detalji o terminu</h2>
+                                {/snippet}
 
-                        {#snippet title()}
-                            <h2>Detalji o terminu</h2>
-                        {/snippet}
+                                {#snippet description()}
+                                    <div></div>
+                                {/snippet}
 
-                        {#snippet description()}
-                            <div></div>
-                        {/snippet}
+                                {#each data.appointmentReservations as appRes (appRes)}
+                                    {#if String(appointment.centerappointmentstart) === String(appRes.appointmentstart)}
+                                        <div class="appointment-reservation">
+                                            <p>{appRes.firstname} {appRes.lastname}</p>
+                                            <p>status: {tlAppointmentStatus(appRes.appointmentstatus)}</p>
+                                            <div class="button-row">
+                                                <button class="button-text">Pristupio</button>
+                                                <button class="button-text">Pregled započeo</button>
+                                                <button class="button-text">Darivanje započelo</button>
+                                                <button class="button-text">Darivanje završeno</button>
+                                            </div>
+                                        </div>
+                                    {/if}
+                                {/each}
 
-                        {#each data.appointmentReservations as appRes (appRes)}
-                            {#if String(appointment.centerappointmentstart) === String(appRes.appointmentstart)}
-                                <div class="appointment-reservation">
-                                    <p>{appRes.firstname} {appRes.lastname}</p>
-                                    <p>status: {tlAppointmentStatus(appRes.appointmentstatus)}</p>
-                                    <div class="button-row">
-                                        <button>Pristupio</button>
-                                        <button>Pregled započeo</button>
-                                        <button>Darivanje započelo</button>
-                                        <button>Darivanje završeno</button>
-                                    </div>
-                                </div>
-                            {/if}
-                        {/each}
-
-                        {#snippet close()}
-                            <X size={24} />
-                        {/snippet}
-                    </Dialog>
-            </li>
-        {/each}
-    </ul>
+                                {#snippet close()}
+                                    <X size={24} />
+                                {/snippet}
+                            </Dialog>
+                    </li>
+                {/each}
+            </ul>
+        </Collapsible.Content>
+    </Collapsible.Root>
 </section>
 
 
@@ -154,7 +171,7 @@
         }
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
         .center-worktimes {
             grid-template-columns: repeat(3, 1fr);
         }

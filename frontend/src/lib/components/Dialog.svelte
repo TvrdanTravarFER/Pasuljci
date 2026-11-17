@@ -23,7 +23,7 @@
 </script>
 
 <Dialog.Root bind:open {...restProps}>
-    <Dialog.Trigger class="dialog-trigger">
+    <Dialog.Trigger class="dialog-trigger button-primary">
         {@render trigger()}
     </Dialog.Trigger>
     <Dialog.Portal>

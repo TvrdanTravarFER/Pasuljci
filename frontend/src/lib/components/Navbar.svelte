@@ -1,10 +1,12 @@
+
 <script>
+	import { resolve } from "$app/paths"
+	import { authClient	} from "#lib/auth-client.ts"
+	// import { Collapsible } from 'bits-ui';
     import Menu from '@lucide/svelte/icons/menu';
 	import X from "@lucide/svelte/icons/x"
-	import { Collapsible } from 'bits-ui';
 	import Dialog from "#lib/components/Dialog.svelte"
-	import { authClient	} from "#lib/auth-client.ts"
-	import { resolve } from "$app/paths"
+	import "../../styles/navbar.css"
 
 	const session = authClient.useSession()
 
@@ -19,20 +21,22 @@
 
 <header>
 	<nav class="main-navigation">
-		<Collapsible.Root>
+		<!-- <Collapsible.Root> -->
 			<div class="navigation-bar">
 				<div class="navigation-bar-left">
-					<Collapsible.Trigger>
+					<!-- <Collapsible.Trigger> -->
 						<div class="navigation-bar-toggle">
 							<Menu size={24} style="color: var(--color-foreground);" />
 						</div>
-					</Collapsible.Trigger>
-					<h1>KrvnaVeza</h1>
+					<!-- </Collapsible.Trigger> -->
+					<h1 class="page-title">KrvnaVeza</h1>
 				</div>
 				{#if $session.data}
 					<button class="user-logged-in">
-						<a href={resolve("/home")}>{$session.data.user.name}</a>
-						<span class="arrow-symbol">→</span>
+						<a class="button-primary" href={resolve("/home")}>
+							{$session.data.user.name}
+							<span class="arrow-symbol">→</span>
+						</a>
 					</button>
 				{:else}
 					<Dialog>
@@ -47,10 +51,9 @@
 						{#snippet description()}
 							Prijavom u našu platformu moći ćete detaljno pratiti povijest darivanja, prijavljivati se za nadolazeće akcije i još mnogo toga. Potpuno je besplatno.
 						{/snippet}
-
-						<form action="" class="platform-login-form" >
-							<button onclick={googleSignIn}>Prijava uz Google</button>
-						</form>
+						<div class="google-sign-in-button">
+							<button class="button-primary" onclick={googleSignIn}>Prijava uz Google</button>
+						</div>
 
 						{#snippet close()}
 							<X size={24} />
@@ -58,15 +61,15 @@
 					</Dialog>
 				{/if}
 			</div>
-			<Collapsible.Content>
 			<!-- todo: neka na mobitelu bude hamburger menu koji otvara opcije, ako ih bude trebalo. na pc je standardni navbar -->
+			<!-- <Collapsible.Content>
 				<ul class="navigation-links">
 					<li>item1</li>
 					<li>item2</li>
 					<li>item3</li>
 				</ul>
 			</Collapsible.Content>
-		</Collapsible.Root>
+		</Collapsible.Root> -->
 	</nav>
 </header>
 
@@ -78,6 +81,7 @@
 		backdrop-filter: blur(18px);
 		z-index: 1000;
 	}
+
 	.main-navigation {
 		margin-inline: 4dvw;
 		padding-block-start: 0.375rem;
@@ -90,7 +94,7 @@
 				display: flex;
 				gap: 3vw;
 
-				h1 {
+				.page-title {
 					font-weight: 700;
 				}
 			}
@@ -102,31 +106,14 @@
 			display: none;
 		}
 
-		h1 {
+		.page-title {
 			margin-inline-start: 0 !important;
 		}
     }
 
-	.platform-login-form {
+	.google-sign-in-button {
 		margin-block-start: 1.5rem;
 		text-align: center;
-
-		button {
-			background-color: var(--color-accent);
-			color: var(--color-background);
-			padding: 0.6rem 1.5rem;
-			margin-block-start: 0.15rem;
-			border: 3px solid var(--color-accent);
-			border-radius: 36px;
-			font-weight: 700;
-			transition: all 150ms ease-in-out;
-		}
-
-		button:hover {
-			color: var(--color-accent);
-			background-color: var(--color-background);
-		}
-
 	}
 
 	.arrow-symbol {

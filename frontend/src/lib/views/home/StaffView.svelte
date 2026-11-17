@@ -1,10 +1,11 @@
+
 <script>
     import Dialog from "#lib/components/Dialog.svelte";
     import { Settings, X } from "@lucide/svelte";
     import TwoColumnView from "#lib/components/TwoColumnView.svelte";
     import { resolve } from "$app/paths"
     import { authClient } from "#lib/auth-client.ts"
-    import BloodTypeAmounts from "#lib/components/BloodTypeAmounts.svelte"
+    import { googleSignOut } from "#lib/auth-client.ts"
 
     const session = authClient.useSession()
 
@@ -17,13 +18,12 @@
 
 <section id="upperhalf">
     <div class="staff-dashboard-greeting">
-        <h1>{$session.data?.user.name}</h1>
+        <h1 class="staff-name">{$session.data?.user.name}</h1>
 
         <div class="button-console">
-            <button class="center-button"><a href={resolve("/center")}>CENTAR</a></button>
             <Dialog>
                 {#snippet trigger()}
-                    <Settings size={24} />
+                    <Settings size={24} />  
                 {/snippet}
 
                 {#snippet title()}
@@ -34,7 +34,7 @@
                     <div></div>
                 {/snippet}
 
-                <form action="" class="platform-login-form">
+                <form action="" class="settings-form">
                     <input type="text" name="ime" id="ime" placeholder="Ime" value={covjek.ime} required>
                     <input type="text" name="prezime" id="prezime" placeholder="Prezime" value={covjek.prezime} required>
                     
@@ -58,7 +58,7 @@
                     
                     <br>
 
-                    <input type="email" name="email" id="email" placeholder="E-adresa" pattern={String.raw`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`}>
+                    <input type="email" name="email" id="email" placeholder="Email adresa" pattern={String.raw`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`}>
                     <br>
 
                     <label for="krvna_grupa">Krvna grupa</label>
@@ -83,6 +83,8 @@
 
                     <button type="submit">Spremi</button>
                 </form>
+                <br>
+                <button class="sign-out-button button-primary" onclick={googleSignOut}>Odjavi se</button>
 
                 {#snippet close()}
                     <X size={24} />
@@ -91,14 +93,15 @@
         </div>
     </div>
     <p>Djelatnik transfuzijskog centra</p>
-
-    <!-- <BloodTypeAmounts levels={[1, 2, 3, 4, 1, 2, 2, 1]} /> -->
 </section>
 <section id="lowerhalf">
     <TwoColumnView>
         {#snippet leftColumn()}
-            <div class="donations">
-                <p>TERMIN</p>
+            <div class="center">
+                <button>
+                    <a class="button-primary" href={resolve("/center")}>VAŠ CENTAR</a>
+                </button>
+                <!-- <p>TERMIN</p> -->
             </div>
         {/snippet}
 
@@ -115,30 +118,16 @@
         flex-direction: column;
         justify-content: end;
         margin-block-end: 4rem;
+
+        .staff-name {
+            font-size: 3rem;
+            margin-block-end: 1rem;
+        }
         
         .staff-dashboard-greeting {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .center-button {
-            background-color: transparent;
-            color: var(--color-foreground);
-            padding: 0.6rem 1.5rem;
-            margin-block-start: 0.15rem;
-            border: 3px solid var(--color-foreground);
-            border-radius: 36px;
-            font-weight: 700;
-            transition: all 150ms ease-in-out;
-
-            a {
-                text-decoration: none;
-
-                &:visited {
-                    color: var(--color-foreground);
-                }
-            }
         }
     }
 

@@ -1,3 +1,4 @@
+
 <script lang="ts">
     import { resolve } from "$app/paths"
     import TwoColumnView from "#lib/components/TwoColumnView.svelte";
@@ -44,7 +45,7 @@
 
                     <p>Status: {tlAppointmentStatus(activeAppointment.appointmentstatus)}</p>
                         
-                    <button>Želim otkazati rezervaciju</button>
+                    <button class="button-primary">Želim otkazati rezervaciju</button>
 
                     {#snippet close()}
                         <X size={24} />
@@ -75,7 +76,7 @@
             {/snippet}
 
             <h2>Osobni podaci</h2>
-            <form action="" class="platform-login-form">
+            <form action="" class="settings-form">
                 <input type="text" name="ime" id="ime" placeholder="Ime" required>
                 <input type="text" name="prezime" id="prezime" placeholder="Prezime" required>
                 
@@ -99,7 +100,7 @@
                 
                 <br>
 
-                <input type="email" name="email" id="email" placeholder="E-adresa" pattern={String.raw`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`}>
+                <input type="email" name="email" id="email" placeholder="Email adresa" pattern={String.raw`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`}>
                 <br>
 
                 <label for="krvna_grupa">Krvna grupa</label>
@@ -124,8 +125,8 @@
 
                 <h2>Obavijesti</h2>
                 <label for="nacin_primanja_obavijesti">Obavijesti me putem:</label>
-                <br>
                 <select name="nacin_primanja_obavijesti" id="nacin_primanja_obavijesti" required>
+                    <option disabled selected value>Odaberite...</option>
                     <option value="email">E-pošte</option>
                     <option value="mobitel">Poruke na mobitelu</option>
                 </select>
@@ -134,25 +135,26 @@
 
                 <label for="">Najveća udaljenost za obavijesti o akcijama (u kilometrima):</label>
                 <br>
-                <input type="number" name="raspon_za_obavijesti" id="raspon_za_obavijesti" placeholder="npr. 50">
+                <input type="number" name="raspon_za_obavijesti" id="raspon_za_obavijesti" min="1" placeholder="npr. 50">
 
                 <br>
 
-                <button type="submit">Spremi</button>
+                <button type="submit" class="button-primary">Spremi</button>
             </form>
+            <br>
+            <button class="sign-out-button button-primary" onclick={googleSignOut}>Odjavi se</button>
 
             {#snippet close()}
                 <X size={24} />
             {/snippet}
         </Dialog>
-        <button class="sign-out-button" onclick={googleSignOut}>Odjavi se</button>
     </div>
 </section>
 <section id="lowerhalf">
     <TwoColumnView>
         {#snippet leftColumn()}
             <div class="donations">
-                <button><a href={resolve("/home/donations")}>Povijest darivanja</a></button>
+                <button><a class="button-primary" href={resolve("/home/donations")}>Povijest darivanja</a></button>
             </div>
         {/snippet}
 
@@ -193,16 +195,5 @@
 
     #lowerhalf {
         height: 50vh;
-    }
-
-    button {
-        background-color: var(--color-accent);
-        color: var(--color-background);
-        padding: 0.6rem 1.5rem;
-        margin-block-start: 0.15rem;
-        border: 3px solid var(--color-accent);
-        border-radius: 36px;
-        font-weight: 700;
-        transition: all 150ms ease-in-out;
     }
 </style>
