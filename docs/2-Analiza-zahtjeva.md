@@ -98,8 +98,7 @@ Za složenu interakciju kratak scenarij *Given / When / Then* može pojasniti kr
 | NF-06 | Sustav ne pohranjuje i ne prikazuje podatke o primatelju krvi. | Visok | Sigurnost | Pregled modela podataka i ekrana „Moja darivanja”: ne postoji polje ni prikaz s podacima o primatelju. |
 | NF-07 | Istodobne rezervacije ne smiju prekoračiti kapacitet termina. | Visok | Upute | Automatizirani test: više istodobnih zahtjeva za zadnje slobodno mjesto: točno jedan uspijeva. |
 | NF-08 | Komunikacija klijenta i poslužitelja odvija se šifriranom vezom (HTTPS). | Srednji | Sigurnost | Pregled konfiguracije posluženog okruženja. Pristup nešifriranom adresom je odbijen. |
-| NF-09 | Sustav mora nakon brisanja računa čuvati evidenciju darivanja i doza u anonimiziranom obliku. | Visok | Zahtjev dionika | Pregled: nakon brisanja testnog računa provjeriti da nijedan osobni podatak nije povezan s darivanjima i da su doze sljedive do darivanja. |
-| NF-10 | Sustav mora uz svaku odbijenu radnju korisniku prikazati razumljiv razlog. | Srednji | Procjena tima | Testni scenarij: izazvati odbijanje (nepodoban datum, popunjen termin, prekasno otkazivanje) i provjeriti da se prikazuje razlog. |
+| NF-09 | Sustav mora uz svaku odbijenu radnju korisniku prikazati razumljiv razlog. | Srednji | Procjena tima | Testni scenarij: izazvati odbijanje (nepodoban datum, popunjen termin, prekasno otkazivanje) i provjeriti da se prikazuje razlog. |
 
 <details>
 <summary><strong>Nefunkcijski zahtjevi za analizu</strong></summary>
@@ -228,11 +227,65 @@ Ograničenje je uvjet koji tim mora poštovati; pretpostavka je uvjet na koji se
 
 | ID zahtjeva | Obrazac uporabe / modul | Arhitekturna realizacija | Ispitivanje ili provjera |
 | --- | --- | --- | --- |
-| F-001 | [UC-001] | [Komponenta, modul ili drugo mjesto realizacije] | [ST-01, CT-01 ili druga provjera] |
+| F-001 | UC-01 Pregled karte i stanje zaliha | Web-klijent, domenska pravila | - |
+| F-002 | UC-02 Prijava u sustav | Web-klijent, autentifikacija i uloge, PostgreSQL | - |
+| F-003 | UC-03 Upravljanje profilom i postavkama obavijesti | Web-klijent, PostgreSQL, rute darivatelja | - |
+| F-004 | UC-03 Upravljanje profilom i postavkama obavijesti, UC-11 Obrada dolaska darivatelja | PostgreSQL, rute darivatelja, rute osoblja | - |
+| F-005 | UC-03 Upravljanje profilom i postavkama obavijesti | Web-klijent, PostgreSQL, rute darivatelja | - |
+| F-006 | UC-04 Provjera podobnosti i samoprocjena | Domenska pravila, rute darivatelja | - |
+| F-007 | UC-19 Podešavanje pravila podobnosti i pragova zaliha | Domenska pravila, PostgreSQL, rute administracije | - |
+| F-008 | Automatska obavijest kad darivatelj postane podoban | Planirani poslovi, domenska pravila, SMS adapter | - |
+| F-009 | UC-04 Provjera podobnosti i samoprocjena, UC-11 Obrada dolazaka darivatelja | Domenska pravila, rute darivatelja | - |
+| F-010 | UC-10 Definiranje radnog vremena i kapacitet termina | PostgreSQL, rute osoblja | - |
+| F-011 | UC-05 Rezervacija termina u centru | Domenska pravila, PostgreSQL, rute darivatelja | - |
+| F-012 | UC-04 Provjera podobnosti i samoprocjena | Web-klijent, rute darivatelja | - |
+| F-013 | UC-05 Rezervacija termina u centru | Web-klijent, Google kalendar | - |
+| F-014 | Automatski podsjetnik prije termina (UC-05) | Planirani poslovi, SMS adapter | - |
+| F-015 | UC-06 Otkazivanje rezerviranog termina | Domenska pravila, PostgreSQL, rute darivatelja | - |
+| F-016 | UC-05 Rezervacija termina, UC-11 Obrada dolaska darivatelja | Web-klijent, rute darivatelja, rute osoblja | - |
+| F-017 | UC-11 Obrada dolaska darivatelja | Domenska pravila, rute osoblja | - |
+| F-018 | UC-11 Obrada dolaska darivatelja | Domenska pravila, rute osoblja | - |
+| F-019 | UC-04 Provjera podobnosti i samoprocjena, UC-11 Obrada dolaska darivatelja | PostgreSQL, rute osoblja | - |
+| F-020 | UC-12 Evidencija doze i upravljanje zalihama | PostgreSQL, rute osoblja | - |
+| F-021 | UC-12 Evidencija doze i upravljanje zalihama | Domenska pravila, rute osoblja | - |
+| F-022 | Automatsko odbacivanje doza kojima je istekao rok (UC-12) | Planirani poslovi, Domenska pravila | - |
+| F-023 | UC-01 Pregled karte i stanja zaliha, UC-12 Evidencija doze i upravljanje zalihom, UC-19 Podešavanje pravila podobnosti i pragova zaliha krvi | Domenska pravila, rute osoblja | - |
+| F-024 | UC-08 Pregled povijesti darivanja i preuzimanje potvrde | PostgreSQL, rute darivatelja | - |
+| F-025 | UC-13 Slanje hitnog poziva | Planirani poslovi, domenska pravila, rute osoblja | - |
+| F-026 | UC-13 Slanje hitnog poziva | Domenska pravila, SMS adapter, rute osoblja | - |
+| F-027 | UC-13 Slanje hitnog poziva | PostgreSQL, rute osoblja | - |
+| F-028 | UC-13 Slanje hitnog poziva, UC-14 Pregled statistike i izvoz podatak | PostgreSQL, rute osoblja | - |
+| F-029 | UC-15 Predlaganje terenske akcije | PostgreSQL, rute organizatora | - |
+| F-030 | UC-16 Odluka o prijedlogu terenske akcije | Domenska pravila, rute osoblja | - |
+| F-031 | UC-15 Predlaganje terenske akcije, UC-16 Odluka o prijedlogu terenske akcije, UC-17 Praćenje terenske akcije | Domenska pravila | - |
+| F-032 | UC-07 Prijava na terensku akciju | Domenska pravila, rute darivatelja | - |
+| F-033 | Automatsko obavijest o akcijama u blizini (UC-07) | Planirani poslovi, SMS adapter | - |
+| F-034 | UC-17 Praćenje terenske akcije | Rute organizatora, rute organizatora | - |
+| F-035 | UC-08 Pregled povijesti darivanja i preuzimanje potvrde, UC-17 Praćenje terenske akcije | Rute darivatelja, Rute organizatora | - |
+| F-036 | UC-08 Pregled povijesti darivanja i preuzimanje potvrde | Rute darivatelja | - |
+| F-037 | UC-14 Pregled statistike i izvoz podataka | Rute osoblja, rute administracije | - |
+| F-038 | UC-18 Upravljanje korisnicima i ulogama, UC-19 Podešavanje pravila podobnosti i pragova zaliha | Rute administracije, PostgreSQL | - |
+| F-039 | UC-18 Upravljanje korisnicima i ulogama | Rute administracije, autentifikacija i uloge | - |
+| F-040 | UC-09 Izvoz podataka i brisanje računa | Rute darivatelja | - |
+| F-041 | UC-09 Izvoz podataka i brisanje računa | Rute darivatelja, PostgreSQL | - |
+| NF-01 | Ključno kod darivatelja na uskim zaslonima | Web-klijent | - |
+| NF-02 | UC-11 Obrada dolaska darivatelja | Rute osoblja centra, autentifikacija i uloge | - |
+| NF-03 | UC-11 Obrada dolaska darivatelja | Rute osoblja centra, PostgreSQL | - |
+| NF-04 | UC-02 Prijava u sustav | Autentifikacija i uloge | - |
+| NF-05 | anonimizacija podataka (UC-09) | Rute darivatelja, PostgreSQL | - |
+| NF-06 | UC-08 Pregled povijesti darivanja i preuzimanje potvrde | Rute darivatelja, PostgreSQL | - |
+| NF-07 | UC-05 Rezervacija termina | Rute darivatelja, PostgreSQL | - |
+| NF-08 | Sve komunikacije klijenta i poslužitelja | Poslužiteljska aplikacija | - |
+| NF-09 | Sve radnje na aplikaciji | Web-klijent, Rute darivatelja | - |
 |  |  |  |  |
 
 <details>
 <summary><strong>Sljedivost zahtjeva do obrazaca uporabe i ispitivanja</strong></summary>
+
+| ID zahtjeva | Obrazac uporabe / modul | Arhitekturna realizacija | Ispitivanje ili provjera |
+| --- | --- | --- | --- |
+| F-001 | [UC-001] | [Komponenta, modul ili drugo mjesto realizacije] | [ST-01, CT-01 ili druga provjera] |
+|  |  |  |  |
 
 **Primjer — poveznice zahtjeva CrisisMapa:**
 

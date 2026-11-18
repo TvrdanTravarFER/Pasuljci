@@ -92,7 +92,7 @@ Vanjski sustav može biti sekundarni akter obrasca uporabe kada sudjeluje u ostv
 | Element specifikacije | Opis |
 | :--- | :--- |
 | **Primarni akter** | Darivatelj |
-| **Povezani zahtjevi** | F-011, F-013, F-016, F-014 |
+| **Povezani zahtjevi** | F-011, F-013, F-016, F-014, NF-07 |
 | **Preduvjeti** | Darivatelj je prijavljen i centar ima definirane termine. |
 | **Glavni uspješni tok** | 1. Darivatelj odabire centar i datum.<br>2. Sustav prikazuje slobodne termine.<br>3. Darivatelj odabire termin.<br>4. Sustav izvodi provjeru podobnosti i samoprocjenu (UC-04).<br>5. Darivatelj potvrđuje rezervaciju.<br>6. Sustav stvara rezervaciju u stanju „rezerviran”, smanjuje broj slobodnih mjesta i generira QR kod.<br>7. Sustav nudi dodavanje termina u Google Calendar, darivatelj to prihvaća ili odbija. |
 | **Alternativni tokovi / Iznimke** | **2a — Nema slobodnih termina:** Sustav obavještava darivatelja i predlaže drugi datum ili centar.<br>**4a — Provjera podobnosti nije uspjela:** Rezervacija se ne stvara, ishod kao u UC-04.<br>**5a — Termin je u međuvremenu popunjen:** Sustav odbija rezervaciju, osvježava popis i traži odabir drugog termina.<br>**7a — Dodavanje u kalendar nije uspjelo:** Rezervacija ostaje važeća. Sustav javlja da događaj nije dodan. |
@@ -125,7 +125,7 @@ Vanjski sustav može biti sekundarni akter obrasca uporabe kada sudjeluje u ostv
 | Element specifikacije | Opis |
 | :--- | :--- |
 | **Primarni akter** | Darivatelj |
-| **Povezani zahtjevi** | F-024, F-035, F-036 |
+| **Povezani zahtjevi** | F-024, F-035, F-036, NF-06|
 | **Preduvjeti** | Darivatelj je prijavljen. |
 | **Glavni uspješni tok** | 1. Darivatelj otvara pregled „Moja darivanja”.<br>2. Sustav prikazuje povijest darivanja, obavijesti o izdanim dozama i stečene značke.<br>3. Darivatelj uz uspješno darivanje odabire preuzimanje potvrde.<br>4. Sustav generira PDF potvrdu i nudi ga za preuzimanje. |
 | **Alternativni tokovi / Iznimke** | **2a — Testiranje doze nije zadovoljavajuće:** Sustav ne prikazuje rezultat testiranja nego samo poruku da se darivatelj javi transfuzijskom centru.<br>**2b — Nema darivanja:** Sustav prikazuje praznu povijest.<br>**3a — Darivanje nije uspješno:** Potvrda nije dostupna za to darivanje.|
@@ -136,7 +136,7 @@ Vanjski sustav može biti sekundarni akter obrasca uporabe kada sudjeluje u ostv
 | Element specifikacije | Opis |
 | :--- | :--- |
 | **Primarni akter** | Darivatelj |
-| **Povezani zahtjevi** | F-040, F-041, NF-09 |
+| **Povezani zahtjevi** | F-040, F-041, NF-05 |
 | **Preduvjeti** | Darivatelj je prijavljen. |
 | **Glavni uspješni tok** | 1. Darivatelj odabire preuzimanje svojih podataka te sustav daje datoteku s njegovim podacima.<br>2. Darivatelj zatim zatraži brisanje računa.<br>3. Sustav upozorava da je radnja trajna i traži potvrdu.<br>4. Darivatelj potvrđuje.<br>5. Sustav briše osobne podatke i račun te anonimizira evidenciju darivanja. |
 | **Alternativni tokovi / Iznimke** | **4a — Darivatelj odustaje:** Račun ostaje nepromijenjen.<br>**5a — Brisanje nije uspjelo:** Sustav javlja pogrešku i ne ostavlja račun u djelomično obrisanom stanju. |
