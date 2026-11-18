@@ -87,9 +87,11 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 **Cilj:** Prikazati važne pohranjene entitete, njihove identifikatore i veze te dovoljno atributa za razumijevanje podataka aplikacije. ER dijagram odvojen je od reprezentativnog UML dijagrama razreda u nastavku.
 
-**ER dijagram:** [Ugradite čitljiv dijagram projekta.]  
-**Izvor dijagrama:** [Poveznica na njegov izvor.]  
-**Implementacija:** [Navedite gdje je odgovarajući model podataka definiran u projektu.]
+![ER dijagram KrvnaVeza](./assets/diagrams/4-2-KrvnaVeza-data-ERD.svg)
+
+[Puni SVG za povećavanje](./assets/diagrams/4-2-KrvnaVeza-data-ERD.svg) · [PlantUML izvor](./puml/4-2-KrvnaVeza-data-ERD.puml) · [Analiza modela](./ER-model.md)
+
+**Implementacija:** [db/schema.sql](../db/schema.sql). Relacijski model prikazuje svih 25 tablica, 150 stupaca i 41 strani ključ postojeće sheme, s primarnim ključevima, obveznošću i kardinalnostima. Primjerice, darivatelj ima 0..N rezervacija, a svaka rezervacija pripada jednom darivatelju. Rezervacija ima točno jednu lokaciju: centar ili terensku akciju; to XOR pravilo nadopunjuje dvije pojedinačne veze 0..1. Analiza modela opisuje složena ograničenja, izvedene poglede i razlike između definicije baze i još nedovršenih poslovnih procesa. Ovo je model pohranjenih podataka, odvojen od UML razreda u nastavku.
 
 <details>
 <summary><strong>Jedna prijava poplave i povezani podaci</strong></summary>
@@ -146,9 +148,15 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 **Cilj:** Prikazati redoslijed poruka za jedan reprezentativni scenarij i odgovore na važnu alternativu.
 
-**Scenarij:** [Naziv interakcije; dodajte UC ID ako postoji.]  
-**sekvencijski dijagram:** [Ugradite čitljiv UML sekvencijski dijagram.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]
+**Scenarij:** UC-11 - provjera QR koda i evidencija dolaska (koraci 1-2 i alternativa 1a).
+
+![Sekvencijski dijagram dolaska darivatelja](./assets/diagrams/4-4-KrvnaVeza-check-in-SD.svg)
+
+[Puni SVG](./assets/diagrams/4-4-KrvnaVeza-check-in-SD.svg) · [PlantUML izvor](./puml/4-4-KrvnaVeza-check-in-SD.puml) · [Analiza, izvori i status implementacije](./UML-ponasanje.md)
+
+**Analiza dijagrama:** Prijavljen djelatnik skenira QR kod. Sučelje, `ObradaDolaskaService`, `RezervacijaRepository` i `Rezervacija` surađuju pri provjeri rezervacije i prijelazu `RESERVED → ARRIVED`. Fragmenti `alt` odvajaju nevaljan ili nepoznat kod, neovlašten pristup, pogrešno stanje te uspješnu i neuspješnu pohranu. Potvrda dolaska slijedi tek nakon uspješne transakcije. Pristup upitniku pripada sljedećem koraku UC-11 i zahtijeva zapis u dnevniku pristupa.
+
+**Status:** Ciljno oblikovanje prema zahtjevima i timskim razredima. Početni backend sadrži nazive razreda i operacija, ali obrada QR-a, provjere ovlasti i transakcijski tijek još nisu dovršeni. Dijagram ne predstavlja dokaz već implementiranog ponašanja.
 
 <details>
 <summary><strong>Odabir lokacije, provjera valjanosti i podnošenje prijave</strong></summary>
@@ -169,9 +177,15 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 **Cilj:** Prikazati važna stanja jednog domenskog objekta ili eksplicitno upravljanog načina rada sustava te događaje ili uvjete koji ih mijenjaju.
 
-**Vlasnik stanja i razlog odabira:** [Navedite objekt ili način rada sustava, kako se njegovo stanje prepoznaje i zašto su prijelazi važni.]  
-**Dijagram stanja:** [Ugradite čitljiv UML dijagram stanja.]  
-**PlantUML izvor:** [Poveznica na odgovarajuću `.puml` datoteku.]
+**Vlasnik stanja i razlog odabira:** Jedna `Rezervacija`, pohranjena u `Appointment`; stanje određuje `AppointmentStatus`. Njezin životni ciklus povezuje rezerviranje i otkazivanje s dolaskom, pregledom i ishodom darivanja (UC-05, UC-06, UC-11). Svih osam stanja iz zadatka imaju odgovarajuće vrijednosti u SQL-u.
+
+![Dijagram stanja rezervacije](./assets/diagrams/4-5-KrvnaVeza-appointment-SM.svg)
+
+[Puni SVG](./assets/diagrams/4-5-KrvnaVeza-appointment-SM.svg) · [PlantUML izvor](./puml/4-5-KrvnaVeza-appointment-SM.puml) · [Tablica prijelaza i granice implementacije](./UML-ponasanje.md)
+
+**Analiza dijagrama:** Redovni put je `RESERVED → ARRIVED → SCREENING → DONATING → FINISHED`. Iz rezerviranog stanja moguće je pravodobno otkazivanje ili evidentiranje nedolaska, a iz pregleda odbijanje uz razlog i odgodu. Uvjeti i učinci nalaze se na prijelazima; završni čvor označava završetak ciklusa, ne brisanje podataka. Doza krvi nakon darivanja ima zaseban ciklus u UC-12. Parametri pravila preuzeti su iz `Constants`; razlika između mjeseca iz zadatka i 30 dana iz sheme navedena je u analizi.
+
+**Status:** Zahtijevani poslovni model. SQL provodi popis stanja, redovno otkazivanje i vremenske oznake, ali provjera svih dopuštenih prijelaza i pripadajućih učinaka još zahtijeva implementaciju.
 
 <details>
 <summary><strong>Složeno stanje sustava: koordinacija događaja i dostupnost usluge</strong></summary>
