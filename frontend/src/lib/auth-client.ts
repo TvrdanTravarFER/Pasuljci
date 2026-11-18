@@ -3,7 +3,7 @@ import { goto, refreshAll } from "$app/navigation"
 import { resolve } from "$app/paths"
 
 export const authClient = createAuthClient({
-    baseURL: "http://localhost:5173"
+    baseURL: "https://krvnaveza.onrender.com"
 })
 
 export const googleSignOut = async () => {
