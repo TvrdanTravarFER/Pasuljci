@@ -17,7 +17,8 @@
 
 | Datum i sudionici | Glavna tema | Donesena odluka ili zadatak  | Poveznica na zadatak ili  rezultat, ako postoji |
 | --- | --- | --- | --- |
-| 29.10.2026.;  LC NS MM SR KM MV KK | Raspodjela rada i plan napretka projekta | Početi rad na "4-Arhitektura-i-oblikovanje.md" i na frontend-u | - |
+| 29.10.2026.;  LC NS MM SR KM MV KK | Raspodjela rada i plan napretka projekta | Početi rad na "4-Arhitektura-i-oblikovanje.md" i na frontend-u | <https://github.com/TvrdanTravarFER/Pasuljci/pull/31> |
+| 12.11.2026.;  LC NS MM SR KM MV KK | Odabir alata i arhitektura aplikacije | Napraviti bazu podataka i početi rad na backend-u | <https://github.com/TvrdanTravarFER/Pasuljci/pull/30> <https://github.com/TvrdanTravarFER/Pasuljci/pull/39> |
 
 Za svaki relevantan sastanak ili zapis tjedne koordinacije upišite jedan sažet redak. Dodijeljeni zadatak treba imati odgovornu osobu; za neriješeno pitanje treba navesti tko će ga dalje obraditi. Sam naslov sastanka ne pokazuje što se promijenilo. U ovu evidenciju nemojte kopirati cijeli popis issuea ni prijepis razgovora.
 
@@ -69,7 +70,9 @@ Ako koristite tablicu, plan vodite na korisnoj tjednoj razini i ažurirajte ga k
 
 | Aktivnost ili rezultat | Član | Prijavljeni sati | Reprezentativni rezultat ili poveznica |
 | --- | --- | --- | --- |
-|  |  |  |  |
+| Izrada baze podataka | MV | 35 | <https://github.com/TvrdanTravarFER/Pasuljci/pull/30> |
+| Izrada početne dokumentacije | MV | 35 | <https://github.com/TvrdanTravarFER/Pasuljci/pull/2> <https://github.com/TvrdanTravarFER/Pasuljci/pull/4> |
+| Izrada frontend-a | MM | 45 | <https://github.com/TvrdanTravarFER/Pasuljci/pull/31> |
 
 Koristite aktivnosti specifične za projekt umjesto obaveznog retka za svako poglavlje dokumentacije ili svaki UML dijagram. Tim treba dosljedno bilježiti sate i izbjegavati dvostruko brojanje zajedničkog rada; reprezentativni rezultat objašnjava što je prijavljeni trud proizveo. Sati su samoprijavljena procjena uloženog rada, a ne mjera kvalitete niti zamjena za pregled koda i artefakata.
 
@@ -94,6 +97,10 @@ Koristite aktivnosti specifične za projekt umjesto obaveznog retka za svako pog
 **Cilj:** Prikazati kada su promjene napravljene u repozitoriju i tko ih je napravio, uz napomenu da sam broj zapisa promjena ne mjeri kvalitetu doprinosa.
 
 **Prikaz aktivnosti repozitorija:** [Ugradite ili povežite GitHubov prikaz `Contributors` i generirani graf za projektni repozitorij; navedite razdoblje koje obuhvaća.]
+
+GitHubov prikaz `Contributors` za projektni repozitorij: <https://github.com/TvrdanTravarFER/Pasuljci/graphs/contributors>
+
+**Razdoblje koje prikaz obuhvaća:** `<11.10.2026.>` - `<15.11.2026.>`
 
 Graf može pokazati kada su zapisi promjena napravljeni i tko ih je napravio, ali ne prikazuje sav rad na oblikovanju, ispitivanju, integraciji, pregledu ili dokumentaciji. Ako postoji uočljiv nesklad s tablicom aktivnosti, kratko ga objasnite; nemojte iz grafa izvoditi broj sati. Generirani prikaz neka bude vezan uz stvarni repozitorij umjesto da se ručno crta drugi graf.
 
