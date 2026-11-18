@@ -27,7 +27,9 @@ export default defineConfig({
 		fs: {
 			allow: [
 				searchForWorkspaceRoot(process.cwd()),
-				"/home/lyria/Documents/Uni/god3/zima/progi/Pasuljci/node_modules/maplibre-gl/dist/"
+				"/home/lyria/Documents/Uni/god3/zima/progi/Pasuljci/node_modules/maplibre-gl/dist/",
+				"./node_modules/maplibre-gl",
+				"https://krvnaveza.onrender.com/_app/immutable/nodes/"
 			]
 		}
 	},
