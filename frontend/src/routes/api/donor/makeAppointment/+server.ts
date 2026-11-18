@@ -9,11 +9,11 @@ export const POST: RequestHandler = async ({ request }) => {
 
     if (session_res) {
         const client = new Client({
-            user: "krvnaveza_app",
-            password: "4",
-            host: "localhost",
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            host: process.env.DB_URL,
             port: 5432,
-            database: "krvnaveza",
+            database: "krvnaveza"
         })
 
         const data = await request.formData()

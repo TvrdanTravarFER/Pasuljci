@@ -3,12 +3,10 @@ import { sveltekitCookies } from "better-auth/svelte-kit"
 import { Pool } from "pg"
 import { getRequestEvent } from "$app/server"
 
-import dotenv from "dotenv"
-dotenv.config()
-
 export const auth = betterAuth({
     database: new Pool({
-        connectionString: "postgres://krvnaveza_admin:4@localhost:5432/krvnaveza",
+        connectionString: process.env.DB_CONNECTION_LINK,
+        ssl: true
     }),
     socialProviders: {
         google: {

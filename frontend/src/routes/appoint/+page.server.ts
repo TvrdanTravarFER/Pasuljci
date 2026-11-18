@@ -15,11 +15,12 @@ export const load: PageServerLoad = async ({ request, url }) => {
         }
         else {
             const client = new Client({
-                user: "krvnaveza_app",
-                password: "4",
-                host: "localhost",
+                user: process.env.DB_USER,
+                password: process.env.DB_PASSWORD,
+                host: process.env.DB_URL,
                 port: 5432,
                 database: "krvnaveza",
+                ssl: true
             })
 
             client.connect()

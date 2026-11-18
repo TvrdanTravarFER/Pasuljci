@@ -2,13 +2,17 @@ import { Client } from "pg"
 
 import type { PageServerLoad } from "./$types"
 
+import dotenv from "dotenv"
+dotenv.config()
+
 export const load: PageServerLoad = async () => {
     const client = new Client({
-        user: "krvnaveza_readonly",
-        password: "4",
-        host: "localhost",
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        host: process.env.DB_URL,
         port: 5432,
         database: "krvnaveza",
+        ssl: true
     })
 
     await client.connect()
