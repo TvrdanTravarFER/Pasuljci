@@ -6,7 +6,7 @@ import { getRequestEvent } from "$app/server"
 export const auth = betterAuth({
     database: new Pool({
         connectionString: process.env.DB_CONNECTION_LINK,
-        ssl: true
+        ssl: { rejectUnauthorized: false }
     }),
     socialProviders: {
         google: {

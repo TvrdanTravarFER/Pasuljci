@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ request }) => {
         host: process.env.DB_URL,
         port: 5432,
         database: "krvnaveza",
-        ssl: true
+        ssl: { rejectUnauthorized: false }
     })
 
     const session_res = await auth.api.getSession({ headers: request.headers })

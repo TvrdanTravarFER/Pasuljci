@@ -12,7 +12,7 @@ export const load: PageServerLoad = async () => {
         host: process.env.DB_URL,
         port: 5432,
         database: "krvnaveza",
-        ssl: true
+        ssl: { rejectUnauthorized: false }
     })
 
     await client.connect()
