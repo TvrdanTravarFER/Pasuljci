@@ -2,7 +2,13 @@
 	import "../styles/global.css"
 	import favicon from '#lib/assets/favicon.svg';
 
+	import { browser } from "$app/env"
+    import { setWorkerUrl } from "maplibre-gl"
+    import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url"
+
 	import type { LayoutProps } from './$types';
+
+	if (browser) setWorkerUrl(workerUrl)
 
 	let { children }: LayoutProps = $props();
 </script>
