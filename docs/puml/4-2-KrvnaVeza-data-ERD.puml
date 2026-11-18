@@ -1,0 +1,261 @@
+@startuml
+' AI-assisted model based on db/schema.sql and the KrvnaVeza assignment.
+!pragma layout smetana
+title KrvnaVeza – ER dijagram postojeće SQL sheme
+hide circle
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 12
+skinparam nodesep 40
+skinparam ranksep 60
+skinparam classBackgroundColor #EFF6FF
+skinparam classBorderColor #355B82
+entity Constants {
+  {field} * ConstKey : TEXT <<PK>>
+  {field} * ConstValue : TEXT
+  {field} * Description : TEXT
+}
+entity BloodTypeRef {
+  {field} * BloodType : VARCHAR(3) <<PK>>
+}
+entity AppUser {
+  {field} * UserID : BIGINT <<PK>>
+  {field} Email : TEXT <<UQ>>
+  {field} OAuthProvider : TEXT
+  {field} OAuthSubject : TEXT
+  {field} * FirstName : TEXT
+  {field} * LastName : TEXT
+  {field} DateOfBirth : DATE
+  {field} Sex : CHAR(1)
+  {field} Residence : TEXT
+  {field} PhoneNumber : VARCHAR(16)
+  {field} * Role : VARCHAR(10)
+  {field} * IsActive : BOOLEAN
+  {field} * IsAnonymized : BOOLEAN
+}
+entity Center {
+  {field} * CenterID : INTEGER <<PK>>
+  {field} * CenterName : TEXT
+  {field} * Address : TEXT
+  {field} * Lat : DOUBLE PRECISION
+  {field} * Lng : DOUBLE PRECISION
+}
+entity Donor {
+  {field} * UserID : BIGINT <<PK, FK>>
+  {field} BloodType : VARCHAR(3) <<FK>>
+  {field} * BloodTypeVerified : BOOLEAN
+  {field} * NotifySMS : BOOLEAN
+  {field} * NotifyEmail : BOOLEAN
+  {field} * MaxNotifyDistanceKm : SMALLINT
+  {field} HomeLat : DOUBLE PRECISION
+  {field} HomeLng : DOUBLE PRECISION
+  {field} * NoShowCount : SMALLINT
+  {field} BlockedUntil : TIMESTAMPTZ
+}
+entity Staff {
+  {field} * UserID : BIGINT <<PK, FK>>
+  {field} * CenterID : INTEGER <<FK>>
+}
+entity Organizer {
+  {field} * UserID : BIGINT <<PK, FK>>
+  {field} * OrganizationName : TEXT
+}
+entity RoleRequest {
+  {field} * RequestID : BIGINT <<PK>>
+  {field} * UserID : BIGINT <<FK>>
+  {field} * RequestedRole : VARCHAR(10)
+}
+entity CenterWorktime {
+  {field} * CenterID : INTEGER <<PK, FK>>
+  {field} * DayOfWeek : SMALLINT <<PK>>
+  {field} * WorkStart : TIMETZ
+  {field} * WorkEnd : TIMETZ
+}
+entity CenterAppointmentSlot {
+  {field} * CenterID : INTEGER <<PK, FK>>
+  {field} * CenterAppointmentStart : TIMESTAMPTZ <<PK>>
+  {field} * CenterAppointmentEnd : TIMESTAMPTZ
+  {field} * Capacity : SMALLINT
+}
+entity CenterBloodThreshold {
+  {field} * CenterID : INTEGER <<PK, FK>>
+  {field} * BloodType : VARCHAR(3) <<PK, FK>>
+  {field} * LowThreshold : SMALLINT
+  {field} * CriticalThreshold : SMALLINT
+}
+entity FieldAction {
+  {field} * ActionID : BIGINT <<PK>>
+  {field} * OrganizerID : BIGINT <<FK>>
+  {field} CenterID : INTEGER <<FK>>
+  {field} * ActionName : TEXT
+  {field} * ActionStart : TIMESTAMPTZ
+  {field} * ActionEnd : TIMESTAMPTZ
+  {field} * Address : TEXT
+  {field} * Lat : DOUBLE PRECISION
+  {field} * Lng : DOUBLE PRECISION
+  {field} * ExpectedDonors : SMALLINT
+  {field} * Status : VARCHAR(20)
+  {field} StatusReason : TEXT
+  {field} * CreatedAt : TIMESTAMPTZ
+}
+entity TraumaTeam {
+  {field} * ActionID : BIGINT <<PK, FK>>
+  {field} * StaffID : BIGINT <<PK, FK>>
+}
+entity UrgentCall {
+  {field} * CallID : BIGINT <<PK>>
+  {field} * CenterID : INTEGER <<FK>>
+  {field} * BloodType : VARCHAR(3) <<FK>>
+  {field} * AreaLat : DOUBLE PRECISION
+  {field} * AreaLng : DOUBLE PRECISION
+  {field} * AreaRadiusKm : SMALLINT
+  {field} * Status : VARCHAR(9)
+  {field} ApprovedBy : BIGINT <<FK>>
+  {field} * ProposedAt : TIMESTAMPTZ
+  {field} SentAt : TIMESTAMPTZ
+}
+entity Appointment {
+  {field} * AppointmentID : BIGINT <<PK>>
+  {field} * DonorID : BIGINT <<FK>>
+  {field} CenterID : INTEGER <<FK>>
+  {field} ActionID : BIGINT <<FK>>
+  {field} UrgentCallID : BIGINT <<FK>>
+  {field} * AppointmentStart : TIMESTAMPTZ
+  {field} * AppointmentEnd : TIMESTAMPTZ
+  {field} * AppointmentStatus : VARCHAR(10)
+  {field} * QrToken : UUID <<UQ>>
+  {field} GoogleEventId : TEXT
+  {field} CancelledAt : TIMESTAMPTZ
+  {field} ReminderSentAt : TIMESTAMPTZ
+  {field} * CreatedAt : TIMESTAMPTZ
+  {field} * StatusChangedAt : TIMESTAMPTZ
+}
+entity SelfAssessmentQuestion {
+  {field} * QuestionID : INTEGER <<PK>>
+  {field} * Question : TEXT
+  {field} * DisqualifyingQuestion : BOOLEAN
+}
+entity SelfAssessment {
+  {field} * AppointmentID : BIGINT <<PK, FK>>
+  {field} * SubmittedAt : TIMESTAMPTZ
+  {field} * LikelyIneligible : BOOLEAN
+}
+entity SelfAssessmentAnswer {
+  {field} * AppointmentID : BIGINT <<PK, FK>>
+  {field} * QuestionID : INTEGER <<PK, FK>>
+  {field} * Answer : BOOLEAN
+}
+entity DonorDeferral {
+  {field} * DefferalID : BIGINT <<PK>>
+  {field} * DonorID : BIGINT <<FK>>
+  {field} AppointmentID : BIGINT <<FK>>
+  {field} * StaffID : BIGINT <<FK>>
+  {field} Until : TIMESTAMPTZ
+  {field} * Reason : TEXT
+  {field} * Infinite : BOOLEAN
+}
+entity BloodDose {
+  {field} * DoseID : BIGINT <<PK>>
+  {field} * AppointmentID : BIGINT <<FK, UQ>>
+  {field} * DonorID : BIGINT <<FK>>
+  {field} * CenterID : INTEGER <<FK>>
+  {field} * BloodType : VARCHAR(3) <<FK>>
+  {field} * AmountMl : SMALLINT
+  {field} * TimeOfCollection : TIMESTAMPTZ
+  {field} * ExpirationDate : TIMESTAMPTZ
+  {field} * DoseStatus : VARCHAR(9)
+  {field} TestResult : BOOLEAN
+  {field} DiscardReason : TEXT
+  {field} IssuedTo : TEXT
+  {field} IssuedAt : TIMESTAMPTZ
+  {field} * Barcode : TEXT <<UQ>>
+  {field} RecordedBy : BIGINT <<FK>>
+}
+entity BloodStockLog {
+  {field} * CenterID : INTEGER <<PK, FK>>
+  {field} * BloodType : VARCHAR(3) <<PK, FK>>
+  {field} * LogTime : TIMESTAMPTZ <<PK>>
+  {field} * Quantity : INTEGER
+}
+entity SensitiveAccessLog {
+  {field} * LogID : BIGINT <<PK>>
+  {field} * StaffID : BIGINT <<FK>>
+  {field} * DonorID : BIGINT <<FK>>
+  {field} * Resource : VARCHAR(15)
+  {field} * ResourceID : BIGINT
+  {field} * AccessType : VARCHAR(5)
+  {field} * AccessTime : TIMESTAMPTZ
+}
+entity UrgentCallRecipientLog {
+  {field} * CallID : BIGINT <<PK, FK>>
+  {field} * DonorID : BIGINT <<PK, FK>>
+  {field} * SentAt : TIMESTAMPTZ
+  {field} MessageID : TEXT
+  {field} * Status : VARCHAR(9)
+}
+entity DonorBadge {
+  {field} * DonorID : BIGINT <<PK, FK>>
+  {field} * Milestone : SMALLINT <<PK>>
+  {field} AppointmentID : BIGINT <<FK>>
+  {field} * AcquiredAt : TIMESTAMPTZ
+}
+entity Notification {
+  {field} * NotificationID : BIGINT <<PK>>
+  {field} * UserID : BIGINT <<FK>>
+  {field} * NotificationType : VARCHAR(20)
+  {field} * Title : TEXT
+  {field} * Body : TEXT
+  {field} * Channel : VARCHAR(5)
+  {field} * CreatedAt : TIMESTAMPTZ
+  {field} SentAt : TIMESTAMPTZ
+  {field} ReadAt : TIMESTAMPTZ
+}
+AppUser ||--o| Donor : UserID
+BloodTypeRef |o--o{ Donor : BloodType
+AppUser ||--o| Staff : UserID
+Center ||--o{ Staff : CenterID
+AppUser ||--o| Organizer : UserID
+AppUser ||--o{ RoleRequest : UserID
+Center ||--o{ CenterWorktime : CenterID
+Center ||--o{ CenterAppointmentSlot : CenterID
+Center ||--o{ CenterBloodThreshold : CenterID
+BloodTypeRef ||--o{ CenterBloodThreshold : BloodType
+Organizer ||--o{ FieldAction : OrganizerID
+Center |o--o{ FieldAction : CenterID
+FieldAction ||--o{ TraumaTeam : ActionID
+Staff ||--o{ TraumaTeam : StaffID
+Center ||--o{ UrgentCall : CenterID
+BloodTypeRef ||--o{ UrgentCall : BloodType
+Staff |o--o{ UrgentCall : ApprovedBy
+Donor ||--o{ Appointment : DonorID
+Center |o--o{ Appointment : CenterID
+FieldAction |o--o{ Appointment : ActionID
+UrgentCall |o--o{ Appointment : UrgentCallID
+Appointment ||--o| SelfAssessment : AppointmentID
+SelfAssessment ||--o{ SelfAssessmentAnswer : AppointmentID
+SelfAssessmentQuestion ||--o{ SelfAssessmentAnswer : QuestionID
+Donor ||--o{ DonorDeferral : DonorID
+Appointment |o--o{ DonorDeferral : AppointmentID
+Staff ||--o{ DonorDeferral : StaffID
+Appointment ||--o| BloodDose : AppointmentID
+Donor ||--o{ BloodDose : DonorID
+Center ||--o{ BloodDose : CenterID
+BloodTypeRef ||--o{ BloodDose : BloodType
+Staff |o--o{ BloodDose : RecordedBy
+Center ||--o{ BloodStockLog : CenterID
+BloodTypeRef ||--o{ BloodStockLog : BloodType
+Staff ||--o{ SensitiveAccessLog : StaffID
+Donor ||--o{ SensitiveAccessLog : DonorID
+UrgentCall ||--o{ UrgentCallRecipientLog : CallID
+Donor ||--o{ UrgentCallRecipientLog : DonorID
+Donor ||--o{ DonorBadge : DonorID
+Appointment |o--o{ DonorBadge : AppointmentID
+AppUser ||--o{ Notification : UserID
+legend bottom
+PK = primarni ključ, FK = strani ključ, UQ = jedinstveno polje
+* = NOT NULL (uključuje PK), ostala polja dopuštaju NULL
+Kružnica = 0, crtica = 1, račva = više
+Model: db/schema.sql (main e7b6e32). Dodatna ograničenja: docs/ER-model.md.
+Appointment: točno jedan od CenterID i ActionID (XOR).
+endlegend
+@enduml
