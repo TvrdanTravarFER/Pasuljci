@@ -1,0 +1,199 @@
+
+<script lang="ts">
+    import { resolve } from "$app/paths"
+    import TwoColumnView from "#lib/components/TwoColumnView.svelte";
+    import Dialog from "#lib/components/Dialog.svelte";
+    import { Settings, X } from "@lucide/svelte";
+    import { authClient, googleSignOut } from "#lib/auth-client.ts"
+    import { numberToDow } from "#lib/utilities/dayOfWeek.ts"
+    import { tlAppointmentStatus } from "#lib/utilities/translateEnums.ts"
+
+    const session = authClient.useSession()
+    
+    const { activeAppointment } = $props()
+</script>
+
+<section id="upperhalf">
+    <div class="donor-dashboard-greeting">
+        <h1 class="donor-name">{$session.data?.user.name}</h1>
+
+        {#if activeAppointment}
+            <div class="donor-reserved-subtitle">
+                <p class="donor-reserved-subtitle-info-message">Rezervirani ste za termin darivanja.</p>
+                <Dialog>
+                    {#snippet trigger()}
+                        Provjerite detalje ovdje.
+                    {/snippet}
+
+                    {#snippet title()}
+                        <h2 class="dialog-title">Vaša rezervacija</h2>
+                    {/snippet}
+
+                    {#snippet description()}
+                        <div></div>
+                    {/snippet}
+
+                    <p>{activeAppointment.centername}</p>
+                    <p>{activeAppointment.address}</p>
+
+                    <p>
+                        {numberToDow(activeAppointment.appointmentstart.getDay())},
+                        {activeAppointment.appointmentstart.toLocaleTimeString("hr-HR")} do
+                        {activeAppointment.appointmentend.toLocaleTimeString("hr-HR")}
+                        {activeAppointment.appointmentstart.toLocaleDateString("hr-HR")}, od
+                    </p>
+
+                    <p>Status: {tlAppointmentStatus(activeAppointment.appointmentstatus)}</p>
+                        
+                    <button class="button-primary">Želim otkazati rezervaciju</button>
+
+                    {#snippet close()}
+                        <X size={24} />
+                    {/snippet}
+                </Dialog>
+            </div>
+        {:else}
+            <p class="donor-not-reserved-subtitle">Niste rezervirani za termin.
+                <button>
+                    <a href={resolve("/appoint")}>Rezervirajte termin ovdje</a>
+                </button>
+            </p>
+        {/if}
+    </div>
+
+    <div class="donor-dashboard-buttons">
+        <Dialog>
+            {#snippet trigger()}
+                <Settings size={24} />
+            {/snippet}
+
+            {#snippet title()}
+                <h2 class="dialog-title">Postavke računa</h2>
+            {/snippet}
+
+            {#snippet description()}
+                <div></div>
+            {/snippet}
+
+            <h2>Osobni podaci</h2>
+            <form action="" class="settings-form">
+                <input type="text" name="ime" id="ime" placeholder="Ime" required>
+                <input type="text" name="prezime" id="prezime" placeholder="Prezime" required>
+                
+                <br>
+
+                <label for="spol">Spol</label>
+                <select name="spol" id="spol" required>
+                    <option selected disabled value>Odaberite...</option>
+                    <option value="Muškarac">Muškarac</option>
+                    <option value="Žena">Žena</option>
+                </select>
+                
+                <br>
+
+                <input type="text" name="mjesto_stanovanja" id="mjesto_stanovanja" placeholder="Mjesto stanovanja">
+                
+                <br>
+
+                <!-- Treba verifikacija za ovo -->
+                <input type="text" name="broj_telefona" id="broj_telefona" placeholder="Broj telefona">
+                
+                <br>
+
+                <input type="email" name="email" id="email" placeholder="Email adresa" pattern={String.raw`^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$`}>
+                <br>
+
+                <label for="krvna_grupa">Krvna grupa</label>
+                <br>
+                <select name="krvna_grupa" id="krvna_grupa" required>
+                    <option disabled selected value>Odaberite...</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+
+                <br>
+
+                <p>Krvna grupa nije potvrđena od strane djelatnika.</p>
+
+                <br>
+
+                <h2>Obavijesti</h2>
+                <label for="nacin_primanja_obavijesti">Obavijesti me putem:</label>
+                <select name="nacin_primanja_obavijesti" id="nacin_primanja_obavijesti" required>
+                    <option disabled selected value>Odaberite...</option>
+                    <option value="email">E-pošte</option>
+                    <option value="mobitel">Poruke na mobitelu</option>
+                </select>
+
+                <br>
+
+                <label for="">Najveća udaljenost za obavijesti o akcijama (u kilometrima):</label>
+                <br>
+                <input type="number" name="raspon_za_obavijesti" id="raspon_za_obavijesti" min="1" placeholder="npr. 50">
+
+                <br>
+
+                <button type="submit" class="button-primary">Spremi</button>
+            </form>
+            <br>
+            <button class="sign-out-button button-primary" onclick={googleSignOut}>Odjavi se</button>
+
+            {#snippet close()}
+                <X size={24} />
+            {/snippet}
+        </Dialog>
+    </div>
+</section>
+<section id="lowerhalf">
+    <TwoColumnView>
+        {#snippet leftColumn()}
+            <div class="donations">
+                <button><a class="button-primary" href={resolve("/home/donations")}>Povijest darivanja</a></button>
+            </div>
+        {/snippet}
+
+        {#snippet rightColumn()}
+            <div>Nesto jos</div>
+        {/snippet}
+    </TwoColumnView>
+</section>
+
+<style>
+    #upperhalf {
+        height: 50vh;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        margin-block-end: 4rem;
+
+        .donor-name {
+            font-size: 3rem;
+            margin-block-end: 1rem;
+        }
+
+        .donor-reserved-subtitle {
+            display: flex;
+        }
+
+        .donor-reserved-subtitle-info-message {
+            margin-inline-end: 0.15rem;
+        }
+
+        .donor-dashboard-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            gap: 1.5rem;
+        }
+    }
+
+    #lowerhalf {
+        height: 50vh;
+    }
+</style>

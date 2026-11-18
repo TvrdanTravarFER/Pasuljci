@@ -75,8 +75,8 @@ public class Rezervacija {
         }
     }
 
-    public Rezervacija(Long appointmentId, UUID qrToken, OffsetDateTime pocetak, OffsetDateTime kraj, StatusRezervacije status, Darivatelj darivatelj, Centar centar, TerenskaAkcija terenskaAkcija) {
-        this.appointmentId = appointmentId;
+    public Rezervacija(/*Long appointmentId, */UUID qrToken, OffsetDateTime pocetak, OffsetDateTime kraj, StatusRezervacije status, Darivatelj darivatelj, Centar centar, TerenskaAkcija terenskaAkcija) {
+        //this.appointmentId = appointmentId; // generated tak da netreba ????
         this.qrToken = qrToken;
         this.pocetak = pocetak;
         this.kraj = kraj;
@@ -98,8 +98,9 @@ public class Rezervacija {
         this.status = StatusRezervacije.NOTARRIVED;
     }
 
-    public void odbijNaPregledu(){
+    public void odbijNaPregledu(String Razlog){
         this.status = StatusRezervacije.REJECTED;
+        //Razlog negdje zapisat jos i guess
     }
 
     public void zavrsiDarivanje(){

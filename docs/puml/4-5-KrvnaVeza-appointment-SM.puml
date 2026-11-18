@@ -1,0 +1,68 @@
+@startuml
+' Izrađeno uz pomoć Codexa; zahtijevani životni ciklus jedne rezervacije.
+!pragma layout smetana
+title KrvnaVeza - životni ciklus rezervacije darivanja
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 13
+skinparam nodesep 60
+skinparam ranksep 65
+skinparam stateBackgroundColor #EFF6FF
+skinparam stateBorderColor #355B82
+skinparam NoteBackgroundColor #FFF8DC
+hide empty description
+
+state "Rezerviran\nRESERVED" as Reserved
+state "Pristupio\nARRIVED" as Arrived
+state "Na pregledu\nSCREENING" as Screening
+state "Darivanje u tijeku\nDONATING" as Donating
+state "Uspješno darovano\nFINISHED" as Finished
+state "Otkazan\nCANCELLED" as Cancelled
+state "Nije pristupio\nNOTARRIVED" as NoShow
+state "Odbijen na pregledu\nREJECTED" as Rejected
+
+[*] --> Reserved
+Reserved --> Arrived : skenirajQR\n[valjan QR i ovlašten djelatnik]
+Reserved --> Cancelled : otkaži\n[sada <= početak - CANCEL_MIN_HOURS]\n/ zabilježi CancelledAt
+Reserved --> NoShow : evidentirajNedolazak\n[termin prošao i darivatelj nije došao]\n/ povećaj broj nedolazaka; provjeri blokadu
+Arrived --> Screening : započniPregled\n/ pri čitanju zdravstvenih podataka zapiši pristup
+Screening --> Donating : prihvatiNaPregledu
+Screening --> Rejected : odbijNaPregledu\n[razlog i valjana odgoda]\n/ spremi DonorDeferral; ažuriraj podobnost
+Donating --> Finished : završiDarivanje\n/ ažuriraj podobnost; pri prvom darivanju potvrdi krvnu grupu
+Finished --> [*]
+Cancelled --> [*]
+NoShow --> [*]
+Rejected --> [*]
+
+note left of Reserved
+  Jedan objekt: Appointment / Rezervacija.
+  Početak: uspješno potvrđena rezervacija,
+  nakon provjere podobnosti i samoprocjene.
+  Početno stanje u SQL-u: RESERVED.
+  CANCEL_MIN_HOURS = 2 (podesivo).
+end note
+note right of NoShow
+  NO_SHOW_LIMIT = 3.
+  Dosezanje praga blokira nove rezervacije.
+  Zadatak: mjesec dana;
+  SQL parametar: NO_SHOW_BLOCK_DAYS = 30.
+end note
+note right of Rejected
+  Privremena odgoda: Until popunjen,
+  Infinite = false.
+  Trajna nepodobnost: Until = NULL,
+  Infinite = true.
+  Razlog je obavezan u oba slučaja.
+end note
+note bottom of Finished
+  Evidencija doze nastavlja se u UC-12.
+  Doza ima zaseban životni ciklus.
+end note
+legend bottom
+  Oznaka prijelaza: događaj [uvjet] / učinak.
+  Djelatničke radnje zahtijevaju ovlast za rezervaciju.
+  Pri svakoj promjeni stanja ažurira se StatusChangedAt.
+  Završetak ciklusa ne briše zapis iz baze.
+  Prikazan je ciljni poslovni model; provjera svih prijelaza još nije implementirana.
+endlegend
+@enduml

@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long> {
-    Optional<Rezervacija> pronadiPoQR(UUID token);
+    Optional<Rezervacija> findByQrToken(UUID token);
 }

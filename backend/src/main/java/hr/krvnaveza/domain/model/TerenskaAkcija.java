@@ -2,6 +2,8 @@ package hr.krvnaveza.domain.model;
 
 import jakarta.persistence.*;
 
+import javax.swing.*;
+
 @Entity
 @Table(name = "fieldaction")
 public class TerenskaAkcija {

@@ -1,0 +1,207 @@
+
+:root {
+    --color-foreground: #1e2121;
+    --color-background: #f8eef0;
+    --color-accent: #e72744;
+
+    --color-blood-sufficient: oklch(0.6265 0.2338 19.06);
+    --color-blood-low: oklch(0.7 0.1672 20.3);
+    --color-blood-critical: oklch(0.7706 0.1179 19.06);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+}
+
+input,
+button,
+textarea,
+select {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+body {
+    margin: 0;
+    font-family: "Figtree", sans-serif;
+    
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+}
+
+button {
+    cursor: pointer;
+}
+
+.main-navigation [data-collapsible-trigger] {
+    align-self: center;
+    border: none;
+    margin-block-start: 0.5rem;
+    background-color: transparent;
+}
+
+::selection {
+    color: var(--color-background);
+    background-color: var(--color-accent);
+}
+
+/* Dialog */
+.dialog-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background-color: #000000aa;
+}
+
+.dialog-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 50;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    padding: 0.85rem 3rem 1rem;
+
+    background-color: var(--color-background);
+    border: 2px solid var(--color-accent);
+    border-radius: 24px;
+
+    h2.dialog-title {
+        margin-block-start: 0.65rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .dialog-content {
+        min-width: 500px;
+        max-width: 600px;
+    }
+}
+
+.dialog-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+
+    border: none;
+    background-color: transparent;
+}
+
+/* .main-navigation {
+    button {
+        display: flex;
+        align-self: center;
+        background-color: var(--color-accent);
+        color: var(--color-background);
+        padding: 0.6rem 1.5rem;
+        margin-block-start: 0.15rem;
+        border: 3px solid var(--color-accent);
+        border-radius: 36px;
+        font-weight: 700;
+        transition: all 150ms ease-in-out;
+
+        a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    }
+} */
+
+/* Map */
+.map-view {
+    height: 300px;
+}
+
+@media (min-width: 768px) {
+    .map-view {
+        height: 500px;
+    }
+}
+
+.maplibregl-popup-content {
+    font-family: "Figtree", system-ui, sans-serif;
+}
+
+#map .right-column {
+    display: flex;
+    align-items: center;
+}
+
+/* donor view */
+.donor-reserved-subtitle {
+    font-style: italic;
+
+    button {
+        font-style: normal;
+        background-color: transparent;
+        padding: 0 0 0 0.25rem;
+        color: var(--color-foreground);
+        border: none;
+        text-decoration: underline 1px; 
+    }
+}
+
+
+
+
+
+button:has(> a.button-primary) {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.button-primary {
+    text-align: center;
+    align-self: center;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    padding: 0.6rem 1.5rem;
+    margin-block-start: 0.15rem;
+    border: 3px solid var(--color-accent);
+    border-radius: 36px;
+    font-weight: 700;
+    transition: all 150ms ease-in-out;
+    text-decoration: none;
+
+    a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+}
+
+.button-primary:hover {
+    color: var(--color-accent);
+    background-color: var(--color-background);
+
+    a {
+        color: var(--color-accent);
+    }
+}
+
+button:has(> svg.lucide) {
+    padding: 0.75rem 1.125rem 0.5rem;
+}
+
+.button-text {
+    background-color: transparent;
+    border: none;
+    padding-inline: 0.5rem;
+    font-weight: 700;
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+        color: var(--color-accent);
+    }
+}
