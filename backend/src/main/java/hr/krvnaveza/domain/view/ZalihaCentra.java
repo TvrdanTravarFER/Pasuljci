@@ -24,7 +24,7 @@ public class ZalihaCentra {
     private StatusZalihe razina;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "centerid")
     private Centar centar;
 

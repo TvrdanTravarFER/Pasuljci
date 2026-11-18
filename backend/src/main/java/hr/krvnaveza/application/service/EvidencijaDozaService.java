@@ -1,17 +1,21 @@
 package hr.krvnaveza.application.service;
 
-import hr.krvnaveza.domain.model.Rezervacija;
+import hr.krvnaveza.domain.enums.StatusRezervacije;
+import hr.krvnaveza.domain.model.*;
 import hr.krvnaveza.domain.view.ZalihaCentra;
-import hr.krvnaveza.domain.model.DozaKrvi;
 import hr.krvnaveza.repository.DozaKrviRepository;
+import hr.krvnaveza.repository.ZalihaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class EvidencijaDozaService {
 
     private DozaKrviRepository dozaKrviRepository;
+    private ZalihaRepository zalihaRepository;
 
     public DozaKrvi evidentirajDozu(Long idRezervacije, String barkod){
 
@@ -36,6 +40,8 @@ public class EvidencijaDozaService {
     }
 
     public List<ZalihaCentra> dohvatiZalihe(int idCentra){
-        return List.of();
+
+        Optional<List<ZalihaCentra>> zalihaCentra = zalihaRepository.dohvatiPoCentru(idCentra);
+        return zalihaCentra.orElse(List.of());
     }
 }
