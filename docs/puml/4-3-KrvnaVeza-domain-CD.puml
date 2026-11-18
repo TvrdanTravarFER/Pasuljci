@@ -43,17 +43,18 @@ package "Aplikacijski sloj" {
 package "Domenski sloj" {
     class Darivatelj <<Entity>> {
         -userId: Long
-        -krvnaGrupa: String
+        -krvnaGrupa: KrvnaGrupa [0..1]
+        -krvnaGrupaPotvrdena: boolean
         -brojNedolazaka: Integer
-        -blokiranDo: DateTime
+        -blokiranDo: OffsetDateTime [0..1]
     }
 
     class DjelatnikCentra <<Entity>> {
-        -userId: Long
+        -userId: long
     }
 
     class Centar <<Entity>> {
-        -centerId: Integer
+        -centerId: int
         -naziv: String
         -adresa: String
     }
@@ -66,9 +67,10 @@ package "Domenski sloj" {
     class Rezervacija <<Entity>> {
         -appointmentId: Long
         -qrToken: UUID
-        -pocetak: DateTime
-        -kraj: DateTime
+        -pocetak: OffsetDateTime
+        -kraj: OffsetDateTime
         -status: StatusRezervacije
+        -vrijemePromjeneStatusa: OffsetDateTime
         +oznaciDolazak(): void
         +oznaciNedolazak(): void
         +odbijNaPregledu(): void
@@ -76,25 +78,59 @@ package "Domenski sloj" {
     }
 
     class Samoprocjena <<Entity>> {
-        -vrijemePredaje: DateTime
-        -vjerojatnoNepodoban: Boolean
+        -vrijemePredaje: OffsetDateTime
+        -vjerojatnoNepodoban: boolean
+    }
+
+    class PitanjeSamoprocjene <<Entity>> {
+        -pitanjeId: Integer
+        -tekst: String
+        -diskvalificirajuce: boolean
+    }
+
+    class OdgovorSamoprocjene <<Entity>> {
+        -odgovor: boolean
     }
 
     class OdgodaDarivanja <<Entity>> {
-        -vrijediDo: DateTime
+        -odgodaId: Long
+        -vrijediDo: OffsetDateTime [0..1]
         -razlog: String
-        -trajna: Boolean
+        -trajna: boolean
+    }
+
+    class ZapisPristupa <<Entity>> {
+        -logId: Long
+        -resurs: VrstaResursa
+        -resursId: Long
+        -vrstaPristupa: VrstaPristupa
+        -vrijemePristupa: OffsetDateTime
+    }
+
+    class Obavijest <<Entity>> {
+        -notificationId: Long
+        -korisnikId: Long
+        -vrsta: VrstaObavijesti
+        -naslov: String
+        -tekst: String
+        -kanal: KanalObavijesti
+        -vrijemeKreiranja: OffsetDateTime
+        -vrijemeSlanja: OffsetDateTime [0..1]
+        -vrijemeCitanja: OffsetDateTime [0..1]
     }
 
     class DozaKrvi <<Entity>> {
-        -doseId: Long
+        -doseId: long
         -barkod: String
-        -krvnaGrupa: String
-        -kolicinaMl: Integer
-        -vrijemePrikupljanja: DateTime
-        -rokTrajanja: DateTime
+        -krvnaGrupa: KrvnaGrupa
+        -kolicinaMl: int
+        -vrijemePrikupljanja: OffsetDateTime
+        -rokTrajanja: OffsetDateTime
         -status: StatusDoze
-        -rezultatTestiranja: Boolean
+        -rezultatTestiranja: Boolean [0..1]
+        -razlogOdbacivanja: String [0..1]
+        -bolnicaPrimatelj: String [0..1]
+        -vrijemeIzdavanja: OffsetDateTime [0..1]
         +posaljiNaTestiranje(): void
         +staviNaZalihu(): void
         +izdajBolnici(): void
@@ -102,10 +138,33 @@ package "Domenski sloj" {
     }
 
     class ZalihaCentra <<View>> {
-        -krvnaGrupa: String
-        -brojDoza: Integer
-        -ukupnoMl: Integer
-        -razina: String
+        -krvnaGrupa: KrvnaGrupa
+        -brojDoza: int
+        -ukupnoMl: int
+        -razina: StatusZalihe
+    }
+
+    class PragZaliheCentra <<Entity>> {
+        -krvnaGrupa: KrvnaGrupa
+        -niskiPrag: int
+        -kriticniPrag: int
+    }
+
+    enum KrvnaGrupa {
+        Ap
+        An
+        Bp
+        Bn
+        ABp
+        ABn
+        Op
+        On
+    }
+
+    enum StatusZalihe {
+        CRITICAL
+        LOW
+        OK
     }
 
     enum StatusRezervacije {
@@ -125,6 +184,33 @@ package "Domenski sloj" {
         STOCK
         ISSUED
         DISCARDED
+    }
+
+    enum VrstaResursa {
+        SELF_ASSESSMENT
+        DEFERRAL
+    }
+
+    enum VrstaPristupa {
+        READ
+        WRITE
+    }
+
+    enum VrstaObavijesti {
+        REMINDER
+        ELIGIBLE_AGAIN
+        ACTION_MESSAGE
+        DOSE_ISSUED
+        TEST_FAILED
+        BADGE
+        MILESTONE
+        URGENT_CALL
+    }
+
+    enum KanalObavijesti {
+        SMS
+        EMAIL
+        APP
     }
 }
 
@@ -158,6 +244,13 @@ Centar "1" -- "0..*" DozaKrvi : zaprima
 DjelatnikCentra "0..1" <-- "0..*" DozaKrvi : evidentira
 Centar "1" -- "0..*" ZalihaCentra : ima
 ZalihaCentra ..> DozaKrvi : izračunava se iz
+Rezervacija "0..1" -- "0..*" OdgodaDarivanja : odnosi se na
+Samoprocjena "1" *-- "0..*" OdgovorSamoprocjene : sadrži
+PitanjeSamoprocjene "1" -- "0..*" OdgovorSamoprocjene : odnosi se na
+DjelatnikCentra "1" -- "0..*" ZapisPristupa : bilježi
+Darivatelj "1" -- "0..*" ZapisPristupa : odnosi se na
+Centar "1" -- "0..*" PragZaliheCentra : definira pragove
+ZalihaCentra ..> PragZaliheCentra : koristi pragove
 
 ' Servisi ovise o repozitorijima; njihove operacije prikazuju koje domenske
 ' objekte koriste. Repozitoriji prikazuju koje podatke spremaju ili dohvaćaju.
@@ -175,8 +268,28 @@ note right of Rezervacija
 end note
 
 note bottom of ZalihaCentra
-  Zaliha je prikaz izračunat iz
-  evidentiranih doza krvi.
+  Zaliha prikazuje broj i ukupni volumen
+  neisteklih doza u statusu STOCK.
+  Razina se određuje prema pragovima
+  za centar i krvnu grupu.
+end note
+
+note right of OdgodaDarivanja
+  Trajna odgoda nema datum završetka.
+  Privremena odgoda mora imati datum završetka.
+end note
+
+note bottom of DozaKrvi
+  Doza u statusu STOCK ili ISSUED mora imati
+  evidentiran rezultat testiranja.
+  Doza u statusu ISSUED mora imati bolnicu
+  i vrijeme izdavanja.
+  Doza u statusu DISCARDED mora imati razlog odbacivanja.
+end note
+
+note right of Darivatelj
+  Ako je krvna grupa potvrđena,
+  mora biti unesena.
 end note
 
 @enduml
