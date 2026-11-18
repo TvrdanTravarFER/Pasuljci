@@ -1,0 +1,88 @@
+@startuml
+' Izrađeno uz pomoć Codexa; model oblikovanja, ne snimka dovršene implementacije.
+title KrvnaVeza - UC-11: provjera QR koda i evidencija dolaska
+hide footbox
+autonumber
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 13
+skinparam sequenceMessageAlign center
+skinparam ParticipantBackgroundColor #EFF6FF
+skinparam ParticipantBorderColor #355B82
+skinparam NoteBackgroundColor #FFF8DC
+
+actor "Djelatnik centra" as Staff
+boundary "Sučelje dolaska\n(SvelteKit)" as UI
+control "obrada:ObradaDolaskaService" as Service
+participant "repo:RezervacijaRepository" as Repo
+entity "r:Rezervacija" as Reservation
+
+note over Staff,Service
+  Preduvjet: prijavljen djelatnik.
+  Obuhvat: UC-11, koraci 1-2 i alternativa 1a.
+  Prikazan je planirani postupak obrade.
+end note
+
+Staff -> UI : skeniraj QR kod
+UI -> UI : provjeri format QR koda
+alt token nije valjan UUID
+  UI --> Staff : prikaži pogrešku: nevaljan QR kod
+else token je valjan UUID
+  UI -> Service : obradiQR(token)
+  activate Service
+  group Transakcijska obrada: dohvat, provjera i spremanje
+  Service -> Repo : pronadiPoQR(token)
+  activate Repo
+  Repo --> Service : Optional<Rezervacija>
+  deactivate Repo
+  alt rezervacija nije pronađena
+    Service --> UI : pogreška: nepoznat QR kod
+    UI --> Staff : prikaži razlog odbijanja
+  else rezervacija je pronađena
+    Service -> Service : provjeri ovlasti za lokaciju rezervacije
+    alt djelatnik nema ovlast
+      Service --> UI : pristup odbijen
+      UI --> Staff : prikaži zabranu pristupa
+    else djelatnik ima ovlast
+        Service -> Reservation : pročitaj aktualni status
+        Reservation --> Service : status
+        alt status != RESERVED
+          Service --> UI : pogreška: rezervacija nije rezervirana
+          UI --> Staff : prikaži razlog; stanje ostaje nepromijenjeno
+        else status == RESERVED
+          Service -> Reservation : oznaciDolazak()
+          activate Reservation
+          Reservation --> Service : status = ARRIVED (u memoriji)
+          deactivate Reservation
+          Service -> Repo : spremi(r)
+          activate Repo
+          note right of Repo
+            Pohrana: Appointment.
+            SQL okidač ažurira StatusChangedAt.
+            Uspjeh tek nakon COMMIT-a;
+            pri pogrešci ROLLBACK.
+          end note
+          alt pohrana i COMMIT uspiju
+            Repo --> Service : potvrđena pohrana
+            Service --> UI : rezervacija u stanju ARRIVED
+            UI --> Staff : prikaži rezervaciju i potvrdi dolazak
+          else pogreška pohrane ili sukob izmjena
+            Repo --> Service : pogreška; transakcija poništena
+            Service --> UI : dolazak nije spremljen; osvježi i pokušaj ponovno
+            UI --> Staff : prikaži pogrešku bez potvrde dolaska
+          end
+          deactivate Repo
+        end
+    end
+  end
+  end
+  deactivate Service
+end
+
+note over Service,Reservation
+  Transakcija mora spriječiti paralelnu promjenu provjerenog statusa.
+  Način zaključavanja i API još su dio implementacije.
+  Upitnik i zdravstveni podaci nisu dio ovog scenarija;
+  otvaraju se u sljedećem koraku UC-11 uz zapis pristupa.
+end note
+@enduml
