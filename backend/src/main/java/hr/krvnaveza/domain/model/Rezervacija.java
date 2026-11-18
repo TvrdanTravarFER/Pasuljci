@@ -98,8 +98,9 @@ public class Rezervacija {
         this.status = StatusRezervacije.NOTARRIVED;
     }
 
-    public void odbijNaPregledu(){
+    public void odbijNaPregledu(String Razlog){
         this.status = StatusRezervacije.REJECTED;
+        //Razlog negdje zapisat jos i guess
     }
 
     public void zavrsiDarivanje(){
