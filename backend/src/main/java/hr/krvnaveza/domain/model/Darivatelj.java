@@ -19,7 +19,7 @@ public class Darivatelj {
     private KrvnaGrupa krvnaGrupa;
 
     @Column(name = "noshowcount")
-    private Integer brojNedolazaka;
+    private Short brojNedolazaka;
 
     @Column(name = "blockeduntil")
     private OffsetDateTime blokiranDo;
@@ -34,7 +34,7 @@ public class Darivatelj {
         }
     }
 
-    public Darivatelj(Long userId, KrvnaGrupa krvnaGrupa, Integer brojNedolazaka, OffsetDateTime blokiranDo) {
+    public Darivatelj(Long userId, KrvnaGrupa krvnaGrupa, Short brojNedolazaka, OffsetDateTime blokiranDo) {
         this.userId = userId;
         this.krvnaGrupa = krvnaGrupa;
         this.brojNedolazaka = brojNedolazaka;

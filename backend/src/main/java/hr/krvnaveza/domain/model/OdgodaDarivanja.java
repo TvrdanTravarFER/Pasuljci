@@ -8,7 +8,7 @@ import java.util.Date;
 import static java.sql.Types.NULL;
 
 @Entity
-@Table
+@Table(name = "DonorDeferral")
 public class OdgodaDarivanja {
 
     @Id
@@ -33,7 +33,7 @@ public class OdgodaDarivanja {
     private Rezervacija rezervacija;
 
     @ManyToOne
-    @JoinColumn(name = "userid")
+    @JoinColumn(name = "StaffID")
     private DjelatnikCentra djelatnikCentra;
 
 
