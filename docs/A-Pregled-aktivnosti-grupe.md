@@ -101,7 +101,9 @@ Koristite aktivnosti specifične za projekt umjesto obaveznog retka za svako pog
 
 GitHubov prikaz `Contributors` za projektni repozitorij: <https://github.com/TvrdanTravarFER/Pasuljci/graphs/contributors>
 
-**Razdoblje koje prikaz obuhvaća:** `<11.10.2026.>` - `<15.11.2026.>`
+![](assets/ContributorsGraph18.11.2026.png)
+
+**Razdoblje koje prikaz obuhvaća:** `11.10.2026.` - `15.11.2026.`
 
 Graf može pokazati kada su zapisi promjena napravljeni i tko ih je napravio, ali ne prikazuje sav rad na oblikovanju, ispitivanju, integraciji, pregledu ili dokumentaciji. Ako postoji uočljiv nesklad s tablicom aktivnosti, kratko ga objasnite; nemojte iz grafa izvoditi broj sati. Generirani prikaz neka bude vezan uz stvarni repozitorij umjesto da se ručno crta drugi graf.
 
