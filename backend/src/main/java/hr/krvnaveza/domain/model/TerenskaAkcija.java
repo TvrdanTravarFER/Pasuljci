@@ -23,4 +23,11 @@ public class TerenskaAkcija {
         this.naziv = naziv;
     }
 
+    public Long getActionId() {
+        return actionId;
+    }
+
+    public String getNaziv() {
+        return naziv;
+    }
 }

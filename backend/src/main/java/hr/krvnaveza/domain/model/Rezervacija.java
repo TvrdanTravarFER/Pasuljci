@@ -1,5 +1,6 @@
 package hr.krvnaveza.domain.model;
 
+import hr.krvnaveza.domain.dto.LokacijaResponse;
 import hr.krvnaveza.domain.enums.StatusRezervacije;
 import jakarta.persistence.*;
 
@@ -87,7 +88,45 @@ public class Rezervacija {
     }
 
     // getteri i setteri, kada treba implementirati
+    public Long getAppointmentId() {
+        return appointmentId;
+    }
 
+    public UUID getQrToken() {
+        return qrToken;
+    }
+
+    public OffsetDateTime getPocetak() {
+        return pocetak;
+    }
+
+    public OffsetDateTime getKraj() {
+        return kraj;
+    }
+
+    public StatusRezervacije getStatus() {
+        return status;
+    }
+
+    public Darivatelj getDarivatelj() {
+        return darivatelj;
+    }
+
+    public LokacijaResponse getLokacija() {
+        if(centar!=null) {
+            return new LokacijaResponse(
+                    "CENTAR",
+                    (long) centar.getCenterId(),
+                    centar.getNaziv(),
+                    centar.getAdresa());
+        }
+        return new LokacijaResponse(
+                "TERENSKA_AKCIJA",
+                terenskaAkcija.getActionId(),
+                terenskaAkcija.getNaziv(),
+                null
+        );
+    }
 
     // implementirane metode (trebati ce jos dalja implementacija)
     public void oznaciDolazak(){

@@ -25,4 +25,15 @@ public class Centar {
         this.adresa = adresa;
     }
 
+    public int getCenterId() {
+        return centerId;
+    }
+
+    public String getNaziv() {
+        return naziv;
+    }
+
+    public String getAdresa() {
+        return adresa;
+    }
 }

@@ -40,4 +40,20 @@ public class Darivatelj {
         this.brojNedolazaka = brojNedolazaka;
         this.blokiranDo = blokiranDo;
     }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public KrvnaGrupa getKrvnaGrupa() {
+        return krvnaGrupa;
+    }
+
+    public Short getBrojNedolazaka() {
+        return brojNedolazaka;
+    }
+
+    public OffsetDateTime getBlokiranDo() {
+        return blokiranDo;
+    }
 }
