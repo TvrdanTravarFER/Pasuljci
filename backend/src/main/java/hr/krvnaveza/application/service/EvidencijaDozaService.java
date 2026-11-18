@@ -1,5 +1,6 @@
 package hr.krvnaveza.application.service;
 
+import hr.krvnaveza.domain.enums.KrvnaGrupa;
 import hr.krvnaveza.domain.enums.StatusRezervacije;
 import hr.krvnaveza.domain.model.*;
 import hr.krvnaveza.domain.view.ZalihaCentra;
@@ -22,6 +23,12 @@ public class EvidencijaDozaService {
         Optional<DozaKrvi> dozaKrvi = dozaKrviRepository.pronadiPoRezervaciji(idRezervacije);
         return dozaKrvi.orElse(null);
     }
+
+    public void upisDozeKrvi(String barkod, short kolicinaMl, OffsetDateTime vrijemePrikupljanja, OffsetDateTime rokTrajanja, KrvnaGrupa krvnaGrupa, Rezervacija rezervacija, Darivatelj darivatelj, Centar centar)
+    {
+        dozaKrviRepository.save(new DozaKrvi(barkod, kolicinaMl, vrijemePrikupljanja, rokTrajanja, krvnaGrupa, rezervacija, darivatelj, centar));
+    }
+
 
     public void zabiljeziTestiranje(long idDoze, boolean rezultat){
         DozaKrvi dozaKrvi = dozaKrviRepository.findById(idDoze).orElse(null);

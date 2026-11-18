@@ -16,4 +16,13 @@ public interface DozaKrviRepository extends JpaRepository<DozaKrvi, Long> {
     Optional<DozaKrvi> pronadiPoRezervaciji(
             @Param("appointmentId") Long appointmentId
     );
+    @Query(value = """
+            SELECT *
+            FROM BloodDose
+            WHERE Barcode = :barkod
+            """, nativeQuery = true)
+    Optional<DozaKrvi> pronadiPoBarkodu(
+            @Param("barkod") String barkod
+    );
+
 }
