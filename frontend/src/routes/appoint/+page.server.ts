@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ request, url }) => {
                 password: process.env.DB_PASSWORD,
                 host: process.env.DB_URL,
                 port: 5432,
-                database: "krvnaveza",
+                database: "krvnaveza_db",
                 ssl: { rejectUnauthorized: false }
             })
 

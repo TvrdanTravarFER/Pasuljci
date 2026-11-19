@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ request }) => {
             password: process.env.DB_PASSWORD,
             host: process.env.DB_URL,
             port: 5432,
-            database: "krvnaveza"
+            database: "krvnaveza_db"
         })
 
         const data = await request.formData()
