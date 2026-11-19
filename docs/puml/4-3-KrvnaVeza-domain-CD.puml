@@ -41,17 +41,29 @@ package "Aplikacijski sloj" {
 }
 
 package "Domenski sloj" {
-    class Darivatelj <<Entity>> {
+
+    abstract class Korisnik <<Entity>> {
         -userId: Long
+        -email: String [0..1]
+        -ime: String
+        -prezime: String
+        -datumRodenja: Date [0..1]
+        -spol: String [0..1]
+        -prebivaliste: String [0..1]
+        -brojTelefona: String [0..1]
+        -uloga: String
+        -aktivan: boolean
+        -anonimiziran: boolean
+    }
+
+    class Darivatelj <<Entity>> {
         -krvnaGrupa: KrvnaGrupa [0..1]
         -krvnaGrupaPotvrdena: boolean
         -brojNedolazaka: Integer
         -blokiranDo: OffsetDateTime [0..1]
     }
 
-    class DjelatnikCentra <<Entity>> {
-        -userId: long
-    }
+    class DjelatnikCentra <<Entity>>
 
     class Centar <<Entity>> {
         -centerId: int
@@ -251,6 +263,9 @@ DjelatnikCentra "1" -- "0..*" ZapisPristupa : bilježi
 Darivatelj "1" -- "0..*" ZapisPristupa : odnosi se na
 Centar "1" -- "0..*" PragZaliheCentra : definira pragove
 ZalihaCentra ..> PragZaliheCentra : koristi pragove
+Korisnik <|-- Darivatelj
+Korisnik <|-- DjelatnikCentra
+Korisnik "1" -- "0..*" Obavijest : prima
 
 ' Servisi ovise o repozitorijima; njihove operacije prikazuju koje domenske
 ' objekte koriste. Repozitoriji prikazuju koje podatke spremaju ili dohvaćaju.
