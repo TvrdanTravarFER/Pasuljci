@@ -30,11 +30,10 @@ Za potpuni opseg, zahtjeve, oblikovanje i dokaze ispitivanja pogledajte [docs](d
 <!-- UPUTA: Ovaj odjeljak opisuje već postavljenu aplikaciju koju se  može otvoriti i isprobati bez lokalnog pokretanja izvornog koda.
 Za Iteraciju 1 i Završni pregled navedite konkretne podatke. Provjerite vodi li URL na javno dostupnu pokrenutu aplikaciju i radi li navedeni tijek uporabe. Nikada ne objavljujte lozinke ni pristupne tokene. -->
 
-**Javno dostupna aplikacija:** [Javni URL]
+**Javno dostupna aplikacija:** https://krvnaveza.onrender.com/
 
-**Isprobajte:** [Jedna ili dvije kratke radnje koje pokazuju funkcionalan korisnički tijek.]
-
-**Demonstracija:** [Objasnite kako dobiti potreban ograničeni pristup ako je prijava obavezna; u suprotnom napišite „Korisnički račun nije potreban.” Ovdje ne objavljujte lozinke ni pristupne tokene.]
+**Isprobajte:** Provjerite na glavnoj stranici stanje zaliha krvi po krvnim grupama, kao i lokacije transfuzijskih centara diljem Hrvatske. Ako se prijavite, moći ćete i pretraživati te zakazivati se za termine darivanja koje su otvorili centri.
+**Demonstracija:** Bez korisničkog računa moguće je vidjeti kartu s transfuzijskim centrima diljem Hrvatske kao i globalno stanje zaliha krvi po grupama. Za ostale značajke potrebna je prijava u aplikaciju, koju je moguće ostvariti koristeći već postojeći Google račun.
 
 **Ograničenja:** [Kratko navedite ograničenja postavljene inačice ili postavite poveznicu na jedinstveno mjerodavno mjesto u dokumentaciji s poznatim problemima.]
 
@@ -45,29 +44,47 @@ Za Iteraciju 1 i Završni pregled navedite konkretne podatke. Provjerite vodi li
 
 <!-- Obavezno od Demo 1 nadalje. Zamijenite mjesta za unos naredbama koje je drugi član tima uspješno provjerio nakon čistog kloniranja repozitorija. Detaljne upute za administraciju držite u projektnoj dokumentaciji u direktoriju docs/. -->
 
-**Preduvjeti:** [Navedite potrebno izvršno okruženje (engl. runtime) i verzija, upravitelj paketa (engl. package manager), baza podataka ili vanjska usluga ako je nužna.]
+**Preduvjeti:**
+- Izvršno okruženje: Node.js verzija 26
+- Upravitelj paketa: npm verzija 11.21
+- Baza podataka: PostgreSQL 18
+
+Lokalno pokretanje:
 
 ```bash
 git clone https://github.com/TvrdanTravarFER/Pasuljci
-cd [repository directory]
-[install dependencies]
-[run the application]
+
+# postavljanje lokalne baze podataka:
+cd Pasuljci/scripts
+./seed-database.sh
+
+# instaliranje dependency paketa i priprema baze za OAuth2:
+cd ../frontend
+npm install
+npx @better-auth/cli migrate
+
+# izgradnja stranice
+npm run build
+node build/index.js
 ```
 
-**Adresa:** [Stvarna adresa koju aplikacija ispiše nakon pokretanja.]
+**Adresa:** http://localhost:5173
 
-**Konfiguracija:** [Navedite potrebne varijable okruženja (engl. environment variables) ili uputite na sigurnu datoteku `.env.example`; objasnite gdje se dobivaju vrijednosti. Nikada ne stavljajte stvarne pristupne podatke u ovu datoteku, primjer konfiguracije, snimke zaslona, zapise ni zapise promjena (engl. commits).]
+**Konfiguracija:** [varijable okruženja]
 
-[Dodajte kratak korak provjere, primjerice koja se stranica treba otvoriti ili koja naredba pokreće osnovnu provjeru.] Za detaljno postavljanje pogledajte [projektnu dokumentaciju](docs/Home.md).
+Uspješno postavljanje trebalo bi otvoriti početnu stranicu bez grešaka. Za detaljno postavljanje pogledajte [projektnu dokumentaciju](docs/Home.md).
 
 ## Tehnologije
 
 Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša aplikacija radi. Za svaku navedite njezinu konkretnu ulogu i jedan razlog ili ograničenje važno za projekt. Alat za razvoj ili ispitivanje uključite samo ako je njegova uloga važna za razumijevanje načina na koji je projekt izrađen ili provjeren. Nemojte prepisivati popis ovisnosti (engl. dependencies), statistiku programskih jezika ni popis razvojnih okruženja i komunikacijskih alata. Tablicu provjerite prema stvarnom repozitoriju i pokrenutoj aplikaciji; potrebne verzije i konfiguraciju dokumentirajte u vodiču za instalaciju.
 
-| Tehnologija ili alat | Uloga u ovom projektu | Razlog uporabe ili važno ograničenje |
-| --- | --- | --- |
-| Figma | Brzo prototipiranje korisničkog sučelja i korisničkog iskustva | [Razlog ili ograničenje specifično za projekt] |
-| PostgreSQL | Implementacija modela (baze) podataka | [Razlog ili ograničenje specifično za projekt] |
+| Tehnologija ili alat | Uloga u ovom projektu                                       | Razlog uporabe ili važno ograničenje |
+| -------------------- | ----------------------------------------------------------- | --- |
+| Java & Spring Boot   | Glavni programski jezik i okvir za razvoj backend dijela stranice | |
+| Svelte               | Oblikovanje korisničkog sučelja i frontend dijela stranice                           | |
+| SvelteKit            | Prototipiranje backend dijela stranice i inicijalno testiranje pristupa prema bazi                      | |
+| PostgreSQL           | Pohrana podataka prijave i podataka koji se koriste u samim funkcionalnostima stranice | [Razlog ili ograničenje specifično za projekt] |
+| OpenStreetMap        | Prikaz karte transfuzijskih centara i akcija darivanja krvi na početnoj stranici | [Razlog ili ograničenje specifično za projekt] |
 
 <details>
 <summary><strong>Primjer: objašnjenje ključnih tehnoloških odluka</strong></summary>

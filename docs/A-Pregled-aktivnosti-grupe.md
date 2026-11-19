@@ -17,7 +17,8 @@
 
 | Datum i sudionici | Glavna tema | Donesena odluka ili zadatak  | Poveznica na zadatak ili  rezultat, ako postoji |
 | --- | --- | --- | --- |
-| 29.10.2026.;  LC NS MM SR KM MV KK | Raspodjela rada i plan napretka projekta | Početi rad na "4-Arhitektura-i-oblikovanje.md" i na frontend-u | - |
+| 29.10.2026.;  LC NS MM SR KM MV KK | Raspodjela rada i plan napretka projekta | Početi rad na "4-Arhitektura-i-oblikovanje.md" i na frontend-u | <https://github.com/TvrdanTravarFER/Pasuljci/pull/31> |
+| 12.11.2026.;  LC NS MM SR KM MV KK | Odabir alata i arhitektura aplikacije | Napraviti bazu podataka i početi rad na backend-u | <https://github.com/TvrdanTravarFER/Pasuljci/pull/30> <https://github.com/TvrdanTravarFER/Pasuljci/pull/39> |
 
 Za svaki relevantan sastanak ili zapis tjedne koordinacije upišite jedan sažet redak. Dodijeljeni zadatak treba imati odgovornu osobu; za neriješeno pitanje treba navesti tko će ga dalje obraditi. Sam naslov sastanka ne pokazuje što se promijenilo. U ovu evidenciju nemojte kopirati cijeli popis issuea ni prijepis razgovora.
 
@@ -41,13 +42,12 @@ Za svaki relevantan sastanak ili zapis tjedne koordinacije upišite jedan sažet
 
 **Cilj:** Prikazati planirani redoslijed rada i odgovornosti u timu. Prikažite projektne tjedne ili druga kratka razdoblja koja tim koristi, uključujući pripremu za formalne provjere.
 
-**Trenutačni plan:** [Poveznica na GitHub Projects ploču, Gantogram ili održavanu tablicu u nastavku. Navesti osobu zaduženu za ažurnost plana. Odaberite jedan glavni prikaz i navedite tko ga održava ažurnim.]
+**Trenutačni plan:** Glavni prikaz plana rada je tablica u ovoj dokumentaciji. Zadaci se prate putem GitHub Issues, a promjene i napredak razvoja putem Pull Requestova. Za ažurnost plana zaduženi su svi članovi tima.
 
-| Razdoblje/Tjedan | Glavni planirani rad | Odgovorni članovi | Poveznica na zadatke |
+| Razdoblje | Glavni planirani rad | Odgovorni članovi | Poveznica na zadatke |
 | --- | --- | --- | --- |
-|  |  |  |  |
-
-Ako koristite tablicu, plan vodite na korisnoj tjednoj razini i ažurirajte ga kada se prioriteti promijene. Kratice članova tima definirajte  u A.1 i ovdje ih primjenjujte dosljedno; ako dva člana imaju iste inicijale, proširite kraticu. Plan nije dokaz da je planirani rad dovršen (to dokazuje kod i dokumentacija).
+| 29. 10. – 11. 11. | Ažuriranje zapisa o raspodjeli rada, izrada projektne dokumentacije te početak razvoja frontenda | MM, MV | [PR #1](https://github.com/TvrdanTravarFER/Pasuljci/pull/1), [PR #2](https://github.com/TvrdanTravarFER/Pasuljci/pull/2), [PR #4](https://github.com/TvrdanTravarFER/Pasuljci/pull/4), [PR #5](https://github.com/TvrdanTravarFER/Pasuljci/pull/5), [#14](https://github.com/TvrdanTravarFER/Pasuljci/issues/14), [#15](https://github.com/TvrdanTravarFER/Pasuljci/issues/15), [#16](https://github.com/TvrdanTravarFER/Pasuljci/issues/16) |
+| 12. 11. – 20. 11. | Izrada baze podataka, razvoj backenda i frontenda, izrada ER i UML dijagrama, dovršavanje projektne dokumentacije i priprema prve predaje | MV, MM, KK, KM, NS, SR, LC | [#6](https://github.com/TvrdanTravarFER/Pasuljci/issues/6), [#8](https://github.com/TvrdanTravarFER/Pasuljci/issues/8), [#9](https://github.com/TvrdanTravarFER/Pasuljci/issues/9), [#10](https://github.com/TvrdanTravarFER/Pasuljci/issues/10), [#17](https://github.com/TvrdanTravarFER/Pasuljci/issues/17), [#19](https://github.com/TvrdanTravarFER/Pasuljci/issues/19), [#21](https://github.com/TvrdanTravarFER/Pasuljci/issues/21), [#26](https://github.com/TvrdanTravarFER/Pasuljci/issues/26), [#32](https://github.com/TvrdanTravarFER/Pasuljci/issues/32)|
 
 <details>
 <summary><strong>Primjer plana rada</strong></summary>
@@ -69,7 +69,11 @@ Ako koristite tablicu, plan vodite na korisnoj tjednoj razini i ažurirajte ga k
 
 | Aktivnost ili rezultat | Član | Prijavljeni sati | Reprezentativni rezultat ili poveznica |
 | --- | --- | --- | --- |
-|  |  |  |  |
+| Izrada baze podataka | MV | 35 | [PR #30](https://github.com/TvrdanTravarFER/Pasuljci/pull/30) |
+| Izrada početne dokumentacije | MV | 35 | [PR #2](https://github.com/TvrdanTravarFER/Pasuljci/pull/2), [PR #4](https://github.com/TvrdanTravarFER/Pasuljci/pull/4) |
+| Izrada frontenda | MM | 45 | [PR #31](https://github.com/TvrdanTravarFER/Pasuljci/pull/31) |
+| Izrada projektne dokumentacije - arhitekturne odluke, model podataka i oblikovanje razreda te ponašanje tijekom izvođenja | LC, SR | LC: SR: | [PR #23](https://github.com/TvrdanTravarFER/Pasuljci/pull/23), [PR #37](https://github.com/TvrdanTravarFER/Pasuljci/pull/37), [PR #38](https://github.com/TvrdanTravarFER/Pasuljci/pull/38) |
+| Razvoj backenda | KK, KM, NS | KK: KM: NS: | [Issue #32](https://github.com/TvrdanTravarFER/Pasuljci/issues/32) |
 
 Koristite aktivnosti specifične za projekt umjesto obaveznog retka za svako poglavlje dokumentacije ili svaki UML dijagram. Tim treba dosljedno bilježiti sate i izbjegavati dvostruko brojanje zajedničkog rada; reprezentativni rezultat objašnjava što je prijavljeni trud proizveo. Sati su samoprijavljena procjena uloženog rada, a ne mjera kvalitete niti zamjena za pregled koda i artefakata.
 
@@ -94,6 +98,12 @@ Koristite aktivnosti specifične za projekt umjesto obaveznog retka za svako pog
 **Cilj:** Prikazati kada su promjene napravljene u repozitoriju i tko ih je napravio, uz napomenu da sam broj zapisa promjena ne mjeri kvalitetu doprinosa.
 
 **Prikaz aktivnosti repozitorija:** [Ugradite ili povežite GitHubov prikaz `Contributors` i generirani graf za projektni repozitorij; navedite razdoblje koje obuhvaća.]
+
+GitHubov prikaz `Contributors` za projektni repozitorij: <https://github.com/TvrdanTravarFER/Pasuljci/graphs/contributors>
+
+![](assets/ContributorsGraph18.11.2026.png)
+
+**Razdoblje koje prikaz obuhvaća:** `11.10.2026.` - `15.11.2026.`
 
 Graf može pokazati kada su zapisi promjena napravljeni i tko ih je napravio, ali ne prikazuje sav rad na oblikovanju, ispitivanju, integraciji, pregledu ili dokumentaciji. Ako postoji uočljiv nesklad s tablicom aktivnosti, kratko ga objasnite; nemojte iz grafa izvoditi broj sati. Generirani prikaz neka bude vezan uz stvarni repozitorij umjesto da se ručno crta drugi graf.
 

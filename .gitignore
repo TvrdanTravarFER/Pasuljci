@@ -83,3 +83,8 @@ out
 
 # pnpm
 .pnpm-store
+
+
+# Intellij IDEA
+.idea/
+*.iml
