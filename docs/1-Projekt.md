@@ -62,7 +62,7 @@ Aplikacija ima pet korisničkih uloga, a dio dionika s aplikacijom nema izravan 
 **Vanjske ovisnosti:**
 
 - *Pružatelj identiteta (OAuth 2.0)*, npr. Google – prijava i potvrda valjane adrese e-pošte. Bez njega nema pristupa funkcijama za prijavljene korisnike.
-- *Usluga prikaza karte* (_Google Maps_ ili _OpenStreetMap_) – prikaz centara i akcija. Podatke o centrima i akcijama aplikacija čuva sama.
+- *Usluga prikaza karte* (_OpenStreetMap_) – prikaz centara i akcija. Podatke o centrima i akcijama aplikacija čuva sama.
 - *Servis za slanje SMS poruka* (npr. _Infobip_) – hitni pozivi i obavijesti darivateljima koji su odabrali SMS.
 - *Usluga slanja e-pošte* – obavijesti darivateljima koji su odabrali e-poštu.
 - *Google Calendar* – dodavanje rezerviranog termina u kalendar darivatelja.
@@ -73,7 +73,3 @@ Aplikacija ima pet korisničkih uloga, a dio dionika s aplikacijom nema izravan 
 Transfuzijski centri i organizatori akcija darivatelje danas najčešće obavještavaju pozivima, plakatima i porukama, dok se evidencija darivanja vodi odvojeno od informacija koje vide darivatelji. Takav pristup omogućuje da se akcija najavi, ali ne daje darivatelju osobni pregled: kada ponovno smije darivati, gdje je najbliži slobodan termin i je li njegova krvna grupa trenutno potrebna.
 
 KrvnaVeza objedinjuje evidenciju darivanja, termine, zalihe i obavijesti na jednom mjestu te ciljano poziva samo podobne darivatelje tražene krvne grupe. Aplikacija ne zamjenjuje medicinski pregled ni odluku djelatnika centra.
-
----
-
->**Završna provjera:** Opis problema, cilj projekta, korisnici i dionici, granice opsega te postojeći pristupi međusobno su usklađeni. Navedene koristi ne predstavljaju neprovjerene tvrdnje, a uključene i izostavljene funkcionalnosti odgovaraju odobrenom projektnom zadatku.

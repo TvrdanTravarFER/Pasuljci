@@ -9,8 +9,6 @@ Zahtjevi u ovom poglavlju izvedeni su iz opsega projekta i projektnog zadatka. S
 
 ## 2.1 Funkcijski zahtjevi
 
-**Cilj:** Navesti što aplikacija mora omogućiti korisnicima, odakle pojedina mogućnost proizlazi i koji se opažljivi rezultat smatra prihvaćanjem.
-
 | ID | Opis | Prioritet | Izvor | Kriteriji prihvaćanja |
 | --- | --- | --- | --- | --- |
 | F-001 | Sustav neregistriranim korisnicima omogućuje pregled karte transfuzijskih centara i najavljenih akcija te javni prikaz stanja zaliha po krvnim grupama (kritično, nisko, dovoljno). | Visok | Odobreni zadatak | Posjetitelj bez prijave vidi centre, akcije na karti i razinu zalihe za svaku krvnu grupu. Ostale funkcije traže prijavu. |
@@ -53,8 +51,6 @@ Zahtjevi u ovom poglavlju izvedeni su iz opsega projekta i projektnog zadatka. S
 
 ## 2.2 Nefunkcijski zahtjevi
 
-**Cilj:** Odrediti važna svojstva kvalitete i uvjete rada odobrene aplikacije na način koji tim može razumno provjeriti.
-
 | ID | Opis | Prioritet | Izvor | Način provjere |
 | --- | --- | --- | --- | --- |
 | NF-01 | Aplikacija je web-aplikacija prilagođena (responzivna) mobilnom uređaju: ključni tijekovi darivatelja (pregled karte, rezervacija, otkazivanje, prikaz QR koda) mogu se izvesti na uskom zaslonu. | Visok | Uputa | Proći ključne tijekove na zaslonu širine mobitela i na računalu. Svi koraci moraju biti izvedivi bez vodoravnog pomicanja stranice. |
@@ -91,8 +87,6 @@ Zahtjevi koje izvodi sustav bez ljudskog aktera (NF-010, NF-11, NF-12, NF-13) ne
 
 ## 2.4 Ograničenja i pretpostavke
 
-**Cilj:** Zabilježiti projektno specifične granice i pretpostavke koje utječu na zahtjeve ili oblikovanje, zajedno s njihovim izvorom i praktičnom posljedicom. Ovo je njihovo mjerodavno mjesto u dokumentaciji.
-
 | ID | Tip | Opis ograničenja ili pretpostavke | Izvor | Inženjerska posljedica / Provjera |
 | --- | --- | --- | --- | --- |
 | C-01 | Ograničenje | Aplikacija je web-aplikacija prilagođena mobilnom uređaju. | Odobreni zadatak | Jedna web-aplikacija s responzivnim sučeljem, ne izrađuju se izvorne mobilne aplikacije (NF-01). |
@@ -107,8 +101,6 @@ Zahtjevi koje izvodi sustav bez ljudskog aktera (NF-010, NF-11, NF-12, NF-13) ne
 ---
 
 ## 2.5 Značajne promjene zahtjeva
-
-**Cilj:** Sačuvati razlog promjena koje mijenjaju dogovoreni opseg, prioritet ili kriterije prihvaćanja, uz istodobno održavanje prethodnih zahtjeva ažurnima.
 
 | Datum | ID zahtjeva | Promjena i razlog | Dogovoreno s / dokaz |
 | --- | --- | --- | --- |
@@ -174,15 +166,8 @@ Tablica povezuje svaki zahtjev s ponašanjem, dijelom sustava koji  ga ostvaruje
 
 ## 2.7 Pregled zahtjeva
 
-**Cilj:** Zabilježiti važne povratne informacije o zahtjevima i odluke koje iz njih proizlaze na dvije formalne kontrolne točke projekta, u 7. i 14. tjednu.
-
 | Kontrolna točka | Povratna informacija ili nalaz | Odluka o zahtjevu ili opsegu |
 | --- | --- | --- |
 | Iteracija 1 | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
 | Demo 2  | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
 | Završni pregled | [Povratna informacija] | [Odluka; vidi odjeljak 2.5] |
-
----
-
->**Završna provjera:** Zahtjevi su aktualni, provjerljivi i povezani. Svaki važan zahtjev moguće je pratiti od njegova opisa i ponašanja preko mjesta realizacije u sustavu do odgovarajućeg ispitivanja ili druge provjere. Poveznice koriste stvarne identifikatore i nazive iz projektne dokumentacije.
-
