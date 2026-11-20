@@ -27,8 +27,6 @@ export const POST: RequestHandler = async ({ request }) => {
             return [`q${num}`, String(presentAnswers.includes(`q${num}`))]
         })
 
-        console.log(answers)
-
         const appstart = new Date(String(data.get("h_appstart")))
         const append = new Date(String(data.get("h_append")))
         const now = new Date(Date.now())

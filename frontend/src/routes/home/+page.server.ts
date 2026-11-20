@@ -40,11 +40,11 @@ export const load: PageServerLoad = async ({ request }) => {
         if (loggedUserRole === "DONOR") {
             const client = await pool.connect()
 
-            const activeAppointment = (await client.query(`SELECT AppointmentStart, AppointmentEnd, AppointmentStatus, CenterName, Center.Address FROM Appointment NATURAL JOIN AppUser NATURAL JOIN Center WHERE OAuthSubject = '${sessionUser.id}' AND AppointmentStatus IN ('ARRIVED', 'RESERVED', 'SCREENING', 'DONATING')`)).rows[0]
+            const ID = (await client.query(`SELECT UserID FROM AppUser WHERE OAuthSubject = '${sessionUser.id}';`)).rows[0].userid
+
+            const activeAppointment = (await client.query(`SELECT AppointmentStart, AppointmentEnd, AppointmentStatus, CenterName, Center.Address FROM Appointment NATURAL JOIN AppUser NATURAL JOIN Center WHERE UserID = ${ID} OAuthSubject = '${sessionUser.id}' AND AppointmentStatus IN ('ARRIVED', 'RESERVED', 'SCREENING', 'DONATING')`)).rows[0]
 
             client.release()
-
-            console.log(activeAppointment)
 
             return {
                 userRole: loggedUserRole,

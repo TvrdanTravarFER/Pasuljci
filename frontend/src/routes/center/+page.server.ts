@@ -56,8 +56,6 @@ export const load: PageServerLoad = async ({ request }) => {
         const centerID = (await client.query(`SELECT CenterID FROM AppUser NATURAL JOIN Staff WHERE OAuthSubject = '${session_res.user.id}'`)).rows[0].centerid
         const appointmentReservations = (await client.query(`SELECT FirstName, LastName, AppointmentStart, AppointmentEnd, AppointmentStatus FROM Appointment JOIN AppUser ON CenterID = '${centerID}' AND DonorID = UserID;`)).rows
 
-        console.log(appointmentReservations)
-    
         client.end()
 
         const appointments: Appointment[] = stringAppointments.map(app => {
