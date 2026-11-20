@@ -80,26 +80,11 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 
 | Tehnologija ili alat | Uloga u ovom projektu                                       | Razlog uporabe ili važno ograničenje |
 | -------------------- | ----------------------------------------------------------- | --- |
-| Java & Spring Boot   | Glavni programski jezik i okvir za razvoj backend dijela stranice | |
-| Svelte               | Oblikovanje korisničkog sučelja i frontend dijela stranice                           | |
-| SvelteKit            | Prototipiranje backend dijela stranice i inicijalno testiranje pristupa prema bazi                      | |
-| PostgreSQL           | Pohrana podataka prijave i podataka koji se koriste u samim funkcionalnostima stranice | [Razlog ili ograničenje specifično za projekt] |
-| OpenStreetMap        | Prikaz karte transfuzijskih centara i akcija darivanja krvi na početnoj stranici | [Razlog ili ograničenje specifično za projekt] |
-
-<details>
-<summary><strong>Primjer: objašnjenje ključnih tehnoloških odluka</strong></summary>
-
-**Primjer — CrisisMap:**
-
-| Tehnologija ili alat | Uloga u ovom projektu | Razlog uporabe ili važno ograničenje |
-| --- | --- | --- |
-| React | Prikazuje obrazac za prijavu i kartu kriznih događaja u pregledniku. | Karta i poslane prijave mogu se ažurirati bez ponovnog učitavanja cijele stranice. |
-| PostgreSQL | Pohranjuje prijave, lokacije i njihove odnose. | Zapisi o prijavama moraju ostati povezani s autorima i lokacijama; promjene sheme zahtijevaju migracije baze podataka (engl. database migrations). |
-| Usluga kartografskih pločica (engl. map tile service) | Omogućuje prikaz karte u pregledniku. | Karta ovisi o vanjskoj usluzi; aplikacija mora imati definirano ponašanje i kada kartografske pločice nisu dostupne. |
-
-**Analiza primjera:** Svaki redak opisuje ulogu ili posljedicu konkretne tehnologije u ovoj aplikaciji. Verzije paketa pripadaju datotekama s ovisnostima projekta; verzije izvršnog okruženja i konfiguracija važna za postavljanje pripadaju vodiču za instalaciju. Važne kompromise u oblikovanju (engl. design trade-offs) objasnite na stranici arhitekture u direktoriju `docs/` umjesto da ovdje ponavljate cijeli zapis odluke. Navodite samo usluge koje vaš tim stvarno integrira.
-
-</details>
+| Java & Spring Boot   | Glavni programski jezik i okvir za razvoj backend dijela stranice | Prethodno iskustvo tima s Javom|
+| Svelte               | Oblikovanje korisničkog sučelja i frontend dijela stranice                           | Prethodno iskustvo s alatom |
+| SvelteKit            | Prototipiranje backend dijela stranice i inicijalno testiranje pristupa prema bazi                      | Prethodno iskustvo i lagana integracija |
+| PostgreSQL           | Pohrana podataka prijave i podataka koji se koriste u samim funkcionalnostima stranice | Prethodno iskustvo a alatom |
+| OpenStreetMap        | Prikaz karte transfuzijskih centara i akcija darivanja krvi na početnoj stranici | Brza i lagana integracija u aplikaciju |
 
 <a id="team-members"></a>
 ## Članovi tima
@@ -113,8 +98,6 @@ Navedite nekoliko tehnologija i vanjskih usluga koje bitno određuju kako vaša 
 | Sven Rešetar | Razvoj poslužiteljskog dijela (backend) |
 | Noah Sitar | Razvoj poslužiteljskog dijela (backend) |
 | Marko Vrančić | Projektna dokumentacija, razvoj baze podataka |
-
-Uloge se tijekom projekta mogu mijenjati. Repozitorij i dogovoreni alat za praćenje zadataka (engl. task tracker) služe kao dodatni dokazi timskog rada.
 
 ## Doprinos projektu
 

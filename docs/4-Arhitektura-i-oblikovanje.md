@@ -1,7 +1,5 @@
 # 4. Arhitektura i oblikovanje
 
-**Cilj:** Definirati arhitekturni stil, dekompoziciju programa na podsustave i module, organizaciju podataka te dinamičko ponašanje tijekom izvođenja. Arhitektura predstavlja temelj za implementaciju i ažurira se pri svakoj važnijoj promjeni projektnih odluka.
-
 | Arhitekturni pogled | Ključno inženjersko pitanje | Primijenjeni model ili dijagram |
 | :--- | :--- | :--- |
 | **Strategija rješenja** | Koji stil i temeljne odluke određuju program? | Tablica odluka (odjeljak 4.1) |
@@ -17,6 +15,7 @@
 | Odluka | Razmatrana alternativa | Projektno specifično obrazloženje i kompromis |
 | --- | --- | --- |
 | Razvoj poslužiteljskog dijela u Javi uz Spring Boot | Korištenje drugog programskog jezika i odgovarajućeg radnog okvira | Java uz Spring Boot odabrana je za razvoj poslužiteljskog dijela aplikacije. Backend će obrađivati zahtjeve korisnika, provoditi poslovna pravila i upravljati pristupom podacima. Takav pristup omogućuje organiziranu strukturu aplikacije i odvajanje poslužiteljske obrade od korisničkog sučelja. Odabir ovog rješenja zahtijeva razvoj i održavanje zasebnog poslužiteljskog dijela te dobro poznavanje mogućnosti Spring Boot radnog okvira |
+| Razvoj prototipa poslužiteljskog dijela u TypeScriptu | Direktan razvoj poslužiteljskog dijela bez prototipa | TypeScript je odabran jer se mogao lako koristiti sa SveltKit-om. Prototip se radio jer bi time smanjili moguče buduće probleme u razvoju poslužiteljskog dijela. | 
 | Razvoj korisničkog sučelja korištenjem Sveltea i SvelteKita | Korištenje drugog frameworka za razvoj korisničkog sučelja | Svelte i SvelteKit odabrani su za razvoj korisničkog sučelja aplikacije KrvnaVeza. Omogućuju izradu interaktivnog i responzivnog sučelja za darivatelje, djelatnike transfuzijskih centara i organizatore akcija. Frontend će komunicirati s poslužiteljskim dijelom putem API-ja. Odabir zahtijeva upoznavanje s načinom rada odabranih tehnologija. |
 | Komunikacija frontenda i backenda putem API-ja | Izravno povezivanje korisničkog sučelja s bazom podataka | Frontend komunicira s backendom putem API-ja, dok backend upravlja pristupom bazi podataka. Takav pristup posebno je prikladan za KrvnaVeza jer sustav ima različite korisničke uloge, obrađuje osjetljive osobne podatke darivatelja i provodi poslovna pravila vezana uz rezervacije termina i podobnost darivatelja. Backend omogućuje centraliziranu provjeru ovlasti i obradu zahtjeva. Ovakav pristup zahtijeva dodatni razvoj i održavanje API-ja te usklađivanje komunikacije između korisničkog sučelja i poslužiteljskog dijela. |
 | Korištenje relacijske baze podataka PostgreSQL | Korištenje dokumentno orijentirane baze podataka | PostgreSQL odabran je zbog međusobne povezanosti podataka o darivateljima, transfuzijskim centrima, terminima, rezervacijama, darivanjima i zalihama krvi. Relacijski model omogućuje definiranje veza između tablica, korištenje primarnih i stranih ključeva te očuvanje referencijalne cjelovitosti podataka. Korištenje relacijske baze zahtijeva pažljivo definiranje strukture tablica i odnosa među podacima, a njihove promjene potrebno je uskladiti s promjenama zahtjeva sustava. |
