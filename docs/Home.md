@@ -63,49 +63,31 @@ Kratak sažetak: [README – Uporaba umjetne inteligencije](../README_PREDLOZAK.
 
 | Alat | Inačica ili model | Koristio/la | Glavna svrha |
 | --- | --- | --- | --- |
-| [Naziv alata] | [Inačica ili model, ako je poznat] | [Član/članovi tima] | [npr. izrada nacrta dokumentacije, generiranje izvora dijagrama] |
+| OpenAI Codex | - | SR | Revizija ER modela, izrada i provjera UML dijagrama ponašanja |
 
 ### Opseg doprinosa umjetne inteligencije
 
 | Stranica, datoteka ili artefakt | Vrsta pomoći | Što je alat proizveo | Što je tim zadao i promijenio | Lokacija |
 | --- | --- | --- | --- | --- |
-| [npr. 3. Obrasci uporabe, UC-002] | [Izrada nacrta / preoblikovanje / prijevod / izvor dijagrama / sažimanje] | [Kratak opis] | [Ulaz zadan alatu; dodane, ispravljene ili uklonjene činjenice] | [Stranica dokumentacije, `.puml` datoteka, PR] |
-
-Stranice i artefakti koji nisu navedeni iznad izrađeni su bez pomoći generativne umjetne inteligencije. [Po želji: kao dodatne retke navedite kod ili ispitivanja izrađena uz pomoć umjetne inteligencije.]
+| ER-mode.md | Revizija postojećeg sadržaja | Alat je pomogau u reviziji ER modela | Postojeći ER model je bio zadan kao osnova za reviziju. Promjenjene su manje greške alata i greške u inicijalnom ER modelu | ER-model.md |
+| UML-ponasanje.md | Izrada i provjera dijagrama | UML dijagram ponašanja i provjeru | Za osnovu su korišteni projektni zahtjevi i dokumentacija. Promjenjene su greške i krive informacije koje je generirao alat te su promjene provjerene uz pomoć alata | UML-ponasanje.md |
+| Pull request | Generiranje teksta | Opis pull requesta | Zadano je što je mijenjano i po tome je generiran opis PR-a | [PR #38](https://github.com/TvrdanTravarFER/Pasuljci/pull/38) |
 
 ### Provjera generiranog sadržaja
 
 | Provjera | Kako je provedena | Dokaz |
 | --- | --- | --- |
-| Činjenična točnost | [Svaka tvrdnja o funkcionalnostima, ponašanju ili arhitekturi uspoređena je s pokrenutom aplikacijom i kodom] | [Imena pregledavatelja; poveznice na zahtjev za uključivanje promjena (PR) ili zadatak] |
+| Činjenična točnost | Pregled samog programera na tom commit-u te pregled reviewera u PR-u | SR, KM, [PR #38](https://github.com/TvrdanTravarFER/Pasuljci/pull/38) |
 | Nema tvrdnji o neostvarenim funkcionalnostima | [Provjereno je da opisane funkcionalnosti, ispitivanja i rezultati stvarno postoje; planirani rad označen je kao planiran] | [Usporedba s odjeljkom 5.4 (Ispitivanje) i odjeljkom 7.1 (Zaključak)] |
 | Dosljednost s drugim stranicama | [Nazivi, ID-ovi i dijagrami provjereni su prema Analizi zahtjeva, Obrascima uporabe, Arhitekturi i oblikovanju te Ispitivanju] | [Kontrolni popis ili bilješka pregleda] |
 | Izvori dijagrama | [Generirani PlantUML je iscrtan, ispravljen i odgovara implementiranom sustavu] | [`.puml` datoteka i izrađena slika] |
-| Povjerljivi sadržaj | [Kako je tim osigurao da u upite ili dokumentaciju nisu unesene tajne, pristupni podaci ni osobni podaci] | [Primijenjeni postupak] |
+| Povjerljivi sadržaj | Commit i PR su pregledali minimalno 2 osobe | - |
 
 ### Pogreške pronađene u izlazu umjetne inteligencije
 
 | Problem | Kako je pronađen | Rješenje |
 | --- | --- | --- |
-| [Netočna, izmišljena ili iz predloška preuzeta tvrdnja] | [Pregled, ispitivanje ili usporedba s aplikacijom] | [Ispravak s poveznicom] |
+| Krive veze u ER modelu  | Problem pronađen pregledom modificiranog ER modela | - |
+| Nepotpunost sekvencijskog dijagrama | Ručnom provjerom te ponovnom provjerom uz pomoć Codex-a | - |
 
 <!-- UPUTA: Zabilježite stvarne ispravke ili napišite „Nisu utvrđene”. Općenita tvrdnja poput „sav tekst je pregledan” nije dokaz; dokaz su prethodne tablice. Tim mora moći objasniti svaku rečenicu koju objavi. -->
-
-<details>
-<summary><strong>Primjer zapisa uporabe umjetne inteligencije</strong></summary>
-
-**Primjer — CrisisMap:**
-
-| Stranica ili artefakt | Vrsta pomoći | Što je alat proizveo | Što je tim zadao i promijenio | Lokacija |
-| --- | --- | --- | --- | --- |
-| 3. Obrasci uporabe, UC-002 | Izrada nacrta | Prvu inačicu glavnog i alternativnih tijekova | Tim je zadao stvarna polja obrasca i uklonio granu prijave u sustav koja u aplikaciji ne postoji | Primjer PR #31 |
-| Sekvencijski dijagram, podnošenje prijave | Izvor dijagrama | Nacrt PlantUML-a | Tim je uskladio nazive sudionika s komponentama i uklonio korak slanja obavijesti koji nije implementiran | `diagrams/report-submission.puml` (primjer) |
-
-| Problem | Kako je pronađen | Rješenje |
-| --- | --- | --- |
-| U tekstu je stajalo da se obavijesti dostavljaju unutar jedne minute | Usporedba s Ispitivanjem (5.4): dostava nikada nije ispitana | Tvrdnja je uklonjena; obavijesti su navedene pod Budućim radom |
-| Nacrt je kopirao primjer zahtjeva F-005 iz predloška kao projektni zahtjev | Usporedba s vlastitim popisom zahtjeva tima | Zamijenjeno stvarnim zahtjevom tima |
-
-**Analiza primjera:** Svaki redak navodi stranicu ili datoteku, ono što je alat generirao i ono što je tim promijenio. Pogreške su tipične za generiranu dokumentaciju: funkcionalnost koja ne postoji i tekst predloška prikazan kao činjenica o projektu. Tvrdnje poput „AI je korišten svugdje” ili „sav tekst je pregledan” nije moguće provjeriti. Ovo je nastavni scenarij, a ne opis objavljenog projekta.
-
-</details>

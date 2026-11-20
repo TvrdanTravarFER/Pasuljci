@@ -57,3 +57,5 @@ Struktura dijagrama provjerena je usporedbom tablica, stupaca, tipova, primarnih
 - `StockForecast` je dodan, ali izraz `u.Issued / 30` koristi cjelobrojno dijeljenje; pri maloj potrošnji nazivnik može postati nula. Izračun treba provjeriti prije uporabe u aplikaciji.
 - Zadatak govori o mjesecu blokade i mjesecima između darivanja, a parametri sheme o 30 i 90/120 dana. Kalendarsko tumačenje treba usuglasiti; ER ne mijenja postojeće parametre.
 - Provjera kapaciteta, ovlasti, podobnosti, zabrane preklapanja i anonimizacija zahtijevaju poslovnu logiku. Samo postojanje stupca ili FK veze ne dokazuje njihovu implementaciju.
+
+Izrađeno i revidirano uz pomoć Codexa. Pregled članova tima odvija se kroz pull request; ova bilješka ne tvrdi da je ljudski pregled već obavljen.
