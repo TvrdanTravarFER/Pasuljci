@@ -67,3 +67,5 @@ U UC-11 je tekst koraka 4 sažet: na dijagramu je ulazak u `SCREENING` vezan uz 
 - Predikat ovlasti treba provjeriti pripadnost centru, odnosno timu terenske akcije. To je predložena razrada autorizacije po lokaciji, ne postojeće SQL ograničenje.
 - Za blokadu nakon tri nedolaska zadatak navodi mjesec, a postojeći parametar 30 dana. Resetiranje brojača i ponašanje nakon isteka blokade nisu precizirani; dijagram ih ne izmišlja.
 - Stvaranje odgode i promjena u `REJECTED` trebaju biti atomski. Spremanje `FINISHED` prethodi zasebnom koraku evidentiranja doze iz UC-12; FK veza ne osigurava da je doza već evidentirana.
+
+Izrađeno i provjereno uz pomoć Codexa; timski pregled slijedi kroz pull request. Nisu mijenjani zahtjevi, SQL ni Java kod kako bi odgovarali nacrtanim dijagramima.
