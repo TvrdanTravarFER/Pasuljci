@@ -4,20 +4,11 @@
 **Akademska godina:** [2026./2027.]  
 **Tim:** _Pasuljci_  
 **Nastavnik:** Vlado Sruk  
-**Asistent / demonstrator:** Saša Kendjel (asistent), [ime] (demonstrator)
+**Asistent / demonstrator:** Saša Kendjel (asistent), Mirko Bušić (demonstrator)
 
 ## Pregled projekta
 
-**Cilj:** Omogućiti čitatelju koji prvi put vidi projekt da u dvije ili tri rečenice prepozna aplikaciju, njezine ciljane korisnike i glavnu svrhu.
-
-[Opis projekta.]
-
-<details>
-<summary><strong>Sažet pregled projekta</strong></summary>
-
-Za projekt na temu CrisisMap sažet pregled može navesti građane kojima trebaju informacije o kriznim događajima povezane s njihovom lokacijom te cilj aplikacije da prijave kriznih događaja prikaže na karti. Funkcionalnost spomenite samo ako pripada odobrenom zadatku tima; bez dokaza nemojte tvrditi da aplikacija poboljšava odgovor hitnih službi. Ovo je primjer informativnog pregleda, a ne tekst za prepisivanje niti dokaz da je funkcionalnost ostvarena.
-
-</details>
+KrvnaVeza je web aplikacija namijenjena povezivanju darivatelja krvi i transfuzijskih centara. Ciljani korisnici su darivatelji krvi, djelatnici transfuzijskih centara i voditelji terenskih akcija. Glavna svrha aplikacije je olakšati organizaciju darivanja krvi kroz pregled zaliha po krvnim grupama, informiranje o akcijama darivanja, upravljanje terminima i evidenciju darivanja krvi.
 
 **Aplikacija i osnovno postavljanje:** [README repozitorija](../README_PREDLOZAK.md#quick-start)  
 **Javno dostupna aplikacija:** pogledajte [README – Postavljanje](../README_PREDLOZAK.md#deployment)
@@ -50,30 +41,13 @@ Dokumentacija se kontinuirano ažurira kako se aplikacija razvija.
 
 ## Organizacija projekta i razvojni proces
 
-**Način rada:** [Stvarni način rada i trajanje iteracije, ako je relevantno.]  
-**Praćenje trenutačnih zadataka i nedostataka:** [Poveznica na GitHub Issues ili stvarno korištenu ploču zadataka.]
+**Način rada:** Github issues za određene dulje zadatke, Whatsapp za organizaciju tima i manjih zadataka te rad u paru.
 
-<details>
-<summary><strong>Opis načina rada tima</strong></summary>
-
-**Primjer — CrisisMap:**
-
-Navedite pristup koji tim stvarno koristi. Tim koji razvija CrisisMap može organizirati prijave, rad na karti i provjere kao GitHub Issues, jednom tjedno raspraviti prioritete i iznad postaviti poveznicu na svoju aktivnu ploču zadataka. Takav je konkretan opis procesa informativniji od tvrdnje da tim koristi „Scrum” ako zapravo ne primjenjuje njegove prakse. Stvarni tim treba navesti vlastiti ritam rada i odgovornosti; dokumentacija ne treba duplicirati ploču zadataka. Primjer opisuje mogući tijek rada (engl. workflow), a ne tvrdi da je objavljeni tim CrisisMapa radio upravo tako.
-
-</details>
+**Praćenje trenutačnih zadataka i nedostataka:** [Issues](https://github.com/TvrdanTravarFER/Pasuljci/issues)
 
 ## Pravila dokumentacije
 
 Dokumentacija se sastoji od međusobno povezanih Markdown stranica. Obavezni UML dijagrami izrađuju se u PlantUML-u, uz PlantUML izvor u dokumentaciji sačuvajte i čitljivu sliku. Primjeri u ovom predlošku kolegija pokazuju kako nešto dokumentirati; nisu dio rezultata studentskog projekta.
-
-<details>
-<summary><strong>Izvori dijagrama i nastavni primjeri</strong></summary>
-
-Nastavni primjeri pretpostavljaju React/Vite klijentski dio, Node.js poslužiteljski dio, PostgreSQL, smještaj aplikacije na Renderu i Selenium WebDriver (JavaScript). Vaš tehnološki skup može biti drukčiji; u dokumentaciji opišite ono što stvarno koristite.
-
-Za obrazac uporabe podnošenja prijave kriznog događaja u CrisisMapu tim može čuvati UML izvor u `.puml` datoteci, prikazati odgovarajuću sliku na relevantnoj stranici dokumentacije te ažurirati oboje kada se interakcija promijeni. Koristite stvarni dijagram i stvarno postavljanje vlastitog projekta. Domena ili tehnologija prikazana u primjeru ne postaje zahtjev osim ako je dio odobrenog zadatka.
-
->Napomena o primjerima: Blokovi „Primjer — CrisisMap" nastavni su scenarij, a ne rezultat ičijeg projekta; ne prepisujte ih. U primjerima se koriste React, Node.js, PostgreSQL, Render i Selenium samo radi dosljednosti. Vaš stog može biti drukčiji (npr. Java/Spring); dokumentirajte ono što stvarno koristite.</details>
 
 ## Akademski integritet, ponašanje i licenciranje
 

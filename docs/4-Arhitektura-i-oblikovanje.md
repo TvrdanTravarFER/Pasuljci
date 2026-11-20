@@ -1,7 +1,5 @@
 # 4. Arhitektura i oblikovanje
 
-**Cilj:** Definirati arhitekturni stil, dekompoziciju programa na podsustave i module, organizaciju podataka te dinamičko ponašanje tijekom izvođenja. Arhitektura predstavlja temelj za implementaciju i ažurira se pri svakoj važnijoj promjeni projektnih odluka.
-
 | Arhitekturni pogled | Ključno inženjersko pitanje | Primijenjeni model ili dijagram |
 | :--- | :--- | :--- |
 | **Strategija rješenja** | Koji stil i temeljne odluke određuju program? | Tablica odluka (odjeljak 4.1) |
@@ -12,37 +10,18 @@
 | **Stanja sustava** | Kako ključni domenski objekt mijenja svoja stanja? | Dijagram stanja |
 | **Fizički razmještaj** | Na kojim se izvršnim čvorovima program izvodi? | Dijagram razmještaja (poglavlje 6) |
 
----
-
-Za svaki UML dijagram čuvajte čitljivu sliku i PlantUML izvor, kako je opisano na stranici [Home](./Home.md). U dovršenoj stranici koristite vlastite projektne odluke i modele.
-
 ## 4.1 Ključne arhitekturne odluke
-
-**Cilj:** Objasniti nekoliko arhitekturnih odluka koje najviše utječu na rješenje i navesti njihove projektno specifične razloge.
 
 | Odluka | Razmatrana alternativa | Projektno specifično obrazloženje i kompromis |
 | --- | --- | --- |
 | Razvoj poslužiteljskog dijela u Javi uz Spring Boot | Korištenje drugog programskog jezika i odgovarajućeg radnog okvira | Java uz Spring Boot odabrana je za razvoj poslužiteljskog dijela aplikacije. Backend će obrađivati zahtjeve korisnika, provoditi poslovna pravila i upravljati pristupom podacima. Takav pristup omogućuje organiziranu strukturu aplikacije i odvajanje poslužiteljske obrade od korisničkog sučelja. Odabir ovog rješenja zahtijeva razvoj i održavanje zasebnog poslužiteljskog dijela te dobro poznavanje mogućnosti Spring Boot radnog okvira |
+| Razvoj prototipa poslužiteljskog dijela u TypeScriptu | Direktan razvoj poslužiteljskog dijela bez prototipa | TypeScript je odabran jer se mogao lako koristiti sa SveltKit-om. Prototip se radio jer bi time smanjili moguče buduće probleme u razvoju poslužiteljskog dijela. | 
 | Razvoj korisničkog sučelja korištenjem Sveltea i SvelteKita | Korištenje drugog frameworka za razvoj korisničkog sučelja | Svelte i SvelteKit odabrani su za razvoj korisničkog sučelja aplikacije KrvnaVeza. Omogućuju izradu interaktivnog i responzivnog sučelja za darivatelje, djelatnike transfuzijskih centara i organizatore akcija. Frontend će komunicirati s poslužiteljskim dijelom putem API-ja. Odabir zahtijeva upoznavanje s načinom rada odabranih tehnologija. |
 | Komunikacija frontenda i backenda putem API-ja | Izravno povezivanje korisničkog sučelja s bazom podataka | Frontend komunicira s backendom putem API-ja, dok backend upravlja pristupom bazi podataka. Takav pristup posebno je prikladan za KrvnaVeza jer sustav ima različite korisničke uloge, obrađuje osjetljive osobne podatke darivatelja i provodi poslovna pravila vezana uz rezervacije termina i podobnost darivatelja. Backend omogućuje centraliziranu provjeru ovlasti i obradu zahtjeva. Ovakav pristup zahtijeva dodatni razvoj i održavanje API-ja te usklađivanje komunikacije između korisničkog sučelja i poslužiteljskog dijela. |
 | Korištenje relacijske baze podataka PostgreSQL | Korištenje dokumentno orijentirane baze podataka | PostgreSQL odabran je zbog međusobne povezanosti podataka o darivateljima, transfuzijskim centrima, terminima, rezervacijama, darivanjima i zalihama krvi. Relacijski model omogućuje definiranje veza između tablica, korištenje primarnih i stranih ključeva te očuvanje referencijalne cjelovitosti podataka. Korištenje relacijske baze zahtijeva pažljivo definiranje strukture tablica i odnosa među podacima, a njihove promjene potrebno je uskladiti s promjenama zahtjeva sustava. |
 | Prijava korisnika putem Googlea korištenjem OpenID Connecta i OAuth 2.0 | Samostalna implementacija prijave i upravljanja korisničkim vjerodajnicama | Google je odabran kao vanjski pružatelj identiteta jer omogućuje prijavu postojećim Google računom. Time se izbjegava potreba za samostalnim upravljanjem korisničkim lozinkama. Aplikacija će zasebno upravljati korisničkim ulogama i ovlastima. Prijava ovisi o dostupnosti Googleove usluge i njezinim uvjetima korištenja. |
 
 **Analiza odluka:** Arhitektura sustava KrvnaVeza temelji se na odvajanju korisničkog sučelja, poslužiteljskog dijela i baze podataka. Korisničko sučelje razvijat će se korištenjem Sveltea i SvelteKita, dok će se poslužiteljski dio razvijati u Javi uz Spring Boot. Komunikacija između tih dijelova odvijat će se putem API-ja. Za trajnu pohranu podataka odabran je relacijski model koji omogućuje povezivanje podataka o darivateljima, transfuzijskim centrima, terminima, rezervacijama, darivanjima i zalihama krvi, a za njegovu implementaciju koristit će se PostgreSQL. Ovakva arhitektura omogućuje jasno razdvajanje odgovornosti između korisničkog sučelja, poslužiteljskog dijela i baze podataka. Prijava korisnika ostvarit će se putem Googlea korištenjem OpenID Connecta i OAuth 2.0, dok će se korisničkim ulogama i ovlastima zasebno upravljati unutar aplikacije.
-
-<details>
-<summary><strong>Primjer arhitekturnih odluka i kompromisa</strong></summary>
-
-**Primjer — CrisisMap:**
-
-| Odluka | Razmatrana alternativa | Projektno specifično obrazloženje i kompromis |
-| --- | --- | --- |
-| Klijent u pregledniku i jedan poslužiteljski API | Više zasebno postavljenih poslužiteljskih usluga | Klijent prikazuje kartu, dok poslužiteljski sustav provjerava i pohranjuje prijave. Jedan poslužiteljski sustav upravljiv je za ovaj opseg; njegov kvar može privremeno prekinuti rad s prijavama. Obrazloženje je u ADR-01. |
-| Relacijska pohrana prijava | Dokumentno orijentirana pohrana | Prijave imaju prepoznatljive veze s korisnicima i lokacijama. Relacijska shema te veze čini eksplicitnima, ali zahtijeva migracije kada se shema promijeni. |
-
-**Analiza primjera:** Obje odluke navode razlog vezan uz aplikaciju za prijavljivanje kriznih događaja i priznaju kompromis. Odluka o poslužiteljskom sustavu upućuje na ADR-01 umjesto ponavljanja cijele usporedbe. Moduli unutar jedne aplikacije koja se postavlja kao cjelina nisu zasebne mikrousluge. U vlastitoj tablici navedite alternative koje je tim doista razmatrao.
-
-</details>
 
 ## 4.2 Gradivni blokovi i UML dijagram komponenata
 
@@ -81,11 +60,7 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 ## 4.3 Model podataka i oblikovanje razreda
 
-**Cilj:** Objasniti važne informacije koje aplikacija pohranjuje i jedno reprezentativno područje oblikovanja na razini razreda. Model podataka i UML dijagram razreda odgovaraju na različita pitanja; jedno ne zamjenjuje drugo.
-
 ### 4.3.1 ER dijagram i model podataka
-
-**Cilj:** Prikazati važne pohranjene entitete, njihove identifikatore i veze te dovoljno atributa za razumijevanje podataka aplikacije. ER dijagram odvojen je od reprezentativnog UML dijagrama razreda u nastavku.
 
 ![ER dijagram KrvnaVeza](./assets/diagrams/4-2-KrvnaVeza-data-ERD.svg)
 
@@ -93,25 +68,7 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 **Implementacija:** [db/schema.sql](../db/schema.sql). Relacijski model prikazuje svih 25 tablica, 150 stupaca i 41 strani ključ postojeće sheme, s primarnim ključevima, obveznošću i kardinalnostima. Primjerice, darivatelj ima 0..N rezervacija, a svaka rezervacija pripada jednom darivatelju. Rezervacija ima točno jednu lokaciju: centar ili terensku akciju; to XOR pravilo nadopunjuje dvije pojedinačne veze 0..1. Analiza modela opisuje složena ograničenja, izvedene poglede i razlike između definicije baze i još nedovršenih poslovnih procesa. Ovo je model pohranjenih podataka, odvojen od UML razreda u nastavku.
 
-<details>
-<summary><strong>Jedna prijava poplave i povezani podaci</strong></summary>
-
-**Primjer — CrisisMap:** Ana putem svojeg korisničkog računa podnosi prijavu poplave `R-104`. Odabire lokaciju na karti i označava razinu ozbiljnosti kao visoku. Građanin može podnijeti više prijava; svaka prijava pripada jednoj kategoriji kriznog događaja, primjerice *Poplava*. Aplikacija pohranjuje prijavu i njezine koordinate. Kartografske pločice dolaze od vanjskog pružatelja i nisu entiteti u modelu podataka aplikacije.
-
-![ER dijagram podataka sustava CrisisMap](./assets/diagrams/4-2-crisismap-data-ERD.svg)
-
-**Slika 4.2. ER dijagram podataka sustava CrisisMap**
-
-**PlantUML izvor:** [izvor](./puml/4-2-crisismap-data-ERD.puml)
-
-**Analiza primjera:** `R-104` ima jednog autora i jednu kategoriju; Ana i kategorija *Poplava* mogu biti povezane s više prijava. Dijagram prikazuje veze bez prepisivanja svih stupaca baze podataka ili pisanja drugog tabličnog opisa za svaki entitet. Ako aplikacija prihvaća i **anonimne** prijave, tu mogućnost prikažite u vezi s entitetom `Citizen`. Ako su kategorije fiksne vrijednosti, a ne pohranjeni zapisi, nemojte izmišljati tablicu kategorija. Završni ER dijagram usporedite s modelom trajne pohrane i objasnite samo razlike važne za razumijevanje projekta.
-
-</details>
-
 ### 4.3.2 Reprezentativni UML dijagram razreda
-
-**Cilj:** Prije implementacije reprezentativnog dijela sustava modelirati i prikazati razrede ili sučelja potrebna za dodjelu odgovornosti, operacija i veza. Oblikovanje ažurirajte kada se te odluke promijene.
-
 
 **Dijagram razreda:**
 
@@ -123,22 +80,6 @@ Započnite crtanjem granice oko predloženog sustava. Unutar nje prepoznajte dij
 
 
 **Analiza dijagrama:** `Darivatelj` rezervira termine darivanja i daruje krv, dok `DjelatnikCentra` evidentira dolaske, odgode i prikupljene doze u pripadajućem centru. `Rezervacija` sadrži podatke o terminu i statusu darivanja, a lokacija može biti centar ili terenska akcija. Povezana `Samoprocjena` obuhvaća pitanja i odgovore kojima se procjenjuje podobnost darivatelja. `OdgodaDarivanja` evidentira privremene i trajne odgode. `ObradaDolaskaService` koordinira obradu dolaska darivatelja, dok `EvidencijaDozeService` upravlja evidentiranjem, testiranjem i izdavanjem prikupljenih doza. `DozaKrvi` sadrži podatke o prikupljenoj dozi i njezinu statusu, a `ZalihaCentra` prikazuje stanje zaliha prema krvnim grupama i definiranim pragovima. `ZapisPristupa` služi za evidenciju pristupa podacima, a `Obavijest` za obavještavanje korisnika. Repozitoriji definiraju operacije pohrane i dohvaćanja podataka. Dijagram prikazuje raspodjelu odgovornosti između aplikacijskog i domenskog sloja te predstavlja prijedlog oblikovanja koji je potrebno uskladiti sa završnom implementacijom.
-
-
-<details>
-<summary><strong>Oblikovanje odgovornosti prijave i dopuštenih promjena</strong></summary>
-
-**Primjer — CrisisMap:** Prijava sadrži pravila za promjenu vlastitog statusa. Razred tijeka rada koordinira podnošenje i pregled, dok sučelje repozitorija opisuje potrebne operacije trajne pohrane. Dijagram predlaže te odgovornosti prije implementacije.
-
-![Dijagram razreda za obradu prijava kriznih događaja](./assets/diagrams/4-3-crisismap-domain-CD.svg)
-
-**Slika 4.3. Dijagram razreda za obradu prijava kriznih događaja**
-
-**PlantUML izvor:** [izvor](./puml/4-3-crisismap-domain-CD.puml)
-
-**Analiza primjera:** `DisasterReport` sadrži dopuštena pravila promjene stanja pa tijek rada ne može prešutno odobriti već odbijenu prijavu. `ReportWorkflow` koordinira operaciju bez preuzimanja pravila prijelaza stanja same prijave; `ReportRepository` definira potrebne operacije pohrane. Kompozicija `Location` i odabrani tipovi prikazuju veze korisne za oblikovanje. Dijagram namjerno izostavlja stupce baze podataka i nepovezane razrede: ER model objašnjava pohranjene podatke, dok ovaj dijagram dodjeljuje programske odgovornosti i operacije. Ti su razredi odluka oblikovanja, a ne obavezni slojevi za svaki tim. Završnu implementaciju usporedite s početnim oblikovanjem i ažurirajte dijagram tamo gdje su se odluke promijenile; generiranje dijagrama iz koda tek na kraju ne može zamijeniti ovo početno modeliranje.
-
-</details>
 
 ## 4.4 Ponašanje tijekom izvođenja
 
